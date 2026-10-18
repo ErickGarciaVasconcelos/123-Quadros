@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>123 Quadros</title>
+<meta name="description" content="Quadros originais e prints em edição limitada, com curadoria independente, certificado de autenticidade e entrega segura para todo o Brasil." />
+
+<!-- Fontes: Plus Jakarta Sans (display) + Inter (texto) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Tailwind CSS (Play CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Configuracao do Tailwind + comportamentos (ver script.js) -->
+<script src="script.js"></script>
+
+<link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-white font-sans text-zinc-600 antialiased selection:bg-brand-magenta/30">
+
+<!-- ============================ TOPBAR DE URGÊNCIA + NAVBAR ============================ -->
+<header id="nav" class="fixed inset-x-0 top-0 z-50">
+  <!-- Faixa de urgência -->
+  <div class="bg-brand-magenta text-black">
+    <p class="mx-auto flex max-w-7xl items-center justify-center gap-2 px-4 py-1.5 text-center text-[11px] font-bold uppercase tracking-wider sm:text-xs">
+      <i data-lucide="flame" class="h-3.5 w-3.5 shrink-0"></i>
+      Últimas unidades — obras em edição limitada podem sair do catálogo a qualquer momento
+    </p>
+  </div>
+
+  <!-- Menu -->
+  <div id="nav-shell" class="border-b border-zinc-200 bg-white/90 backdrop-blur-xl transition-shadow duration-300">
+    <div class="mx-auto flex max-w-7xl items-center justify-start px-4 py-3 sm:px-6">
+      <a href="#" class="group flex items-center">
+        <img src="imagens/logo/logo.jpg" alt="123 Quadros — Galeria de Arte" class="h-16 w-auto origin-center cursor-pointer transform-gpu object-contain transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-110 hover:drop-shadow-md sm:h-20" />
+      </a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ============================ HERO ============================ -->
+<section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
+  <!-- Iluminação de fundo (mesh gradients / glow spots) -->
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div class="absolute left-1/2 top-[-14%] h-[620px] w-[1000px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(234,2,115,.18),transparent)] blur-2xl animate-pulseGlow"></div>
+    <div class="absolute right-[-12%] top-1/4 h-[460px] w-[460px] rounded-full bg-[radial-gradient(closest-side,rgba(1,154,235,.12),transparent)] blur-2xl"></div>
+    <div class="absolute left-[-10%] bottom-0 h-[420px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(253,195,3,.12),transparent)] blur-2xl"></div>
+  </div>
+
+  <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:gap-10">
+    <!-- Coluna de texto -->
+    <div class="max-w-2xl">
+      <h1 data-reveal class="font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
+        A arte original que transforma
+        <span class="bg-gradient-to-r from-brand-magenta via-brand-azul to-brand-magenta bg-clip-text text-transparent">qualquer parede em memória.</span>
+      </h1>
+
+      <p data-reveal class="reveal-delay-160 mt-6 max-w-xl text-base leading-relaxed text-zinc-500 sm:text-lg">
+        Obras de artistas contemporâneos, com certificado de autenticidade, moldura sob medida e entrega segura para todo o Brasil. Sem galeria caríssima, sem intermediários.
+      </p>
+
+      <div data-reveal class="reveal-delay-240 mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href="#colecao" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-ink-950 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">
+          Explorar a coleção
+          <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Obra em destaque -->
+    <div data-reveal class="reveal-delay-200 relative mx-auto w-full max-w-md lg:mx-0">
+      <div class="group relative" data-carousel>
+        <!-- Moldura -->
+        <div class="relative overflow-hidden rounded-[28px] border border-zinc-200 bg-white p-3 shadow-soft">
+          <!-- Slides das obras -->
+          <div class="relative aspect-[4/5] overflow-hidden rounded-2xl bg-zinc-100">
+            <!-- Slide 1 -->
+            <div data-slide class="hero-slide is-active">
+              <img src="https://acdn-us.mitiendanube.com/stores/003/889/735/products/109-moldura-madeira-6472690eab73d2282e17740193048669-1024-1024.webp" alt="Quadro em destaque com moldura de madeira" class="block h-full w-full object-cover" fetchpriority="high" />
+            </div>
+
+            <!-- Slide 2 -->
+            <div data-slide class="hero-slide">
+              <img src="https://static.stealthelook.com.br/wp-content/uploads/2023/06/inspiracoes-de-parede-de-quadros-20230614192604.jpg" alt="Parede decorada com composição de quadros" class="block h-full w-full object-cover" loading="lazy" decoding="async" />
+            </div>
+
+            <!-- Slide 3 -->
+            <div data-slide class="hero-slide">
+              <img src="https://images.tcdn.com.br/img/img_prod/706838/quadros_decorativos_com_moldura_gourmet_decoracao_para_cozinha_cantinho_do_cafe_6181_1_4a529dd31fed73277e7ac9d0755f9344.jpg" alt="Quadros decorativos com moldura para cozinha" class="block h-full w-full object-cover" loading="lazy" decoding="async" />
+            </div>
+
+            <!-- Slide 4 -->
+            <div data-slide class="hero-slide">
+              <img src="https://casavee.cdn.magazord.com.br/img/2024/07/blog/5173/quadros-na-decoracao-de-casa.jpg" alt="Quadros na decoração de uma sala" class="block h-full w-full object-cover" loading="lazy" decoding="async" />
+            </div>
+
+            <!-- Slide 5 -->
+            <div data-slide class="hero-slide">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr6YgtN55y_TA4AWVIlMnb-kzGu1wRphzFLjAnGXpEI1y-O5NY53TZCyM&s=1000" alt="Ambiente decorado com quadros na parede" class="block h-full w-full object-cover" loading="lazy" decoding="async" />
+            </div>
+
+            <!-- Setas de navegação -->
+            <button type="button" data-carousel-prev aria-label="Obra anterior" class="absolute left-3 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-white/90 text-zinc-700 shadow-soft backdrop-blur-md transition-all duration-200 hover:bg-white hover:text-zinc-900 active:scale-95">
+              <i data-lucide="chevron-left" class="h-4 w-4"></i>
+            </button>
+            <button type="button" data-carousel-next aria-label="Próxima obra" class="absolute right-3 top-1/2 z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/25 bg-white/90 text-zinc-700 shadow-soft backdrop-blur-md transition-all duration-200 hover:bg-white hover:text-zinc-900 active:scale-95">
+              <i data-lucide="chevron-right" class="h-4 w-4"></i>
+            </button>
+          </div>
+
+          <!-- Indicadores + contador -->
+          <div class="flex items-center justify-between px-2 pb-1 pt-4">
+            <div class="flex items-center gap-2">
+              <button type="button" data-carousel-dot aria-label="Ir para a obra 1" class="hero-dot is-active"></button>
+              <button type="button" data-carousel-dot aria-label="Ir para a obra 2" class="hero-dot"></button>
+              <button type="button" data-carousel-dot aria-label="Ir para a obra 3" class="hero-dot"></button>
+              <button type="button" data-carousel-dot aria-label="Ir para a obra 4" class="hero-dot"></button>
+              <button type="button" data-carousel-dot aria-label="Ir para a obra 5" class="hero-dot"></button>
+            </div>
+            <span data-carousel-counter class="font-display text-xs font-semibold tabular-nums text-zinc-500">01 / 05</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ COLEÇÃO ============================ -->
+<section id="colecao" class="relative border-t border-zinc-100 py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <!-- Cabeçalho -->
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div data-reveal class="max-w-2xl">
+        <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+          <span class="h-px w-6 bg-brand-magenta/60"></span> Coleção em destaque
+        </span>
+        <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+          Obras selecionadas à mão, prontas para pendurar.
+        </h2>
+        <p class="mt-3 text-zinc-500">Cada peça chega emoldurada, com certificado assinado e embalagem protegida.</p>
+      </div>
+
+      <!-- Filtros -->
+      <div data-reveal class="reveal-delay-120 flex flex-wrap gap-2">
+        <button class="rounded-full border border-zinc-900 bg-zinc-900 text-white px-4 py-2 text-xs font-semibold transition-all duration-200 active:scale-95">Todos</button>
+        <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900 active:scale-95">Abstrato</button>
+        <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900 active:scale-95">Minimalista</button>
+        <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900 active:scale-95">Paisagem</button>
+        <button class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900 active:scale-95">Retrato</button>
+      </div>
+    </div>
+
+    <!-- Grid de obras -->
+    <div class="mt-12 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
+
+      <!-- Card 1 -->
+      <article data-reveal class="group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-1.jpg" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">EDIÇÃO LIMITADA</span>
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Aurora Setentrional</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Marina Cordeiro</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article data-reveal class="reveal-delay-70 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-2.webp" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Maré de Vidro</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Rafael Nunes</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article data-reveal class="reveal-delay-140 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-3.jpg" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">NOVO</span>
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Fim de Tarde</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Bianca Reis</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article data-reveal class="reveal-delay-210 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-4.jpg" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/40 text-ink-950/70 opacity-0 backdrop-blur-md transition-all duration-200 group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Silêncio de Areia</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Tô Tanaka</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article data-reveal class="group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-5.webp" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">EDIÇÃO LIMITADA</span>
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Cerejeira ao Sul</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Yumi Sato</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article data-reveal class="reveal-delay-70 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-6.webp" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Noir IV</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Diego Lemos</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article data-reveal class="reveal-delay-140 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-7.webp" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Jardim Suspenso</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Helena Dias</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 8 -->
+      <article data-reveal class="reveal-delay-210 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/colecao/obra-8.webp" alt="Quadro da coleção" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">NOVO</span>
+            <button aria-label="Favoritar" class="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-full border border-white/20 bg-ink-950/50 text-zinc-100 opacity-0 backdrop-blur-md transition-all duration-200 hover:text-brand-magenta group-hover:opacity-100">
+              <i data-lucide="heart" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-start justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Brasa</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">Caio Barros</p>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+    </div>
+
+    <div data-reveal class="mt-12 flex justify-center">
+      <a href="#" class="group inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-6 py-3.5 text-sm font-semibold text-zinc-700 backdrop-blur-md transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-100 active:scale-95">
+        Ver todas as 180 obras
+        <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ DEPOIMENTOS ============================ -->
+<section id="depoimentos" class="relative border-t border-zinc-100 py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div data-reveal class="mx-auto max-w-2xl text-center">
+      <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+        <span class="h-px w-6 bg-brand-magenta/60"></span> Quem já pendurou <span class="h-px w-6 bg-brand-magenta/60"></span>
+      </span>
+      <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">Histórias que começaram numa parede vazia.</h2>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      <!-- Depoimento 1 -->
+      <figure data-reveal class="flex flex-col rounded-3xl border border-zinc-200 bg-zinc-50 p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300">
+        <div class="flex items-center gap-1 text-ink-950">
+          <i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i>
+        </div>
+        <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
+          “Comprei três obras para a sala e parece outra casa. A qualidade da moldura e o cuidado na embalagem me surpreenderam de verdade.”
+        </blockquote>
+        <figcaption class="mt-6 flex items-center gap-3 border-t border-zinc-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-amarelo to-brand-magenta text-xs font-bold text-ink-950">MC</span>
+          <div>
+            <p class="text-sm font-semibold text-zinc-900">Mariana C.</p>
+            <p class="text-xs text-zinc-500">São Paulo · Cliente Colecionador</p>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- Depoimento 2 -->
+      <figure data-reveal class="reveal-delay-100 flex flex-col rounded-3xl border border-zinc-200 bg-zinc-50 p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300">
+        <div class="flex items-center gap-1 text-ink-950">
+          <i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i>
+        </div>
+        <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
+          “A curadoria acertou em cheio. Eu não entendo nada de arte e eles montaram uma parede incrível dentro do meu orçamento.”
+        </blockquote>
+        <figcaption class="mt-6 flex items-center gap-3 border-t border-zinc-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-azul to-brand-magenta text-xs font-bold text-white">JP</span>
+          <div>
+            <p class="text-sm font-semibold text-zinc-900">João Pedro L.</p>
+            <p class="text-xs text-zinc-500">Curitiba · Cliente Colecionador</p>
+          </div>
+        </figcaption>
+      </figure>
+
+      <!-- Depoimento 3 -->
+      <figure data-reveal class="reveal-delay-200 flex flex-col rounded-3xl border border-zinc-200 bg-zinc-50 p-7 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300">
+        <div class="flex items-center gap-1 text-ink-950">
+          <i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i><i data-lucide="star" class="h-4 w-4 fill-brand-amarelo"></i>
+        </div>
+        <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
+          “Fechei o plano para o consultório e a recepção virou ponto de elogio. Renovação automática não, mas continuo assinando por vontade própria.”
+        </blockquote>
+        <figcaption class="mt-6 flex items-center gap-3 border-t border-zinc-100 pt-5">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-magenta to-brand-azul text-xs font-bold text-white">AL</span>
+          <div>
+            <p class="text-sm font-semibold text-zinc-900">Dra. Ana L.</p>
+            <p class="text-xs text-zinc-500">Belo Horizonte · Plano Galeria</p>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ FAQ ============================ -->
+<section id="faq" class="relative border-t border-zinc-100 py-20 sm:py-28">
+  <div class="mx-auto max-w-3xl px-4 sm:px-6">
+    <div data-reveal class="text-center">
+      <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+        <span class="h-px w-6 bg-brand-magenta/60"></span> Dúvidas frequentes <span class="h-px w-6 bg-brand-magenta/60"></span>
+      </span>
+      <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">Tudo o que você precisa saber</h2>
+      <p class="mt-3 text-zinc-500">Ainda com dúvida? Fale com a gente pelo chat — respondemos em minutos.</p>
+    </div>
+
+    <div class="mt-12 space-y-3">
+      <!-- cada item: details/summary acessível com animação -->
+      <details data-reveal class="group rounded-2xl border border-zinc-200 bg-zinc-50 backdrop-blur-md transition-all duration-300 open:border-zinc-300 open:bg-zinc-100">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+          <span class="font-display text-base font-semibold text-zinc-900">As obras são originais ou réplicas?</span>
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-zinc-500 transition-all duration-300 group-open:rotate-180 group-open:text-brand-magenta">
+            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </span>
+        </summary>
+        <div class="faq-body px-6 pb-6 text-sm leading-relaxed text-zinc-500">
+          Trabalhamos com dois tipos de peça: obras originais (peça única, assinada pelo artista) e prints em edição limitada numerada. Cada item indica claramente qual é o caso, e todas acompanham certificado de autenticidade.
+        </div>
+      </details>
+
+      <details data-reveal class="reveal-delay-60 group rounded-2xl border border-zinc-200 bg-zinc-50 backdrop-blur-md transition-all duration-300 open:border-zinc-300 open:bg-zinc-100">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+          <span class="font-display text-base font-semibold text-zinc-900">Quanto tempo leva para chegar?</span>
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-zinc-500 transition-all duration-300 group-open:rotate-180 group-open:text-brand-magenta">
+            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </span>
+        </summary>
+        <div class="faq-body px-6 pb-6 text-sm leading-relaxed text-zinc-500">
+          Obras já emolduradas saem em até 3 dias úteis e chegam em 5 a 9 dias úteis, dependendo da região. Peças sob encomenda levam de 2 a 3 semanas por conta da montagem artesanal da moldura. Você acompanha tudo pelo rastreio.
+        </div>
+      </details>
+
+      <details data-reveal class="reveal-delay-120 group rounded-2xl border border-zinc-200 bg-zinc-50 backdrop-blur-md transition-all duration-300 open:border-zinc-300 open:bg-zinc-100">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+          <span class="font-display text-base font-semibold text-zinc-900">E se a obra chegar danificada?</span>
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-zinc-500 transition-all duration-300 group-open:rotate-180 group-open:text-brand-magenta">
+            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </span>
+        </summary>
+        <div class="faq-body px-6 pb-6 text-sm leading-relaxed text-zinc-500">
+          Todas as remessas têm seguro contra danos. Basta enviar uma foto em até 7 dias após o recebimento e nós reenviamos outra peça ou devolvemos 100% do valor — sem custo e sem dor de cabeça.
+        </div>
+      </details>
+
+      <details data-reveal class="reveal-delay-240 group rounded-2xl border border-zinc-200 bg-zinc-50 backdrop-blur-md transition-all duration-300 open:border-zinc-300 open:bg-zinc-100">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+          <span class="font-display text-base font-semibold text-zinc-900">Quais formas de pagamento vocês aceitam?</span>
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-zinc-500 transition-all duration-300 group-open:rotate-180 group-open:text-brand-magenta">
+            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </span>
+        </summary>
+        <div class="faq-body px-6 pb-6 text-sm leading-relaxed text-zinc-500">
+          Pix, boleto e todos os cartões de crédito em até 12× sem juros. O checkout é processado com criptografia e não armazenamos os dados do seu cartão.
+        </div>
+      </details>
+
+      <details data-reveal class="reveal-delay-300 group rounded-2xl border border-zinc-200 bg-zinc-50 backdrop-blur-md transition-all duration-300 open:border-zinc-300 open:bg-zinc-100">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5">
+          <span class="font-display text-base font-semibold text-zinc-900">Consigo ver a obra na minha parede antes de comprar?</span>
+          <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-zinc-200 text-zinc-500 transition-all duration-300 group-open:rotate-180 group-open:text-brand-magenta">
+            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+          </span>
+        </summary>
+        <div class="faq-body px-6 pb-6 text-sm leading-relaxed text-zinc-500">
+          Sim! Envie uma foto da sua parede e nossa equipe cria um mockup em escala real com a obra emoldurada, gratuitamente. Assim você decide com segurança antes de finalizar.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ CTA FINAL ============================ -->
+<section class="relative border-t border-zinc-100 py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div data-reveal class="relative overflow-hidden rounded-[32px] border border-zinc-200 bg-zinc-50 px-6 py-16 text-center backdrop-blur-md sm:px-16">
+      <!-- glow spots -->
+      <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute left-1/2 top-[-30%] h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(234,2,115,.22),transparent)] blur-2xl"></div>
+        <div class="absolute right-[-10%] bottom-[-30%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(closest-side,rgba(1,154,235,.12),transparent)] blur-2xl"></div>
+      </div>
+
+      <div class="relative">
+        <span class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-xs font-medium text-zinc-600 backdrop-blur-md">
+          <i data-lucide="sparkles" class="h-3.5 w-3.5 text-brand-magenta"></i> Sua parede merece uma obra de verdade
+        </span>
+        <h2 class="mx-auto mt-6 max-w-3xl font-display text-3xl font-extrabold leading-tight tracking-tight text-zinc-900 sm:text-5xl">
+          Comece sua coleção hoje e ganhe <span class="text-brand-magenta">10% off</span> na primeira obra.
+        </h2>
+        <p class="mx-auto mt-5 max-w-xl text-zinc-500">
+          Cadastre seu e-mail e receba curadoria gratuita, mockup da sua parede e o cupom da primeira compra.
+        </p>
+
+        <!-- Form -->
+        <form class="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
+          <div class="relative flex-1">
+            <i data-lucide="mail" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500"></i>
+            <input type="email" required placeholder="seu@email.com"
+              class="w-full rounded-xl border border-zinc-300 bg-white py-3.5 pl-10 pr-4 text-sm text-zinc-900 placeholder-zinc-500 outline-none shadow-sm transition-all duration-200 focus:border-brand-magenta/60 focus:ring-2 focus:ring-brand-magenta/20" />
+          </div>
+          <button type="submit" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-ink-950 px-6 py-3.5 text-sm font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">
+            Quero meu cupom
+            <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"></i>
+          </button>
+        </form>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-zinc-500">
+          <span class="inline-flex items-center gap-1.5"><i data-lucide="shield-check" class="h-4 w-4 text-brand-azul"></i> Compra protegida</span>
+          <span class="inline-flex items-center gap-1.5"><i data-lucide="refresh-ccw" class="h-4 w-4 text-brand-magenta"></i> 7 dias de garantia</span>
+          <span class="inline-flex items-center gap-1.5"><i data-lucide="truck" class="h-4 w-4 text-brand-azul"></i> Frete grátis acima de R$ 500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="border-t border-zinc-100 bg-zinc-50">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+      <!-- Marca -->
+      <div class="lg:col-span-2">
+        <a href="#" class="flex items-center">
+          <img src="imagens/logo/logo.jpg" alt="123 Quadros — Galeria de Arte" class="h-16 w-auto origin-center cursor-pointer transform-gpu object-contain transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-110 hover:drop-shadow-md sm:h-20" />
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-500">
+          Galeria digital de arte contemporânea. Curadoria independente, obras originais e em edições limitadas, entregues com cuidado.
+        </p>
+        <div class="mt-5 flex gap-2.5">
+          <a href="#" aria-label="Instagram" class="grid h-9 w-9 place-items-center rounded-xl border border-zinc-200 text-zinc-500 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900"><i data-lucide="instagram" class="h-4 w-4"></i></a>
+          <a href="#" aria-label="Facebook" class="grid h-9 w-9 place-items-center rounded-xl border border-zinc-200 text-zinc-500 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900"><i data-lucide="facebook" class="h-4 w-4"></i></a>
+          <a href="#" aria-label="Twitter" class="grid h-9 w-9 place-items-center rounded-xl border border-zinc-200 text-zinc-500 transition-all duration-200 hover:border-zinc-300 hover:text-zinc-900"><i data-lucide="twitter" class="h-4 w-4"></i></a>
+        </div>
+      </div>
+
+      <!-- Navegação -->
+      <div>
+        <p class="font-display text-sm font-bold text-zinc-900">Loja</p>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="#colecao" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Nova coleção</a></li>
+          <li><a href="#colecao" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Edições limitadas</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Vale-presente</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-display text-sm font-bold text-zinc-900">Ajuda</p>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="#faq" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Central de dúvidas</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Frete e prazos</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Trocas e devoluções</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Fale conosco</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="font-display text-sm font-bold text-zinc-900">Ateliê</p>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Sobre a 123 Quadros</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Seja um artista</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Projetos corporativos</a></li>
+          <li><a href="#" class="text-zinc-500 transition-colors duration-200 hover:text-zinc-900">Imprensa</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col items-center justify-between gap-5 border-t border-zinc-100 pt-8 sm:flex-row">
+      <p class="text-xs text-zinc-500">© 2026 123 Quadros Galeria. Esboço de site — todos os dados são fictícios.</p>
+      <div class="flex items-center gap-2 text-zinc-500">
+        <span class="rounded-lg border border-zinc-200 px-2.5 py-1 text-[11px] font-semibold">PIX</span>
+        <span class="rounded-lg border border-zinc-200 px-2.5 py-1 text-[11px] font-semibold">VISA</span>
+        <span class="rounded-lg border border-zinc-200 px-2.5 py-1 text-[11px] font-semibold">MASTER</span>
+        <span class="rounded-lg border border-zinc-200 px-2.5 py-1 text-[11px] font-semibold">BOLETO</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================ SCRIPTS ============================ -->
+<!-- Ícones Lucide -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<!-- Comportamentos (navbar, menu mobile, reveal, FAQ) agora em script.js -->
+</body>
+</html>
