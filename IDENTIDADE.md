@@ -60,7 +60,7 @@
 ### Tokens de marca (paleta oficial §2 — gerados no `tailwind.config`) 🔒
 | Token | Hex | Uso 🔒 |
 |---|---|---|
-| `brand-magenta` | `#EA0273` | Acento padrão sobre branco: eyebrows, hovers, faixa de urgência, foco de formulário, glows, avatares |
+| `brand-magenta` | `#EA0273` | Acento padrão sobre branco: eyebrows, hovers, foco de formulário, glows, avatares |
 | `brand-amarelo` | `#FDC303` | Só sobre fundo escuro/vidro (selos "EDIÇÃO LIMITADA"/"NOVO"), estrelas (fill), tiles com ícone/texto **preto**, avatar "MC" |
 | `brand-azul` | `#019AEB` | Tiles de ícone, ícones de confiança, gradiente do título do hero, glow lateral do hero, avatares |
 | `brand-preto` | `#020202` | Sinônimo do `ink-950` — evitar duplicar usos |
@@ -98,7 +98,7 @@
 
 Ordem atual do `index.html` — **todas as seções devem existir**:
 
-1. **Topbar de urgência + Navbar** — faixa magenta pequena com aviso de urgência + barra limpa contendo **apenas a logo** (canto superior esquerdo, `h-16 sm:h-20`)
+1. **Topbar de urgência + Navbar** — faixa `#FFDE21` pequena com aviso de urgência + barra limpa contendo **apenas a logo** (canto superior esquerdo, `h-16 sm:h-20`)
 2. **Hero** — headline com gradiente de marca + CTAs + carrossel de 5 obras (autoplay, setas, dots-pílula e contador)
 3. **Coleção** — grid de 8 obras com imagens reais + chips de filtro + botão **Comprar** em cada card (sem preços)
 4. **Depoimentos** — 3 cards
@@ -107,7 +107,7 @@ Ordem atual do `index.html` — **todas as seções devem existir**:
 7. **Footer** — logo + descrição + redes sociais + 3 colunas de links + pagamentos
 
 ### Elementos que não podem sumir 🔒
-- Topbar de urgência (fundo `brand-magenta` + letras pretas)
+- Topbar de urgência (fundo `#FFDE21` + letras pretas — cor por pedido em 18/10/2026, exceção à paleta oficial §2)
 - Logo da navbar e do rodapé (seguindo as regras da Seção 1)
 - CTA "Explorar a coleção" (botão primário escuro com glow magenta)
 - Carrossel do hero com as obras em destaque
