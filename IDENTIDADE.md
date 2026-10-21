@@ -13,13 +13,21 @@
 
 | Item | Caminho | Regra |
 |---|---|---|
-| Logo oficial (uso no site) | `imagens/logo/logo.jpg` | 🔒 Único arquivo usado no site (1792 × 2400 px — upscale feito pelo cliente em 18/10/2026). **Nunca** substituir por ícone, emoji ou texto. |
+| Logo oficial (uso no site) | `imagens/logo/logo-web-crop.png` | 🔒 Único arquivo usado no site (792 × 582 px, 163 KB — recorte da arte, sem margens vazias, gerado em 20/10/2026). **Nunca** substituir por ícone, emoji ou texto. |
+| Logo Web (versão com margem, reserva) | `imagens/logo/logo-web.png` | 🔒 Não apagar (851 × 1200 px). Base do recorte em uso. |
+| Logo fonte (máxima resolução, não usar no site) | `imagens/logo/logo2.png` | 🔒 Não apagar nem editar (3875 × 5462 px). Fonte de qualquer versão nova. |
 | Logo original (backup, não usar no site) | `imagens/logo/WhatsApp Image 2026-10-17 at 18.50.50.jpeg` | 🔒 Nunca apagar nem editar. É a fonte original. |
-| Dimensões do arquivo em uso | 1792 × 2400 px (formato `.jpg`) | 🔒 Não editar o arquivo; se precisar de versão nova, gerar do original. |
+| Dimensões do arquivo em uso | 792 × 582 px (formato `.png`, paisagem) | 🔒 Não editar o arquivo; se precisar de versão nova, gerar da fonte `logo2.png`. |
 
 ### Regras de exibição da logo 🔒
-- **Navbar:** classe `h-16 sm:h-20` (nunca reduzir abaixo disso — prioridade de marca).
-- **Footer:** classe `h-16 sm:h-20`.
+- **Navbar:** classe `h-[3.875rem] sm:h-20` (62/80 px — logo define a altura da barra, sem padding vertical).
+- **Footer:** classe `h-[3.875rem] sm:h-20`.
+
+### Favicon 🔒
+- Arte: bloco arredondado branco + faixa com as 3 cores da marca (magenta/azul/amarelo) + **"123" em preto** — inspirado no nome e na paleta da logo.
+- Arquivos em `imagens/favicon/` (`favicon.ico` com 16/32/48 + PNGs 16/32/48/64/180/192/512) e `apple-touch-icon.png` na raiz.
+- Declarado no `<head>` do `index.html` + `site.webmanifest` (nome "123 Quadros", `theme_color` `#EA0273`).
+- 🔒 Cores sempre da paleta oficial (§2) — nunca inventar tons.
 - **Hover:** expansão `hover:scale-110` com `transition-transform duration-300` e easing `cubic-bezier(.16,1,.3,1)` + `hover:drop-shadow-md`.
 - A logo deve permanecer **clicável** (link para o topo/`#`) e com `alt` preenchido.
 - Nunca aplicar filtros, cores ou bordas sobre a logo.
@@ -98,7 +106,7 @@
 
 Ordem atual do `index.html` — **todas as seções devem existir**:
 
-1. **Topbar de urgência + Navbar** — faixa `#FFDE21` pequena com aviso de urgência + barra limpa contendo **apenas a logo** (canto superior esquerdo, `h-16 sm:h-20`)
+1. **Topbar de urgência + Navbar** — faixa `#FFDE21` pequena com aviso de urgência + barra limpa contendo **apenas a logo** (canto superior esquerdo, `h-[3.875rem] sm:h-20`, sem padding vertical — a logo define a altura do menu)
 2. **Hero** — headline com gradiente de marca + CTAs + carrossel de 5 obras (autoplay, setas, dots-pílula e contador)
 3. **Coleção** — grid de 8 obras com imagens reais + chips de filtro + botão **Comprar** em cada card (sem preços)
 4. **Depoimentos** — 3 cards
