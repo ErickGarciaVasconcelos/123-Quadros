@@ -32,10 +32,16 @@
   <!-- Navbar -->
   <div id="nav-shell" class="border-b border-zinc-200 bg-white/90 backdrop-blur-xl transition-shadow duration-300">
     <div class="relative mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:h-[88px] sm:px-6">
-      <!-- Botão de pesquisa -->
-      <button id="search-btn" class="grid h-10 w-10 place-items-center rounded-xl text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 active:scale-95" aria-label="Pesquisar">
-        <i data-lucide="search" class="h-5 w-5"></i>
-      </button>
+      <!-- Lado esquerdo: pesquisa + carrinho -->
+      <div class="flex items-center gap-1">
+        <button id="search-btn" class="grid h-10 w-10 place-items-center rounded-xl text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 active:scale-95" aria-label="Pesquisar">
+          <i data-lucide="search" class="h-5 w-5"></i>
+        </button>
+        <a href="#carrinho" id="cart-btn" class="relative grid h-10 w-10 place-items-center rounded-xl text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 active:scale-95" aria-label="Carrinho">
+          <i data-lucide="shopping-cart" class="h-5 w-5"></i>
+          <span id="cart-badge" class="absolute -right-1 -top-1 hidden min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-brand-magenta px-1 text-[10px] font-bold leading-none text-white">0</span>
+        </a>
+      </div>
 
       <!-- Logo centralizada -->
       <a href="#" class="absolute left-1/2 -translate-x-1/2">
@@ -191,7 +197,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Aurora Setentrional</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Marina Cordeiro</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-02" data-title="Obra da Autora 02" data-img="imagens/autora/autora-02.jpg" data-price="1490">Comprar</button>
         </div>
       </article>
 
@@ -210,7 +216,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Maré de Vidro</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Rafael Nunes</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-03" data-title="Obra da Autora 03" data-img="imagens/autora/autora-03.jpg" data-price="1590">Comprar</button>
         </div>
       </article>
 
@@ -230,7 +236,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Fim de Tarde</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Bianca Reis</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-04" data-title="Obra da Autora 04" data-img="imagens/autora/autora-04.jpg" data-price="1390">Comprar</button>
         </div>
       </article>
 
@@ -249,7 +255,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Silêncio de Areia</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Tô Tanaka</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-05" data-title="Obra da Autora 05" data-img="imagens/autora/autora-05.jpg" data-price="1690">Comprar</button>
         </div>
       </article>
 
@@ -269,7 +275,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Cerejeira ao Sul</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Yumi Sato</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-06" data-title="Obra da Autora 06" data-img="imagens/autora/autora-06.jpg" data-price="1490">Comprar</button>
         </div>
       </article>
 
@@ -288,7 +294,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Noir IV</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Diego Lemos</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-07" data-title="Obra da Autora 07" data-img="imagens/autora/autora-07.jpg" data-price="1790">Comprar</button>
         </div>
       </article>
 
@@ -307,7 +313,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Jardim Suspenso</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Helena Dias</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="autora-08" data-title="Obra da Autora 08" data-img="imagens/autora/autora-08.jpg" data-price="1590">Comprar</button>
         </div>
       </article>
 
@@ -327,7 +333,7 @@
             <h3 class="font-display text-sm font-bold text-zinc-900">Brasa</h3>
             <p class="mt-0.5 text-xs text-zinc-500">Caio Barros</p>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
     </div>
@@ -372,7 +378,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 01</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -388,7 +394,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 02</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -404,7 +410,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 03</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -420,7 +426,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 04</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -436,7 +442,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 05</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -452,7 +458,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 06</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -468,7 +474,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 07</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
 
@@ -484,7 +490,7 @@
           <div>
             <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 08</h3>
           </div>
-          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+          <button type="button" class="add-to-cart whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95" data-id="" data-title="" data-img="" data-price="">Comprar</button>
         </div>
       </article>
     </div>
@@ -500,14 +506,52 @@
 
 
 <!-- ============================ CARRINHO (ANCORA) ============================ -->
-<section id="carrinho" class="relative border-t border-zinc-100 py-16 sm:py-20">
+<section id="carrinho" class="relative border-t border-zinc-100 py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
-    <div data-reveal class="mx-auto max-w-2xl text-center">
-      <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
-        <span class="h-px w-6 bg-brand-magenta/60"></span> Carrinho
-      </span>
-      <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">Seu carrinho</h2>
-      <p class="mt-3 text-zinc-500">Seu carrinho está vazio no momento. Adicione obras para começar sua compra.</p>
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div data-reveal class="max-w-2xl">
+        <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+          <span class="h-px w-6 bg-brand-magenta/60"></span> Carrinho
+        </span>
+        <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">Seu carrinho</h2>
+        <p class="mt-3 text-zinc-500">Revise seus itens antes de finalizar a compra.</p>
+      </div>
+      <button id="cart-clear" class="hidden rounded-xl border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Limpar carrinho</button>
+    </div>
+
+    <div class="mt-10 grid gap-8 lg:grid-cols-[1.6fr_1fr]">
+      <div id="cart-items" class="flex flex-col gap-4"></div>
+      <div id="cart-empty" class="flex flex-col items-center justify-center rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 px-6 py-12 text-center">
+        <i data-lucide="shopping-cart" class="h-8 w-8 text-zinc-400"></i>
+        <h3 class="mt-4 font-display text-lg font-bold text-zinc-900">Seu carrinho está vazio</h3>
+        <p class="mt-2 max-w-sm text-sm text-zinc-500">Adicione obras da coleção ou das obras da autora para começar sua compra.</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="#colecao" class="rounded-xl bg-ink-950 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:shadow-glow">Ver coleção</a>
+          <a href="#obras-autora" class="rounded-xl border border-zinc-200 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-700 transition-all hover:bg-zinc-50">Obras da autora</a>
+        </div>
+      </div>
+
+      <aside id="cart-summary" class="hidden h-fit rounded-3xl border border-zinc-200 bg-zinc-50 p-6 shadow-soft">
+        <h3 class="font-display text-lg font-bold text-zinc-900">Resumo do pedido</h3>
+        <div class="mt-4 flex items-center justify-between text-sm text-zinc-600">
+          <span>Itens</span>
+          <span id="cart-count">0</span>
+        </div>
+        <div class="mt-2 flex items-center justify-between text-sm text-zinc-600">
+          <span>Subtotal</span>
+          <span id="cart-subtotal" class="font-semibold text-zinc-900">R$ 0</span>
+        </div>
+        <div class="mt-2 flex items-center justify-between text-sm text-zinc-600">
+          <span>Frete</span>
+          <span class="text-emerald-600">A calcular</span>
+        </div>
+        <div class="mt-4 border-t border-zinc-200 pt-4 flex items-center justify-between font-semibold text-zinc-900">
+          <span>Total</span>
+          <span id="cart-total">R$ 0</span>
+        </div>
+        <button class="mt-6 w-full rounded-xl bg-ink-950 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:shadow-glow active:scale-95">Finalizar compra</button>
+        <p class="mt-3 text-center text-xs text-zinc-500">Ambiente de demonstração. Sem cobrança real.</p>
+      </aside>
     </div>
   </div>
 </section>
@@ -699,7 +743,7 @@
 
 
 <!-- ============================ FOOTER ============================ -->
-<footer class="border-t border-zinc-100 bg-zinc-50">
+<footer id="footer" class="border-t border-zinc-100 bg-zinc-50">
   <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
       <!-- Marca -->
