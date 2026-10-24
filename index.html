@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
 <meta charset="UTF-8" />
@@ -29,12 +29,35 @@
 
 <body class="bg-white font-sans text-zinc-600 antialiased selection:bg-brand-magenta/30">
 
-  <!-- Menu -->
+  <!-- Navbar -->
   <div id="nav-shell" class="border-b border-zinc-200 bg-white/90 backdrop-blur-xl transition-shadow duration-300">
-    <div class="mx-auto flex max-w-7xl items-center justify-start px-4 sm:px-6">
-      <a href="#" class="group flex items-center">
-        <img src="imagens/logo/logo-web-crop.png" alt="123 Quadros — Galeria de Arte" class="h-[3.875rem] w-auto origin-center cursor-pointer transform-gpu object-contain transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-110 hover:drop-shadow-md sm:h-20" />
+    <div class="relative mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:h-[88px] sm:px-6">
+      <!-- Botão de pesquisa -->
+      <button id="search-btn" class="grid h-10 w-10 place-items-center rounded-xl text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 active:scale-95" aria-label="Pesquisar">
+        <i data-lucide="search" class="h-5 w-5"></i>
+      </button>
+
+      <!-- Logo centralizada -->
+      <a href="#" class="absolute left-1/2 -translate-x-1/2">
+        <img src="imagens/logo/logo-web-crop.png" alt="123 Quadros — Galeria de Arte" class="h-[3.5rem] w-auto origin-center cursor-pointer transform-gpu object-contain transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105 sm:h-[4.5rem]" />
       </a>
+
+      <!-- Botão de menu com 3 barrinhas -->
+      <div class="relative">
+        <button id="menu-toggle" class="grid h-10 w-10 place-items-center rounded-xl text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 active:scale-95" aria-label="Abrir menu" aria-expanded="false">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+        <div id="site-menu" class="absolute right-0 top-full mt-2 hidden w-56 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-soft">
+          <nav class="flex flex-col py-2">
+            <a href="#colecao" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Catálogo</a>
+            <a href="#carrinho" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Carrinho</a>
+            <a href="#obras-autora" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Obras da Autora</a>
+            <a href="#depoimentos" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Depoimentos</a>
+            <a href="#faq" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Perguntas Frequentes</a>
+            <a href="#footer" class="px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-zinc-900">Contato</a>
+          </nav>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -319,7 +342,175 @@
 </section>
 
 
-<!-- ============================ DEPOIMENTOS ============================ -->
+<!-- ============================ OBRAS DA AUTORA ============================ -->
+<section id="obras-autora" class="relative border-t border-zinc-100 py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <!-- Cabeçalho -->
+    <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div data-reveal class="max-w-2xl">
+        <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+          <span class="h-px w-6 bg-brand-magenta/60"></span> Obras da Autora
+        </span>
+        <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">
+          Acervo exclusivo da artista
+        </h2>
+        <p class="mt-3 text-zinc-500">Peças originais da autora, com identidade própria e acabamento pensado para colecionadores.</p>
+      </div>
+    </div>
+
+    <!-- Grid de obras da autora -->
+    <div class="mt-12 grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4">
+      <!-- Card 1 -->
+      <article data-reveal class="group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-01.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 01</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article data-reveal class="reveal-delay-70 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-02.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 02</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article data-reveal class="reveal-delay-140 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-03.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 03</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article data-reveal class="reveal-delay-210 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-04.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 04</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article data-reveal class="group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-05.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 05</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article data-reveal class="reveal-delay-70 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-06.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 06</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 7 -->
+      <article data-reveal class="reveal-delay-140 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-07.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 07</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+
+      <!-- Card 8 -->
+      <article data-reveal class="reveal-delay-210 group cursor-pointer">
+        <div class="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-zinc-300">
+          <div class="relative aspect-square overflow-hidden rounded-xl">
+            <img src="imagens/autora/autora-08.jpg" alt="Obra da autora" class="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" loading="lazy" decoding="async" />
+            <span class="absolute left-3 top-3 rounded-full border border-white/20 bg-ink-950/60 px-2.5 py-1 text-[10px] font-semibold text-brand-amarelo backdrop-blur-md">OBRA DA AUTORA</span>
+          </div>
+        </div>
+        <div class="mt-3.5 flex items-center justify-between gap-3">
+          <div>
+            <h3 class="font-display text-sm font-bold text-zinc-900">Obra da Autora 08</h3>
+          </div>
+          <button type="button" class="whitespace-nowrap rounded-xl bg-ink-950 px-4 py-2.5 text-xs font-semibold text-white transition-all duration-200 hover:shadow-glow active:scale-95">Comprar</button>
+        </div>
+      </article>
+    </div>
+
+    <div data-reveal class="mt-12 flex justify-center">
+      <a href="#obras-autora" class="group inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-6 py-3.5 text-sm font-semibold text-zinc-700 backdrop-blur-md transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-100 active:scale-95">
+        Ver todas as obras da autora
+        <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================ CARRINHO (ANCORA) ============================ -->
+<section id="carrinho" class="relative border-t border-zinc-100 py-16 sm:py-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6">
+    <div data-reveal class="mx-auto max-w-2xl text-center">
+      <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+        <span class="h-px w-6 bg-brand-magenta/60"></span> Carrinho
+      </span>
+      <h2 class="mt-3 font-display text-3xl font-extrabold tracking-tight text-zinc-900 sm:text-4xl">Seu carrinho</h2>
+      <p class="mt-3 text-zinc-500">Seu carrinho está vazio no momento. Adicione obras para começar sua compra.</p>
+    </div>
+  </div>
+</section>
 <section id="depoimentos" class="relative border-t border-zinc-100 py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6">
     <div data-reveal class="mx-auto max-w-2xl text-center">

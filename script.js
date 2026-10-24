@@ -66,14 +66,51 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // ---- Menu mobile ----
-  const menuBtn = document.getElementById('menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+  // ---- Menu dropdown (3 barrinhas) ----
+  const menuToggle = document.getElementById('menu-toggle');
+  const siteMenu = document.getElementById('site-menu');
+  if (menuToggle && siteMenu) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      siteMenu.classList.toggle('hidden');
+      menuToggle.setAttribute('aria-expanded', siteMenu.classList.contains('hidden') ? 'false' : 'true');
     });
-    mobileMenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+    siteMenu.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        siteMenu.classList.add('hidden');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!siteMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        siteMenu.classList.add('hidden');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // ---- Botão de pesquisa (placeholder simples) ----
+  const searchBtn = document.getElementById('search-btn');
+  if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+      const query = prompt('Pesquisar no site...');
+      if (query && query.trim()) {
+        const q = query.trim().toLowerCase();
+        if (q.includes('catálogo') || q.includes('coleção') || q.includes('colecao')) {
+          document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (q.includes('autora') || q.includes('obras')) {
+          document.getElementById('obras-autora')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (q.includes('carrinho')) {
+          document.getElementById('carrinho')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (q.includes('depoimento')) {
+          document.getElementById('depoimentos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (q.includes('faq') || q.includes('pergunta')) {
+          document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
   }
 
   // ---- Carrossel de obras em destaque (Hero) ----
