@@ -1,13 +1,12 @@
 /* ==========================================================================
-   123 Quadros
+   123 Quadros — Inspirado na estética e-commerce Boca Rosa
    style.css — Estilos personalizados do projeto (fora do Tailwind)
-   O layout, cores e utilitários continuam vindo do Tailwind via classes.
-   Última atualização: 18/10/2026
+   Paleta oficial mantida: Magenta #EA0273, Amarelo #FDC303, Azul #019AEB, Preto #020202
    ========================================================================== */
 
 html { -webkit-font-smoothing: antialiased; }
-body { background-color: #ffffff; }
-::selection { background: rgba(234,2,115,.3); }
+body { background-color: #ffffff; overflow-x: hidden; }
+::selection { background: rgba(234,2,115,.25); }
 
 /* Todos os ícones Lucide com traço fino e consistente */
 .lucide { stroke-width: 1.5; }
@@ -15,14 +14,13 @@ body { background-color: #ffffff; }
 /* Revelação no scroll (fade-in + slide-up) */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+  transform: translateY(22px);
+  transition: opacity .75s cubic-bezier(.16,1,.3,1), transform .75s cubic-bezier(.16,1,.3,1);
   will-change: opacity, transform;
 }
 [data-reveal].is-in { opacity: 1; transform: none; }
 
-/* Atrasos da animação de reveal (escalonamento em cascata)
-   Substituem os antigos style="transition-delay:..." inline no HTML */
+/* Atrasos da animação de reveal */
 .reveal-delay-60  { transition-delay: 60ms; }
 .reveal-delay-70  { transition-delay: 70ms; }
 .reveal-delay-80  { transition-delay: 80ms; }
@@ -37,77 +35,27 @@ body { background-color: #ffffff; }
 .reveal-delay-300 { transition-delay: 300ms; }
 .reveal-delay-320 { transition-delay: 320ms; }
 
-/* Textura de "tela" para as obras geradas em CSS */
-.grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: .22;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* Acordeão (FAQ) */
 details[open] .faq-body { animation: faqIn .35s ease-out; }
 @keyframes faqIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 details summary::-webkit-details-marker { display: none; }
 
 /* Barras de rolagem discretas */
-::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #ffffff; }
 ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 9999px; border: 2px solid #ffffff; }
 
-/* ---- Obras de arte geradas em CSS (placeholders elegantes) ---- */
-.art { position: absolute; inset: 0; }
-.a1 { background:
-  radial-gradient(58% 52% at 30% 24%, rgba(253,195,3,.95), rgba(253,195,3,0) 58%),
-  radial-gradient(52% 52% at 76% 72%, rgba(234,2,115,.85), rgba(234,2,115,0) 60%),
-  radial-gradient(90% 70% at 50% 118%, rgba(1,154,235,.35), rgba(1,154,235,0) 60%),
-  linear-gradient(155deg,#161022,#050509); }
-.a2 { background:
-  radial-gradient(62% 55% at 50% 80%, rgba(234,88,12,.92), rgba(234,88,12,0) 60%),
-  radial-gradient(50% 50% at 22% 22%, rgba(250,204,21,.85), rgba(250,204,21,0) 60%),
-  linear-gradient(180deg,#1a0f08,#070405); }
-.a3 { background:
-  radial-gradient(60% 55% at 28% 30%, rgba(56,189,248,.85), rgba(56,189,248,0) 60%),
-  radial-gradient(60% 60% at 78% 74%, rgba(16,185,129,.7), rgba(16,185,129,0) 60%),
-  linear-gradient(160deg,#071626,#030814); }
-.a4 { background:
-  radial-gradient(55% 55% at 30% 28%, rgba(167,243,208,.8), rgba(167,243,208,0) 60%),
-  radial-gradient(60% 60% at 76% 76%, rgba(22,163,74,.7), rgba(22,163,74,0) 62%),
-  radial-gradient(70% 60% at 60% -10%, rgba(253,230,138,.4), rgba(253,230,138,0) 60%),
-  linear-gradient(160deg,#0b1710,#040806); }
-.a5 { background:
-  radial-gradient(60% 60% at 35% 30%, rgba(226,232,240,.6), rgba(226,232,240,0) 60%),
-  radial-gradient(60% 60% at 70% 75%, rgba(148,163,184,.5), rgba(148,163,184,0) 62%),
-  linear-gradient(160deg,#14171c,#05070a); }
-.a6 { background:
-  radial-gradient(58% 52% at 30% 26%, rgba(244,114,182,.9), rgba(244,114,182,0) 60%),
-  radial-gradient(58% 58% at 76% 74%, rgba(139,92,246,.8), rgba(139,92,246,0) 62%),
-  radial-gradient(60% 60% at 50% 120%, rgba(251,113,133,.4), rgba(251,113,133,0) 60%),
-  linear-gradient(160deg,#1b0f1d,#080409); }
-.a7 { background:
-  radial-gradient(80% 70% at 72% 18%, rgba(255,250,238,.95), rgba(255,250,238,0) 62%),
-  radial-gradient(60% 60% at 18% 82%, rgba(206,184,146,.8), rgba(206,184,146,0) 62%),
-  linear-gradient(160deg,#efe7d6,#cabca0); }
-.a8 { background:
-  radial-gradient(55% 55% at 30% 30%, rgba(248,113,113,.95), rgba(248,113,113,0) 60%),
-  radial-gradient(58% 58% at 76% 74%, rgba(249,115,22,.8), rgba(249,115,22,0) 62%),
-  radial-gradient(70% 60% at 50% 120%, rgba(159,18,57,.5), rgba(159,18,57,0) 60%),
-  linear-gradient(160deg,#1c0a0a,#0a0405); }
-.a9 { background:
-  radial-gradient(60% 55% at 34% 30%, rgba(125,211,252,.85), rgba(125,211,252,0) 60%),
-  radial-gradient(60% 60% at 74% 76%, rgba(79,70,229,.8), rgba(79,70,229,0) 62%),
-  linear-gradient(160deg,#0a0f26,#03040f); }
+/* Esconder barra de rolagem horizontal nos carrosséis mantendo scroll touch */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ---- Carrossel de obras em destaque (Hero) ---- */
+/* ---- Carrossel Hero ---- */
 .hero-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transform: scale(1.04);
+  transform: scale(1.03);
   transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1), visibility 0s linear .7s;
 }
 .hero-slide.is-active {
@@ -116,25 +64,82 @@ details summary::-webkit-details-marker { display: none; }
   transform: scale(1);
   transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
 }
-/* Zoom lento (Ken Burns) enquanto a obra está em cartaz */
-.hero-slide .art,
-.hero-slide img { transform: scale(1.08); transition: transform 6s ease-out; }
-.hero-slide.is-active .art,
+.hero-slide img { transform: scale(1.06); transition: transform 6s ease-out; }
 .hero-slide.is-active img { transform: scale(1); }
 
-/* Indicadores (dots) — o ativo vira uma pílula escura */
 .hero-dot {
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background: #d4d4d8;
+  background: rgba(255,255,255,.55);
   transition: all .35s cubic-bezier(.16,1,.3,1);
 }
-.hero-dot:hover { background: #a1a1aa; }
-.hero-dot.is-active { width: 26px; background: #18181b; }
+.hero-dot:hover { background: rgba(255,255,255,.85); }
+.hero-dot.is-active { width: 24px; background: #EA0273; }
+
+/* ---- Swatches de variação (estilo Boca Rosa) ---- */
+.swatch-btn {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0,0,0,.14);
+  transition: transform .2s ease, box-shadow .2s ease;
+  flex-shrink: 0;
+}
+.swatch-btn:hover {
+  transform: scale(1.08);
+}
+.swatch-btn.is-selected {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px #71717a;
+}
+/* Linha diagonal suave igual às variações da Boca Rosa */
+.swatch-btn.has-slash::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 1.5px;
+  background: rgba(161, 161, 170, 0.75);
+  transform: translateX(-50%) rotate(38deg);
+  pointer-events: none;
+}
+
+/* ---- Carrossel Vertical (Stories / Reels — Print 3) ---- */
+.story-item {
+  transition: all .45s cubic-bezier(.16,1,.3,1);
+}
+.story-item .story-media {
+  height: 340px;
+  transition: height .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease;
+}
+@media (min-width: 1024px) {
+  .story-item.is-center .story-media {
+    height: 420px;
+    box-shadow: 0 22px 45px -20px rgba(234, 2, 115, 0.28);
+  }
+}
+
+/* ---- Sacola Lateral (Drawer) ---- */
+#cart-drawer-backdrop {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+#cart-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+#cart-drawer {
+  transform: translateX(100%);
+  transition: transform .38s cubic-bezier(.16,1,.3,1);
+}
+#cart-drawer.is-open {
+  transform: translateX(0);
+}
 
 /* Acessibilidade: respeita quem prefere menos movimento */
 @media (prefers-reduced-motion: reduce) {
-  .hero-slide .art,
   .hero-slide img { transform: none; transition: none; }
 }

@@ -1,14 +1,11 @@
 /* ==========================================================================
-   123 Quadros
-   script.js — Configuração do Tailwind + comportamentos do site
-   Importante: este arquivo deve ser carregado DEPOIS do Play CDN do Tailwind
-   e ANTES do restante da página (ver index.html, dentro de <head>).
-   Última atualização: 18/10/2026
+   123 Quadros — Inspirado na experiência e-commerce Boca Rosa
+   script.js — Configuração do Tailwind + comportamentos interativos do site
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    1) CONFIGURAÇÃO DO TAILWIND
-   Cores, tipografia, sombras e animações travadas no IDENTIDADE.md
+   Cores, tipografia, sombras e animações oficiais da marca (IDENTIDADE.md)
    -------------------------------------------------------------------------- */
 tailwind.config = {
   theme: {
@@ -18,9 +15,7 @@ tailwind.config = {
         display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
       },
       colors: {
-        // Preto institucional da marca (§2 do IDENTIDADE.md)
         ink: { 950: '#020202', 900: '#0d0d11', 800: '#131318' },
-        // 🔒 PALETA OFICIAL DA MARCA — as 4 cores confirmadas pela cliente (IDENTIDADE.md §2)
         brand: {
           magenta: '#EA0273', // cor principal de destaque
           amarelo: '#FDC303', // selos, estrelas, destaques sobre escuro
@@ -49,30 +44,99 @@ tailwind.config = {
 
 /* --------------------------------------------------------------------------
    2) COMPORTAMENTOS DO SITE
-   Executam somente após o DOM (e os ícones Lucide) estarem carregados.
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
-
-  // ---- Ícones Lucide ----
   if (window.lucide) lucide.createIcons();
 
-  // ---- Carrinho ----
+  const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+  // =========================================================================
+  // A) TOPBAR ROTATIVA DE PROMOÇÕES (Estilo Print 1)
+  // =========================================================================
+  const topbarMessages = [
+    '<span>Use o cupom <strong class="font-bold underline decoration-white/60 underline-offset-2">PRIMEIRACOMPRA</strong> para <strong>10%OFF</strong></span>',
+    '<span><strong>Frete Grátis</strong> para todo o Brasil nas compras acima de <strong>R$ 399</strong></span>',
+    '<span>Parcelamento em até <strong>12x sem juros</strong> + Certificado de Autenticidade</span>',
+  ];
+  let topbarIndex = 0;
+  const topbarTextEl = document.getElementById('topbar-text');
+  const topbarPrevBtn = document.getElementById('topbar-prev');
+  const topbarNextBtn = document.getElementById('topbar-next');
+
+  function renderTopbar(index) {
+    if (!topbarTextEl) return;
+    topbarIndex = (index + topbarMessages.length) % topbarMessages.length;
+    topbarTextEl.innerHTML = `${topbarMessages[topbarIndex]} <i data-lucide="arrow-right" class="h-3.5 w-3.5 text-pink-300"></i>`;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  if (topbarPrevBtn) topbarPrevBtn.addEventListener('click', () => renderTopbar(topbarIndex - 1));
+  if (topbarNextBtn) topbarNextBtn.addEventListener('click', () => renderTopbar(topbarIndex + 1));
+  setInterval(() => renderTopbar(topbarIndex + 1), 5500);
+
+  // =========================================================================
+  // B) SACOLA LATERAL DESLIZANTE (DRAWER) + CUPOM + FRETE GRÁTIS
+  // =========================================================================
   const CART_KEY = '123quadros-cart';
+  const COUPON_KEY = '123quadros-coupon';
+  const FREE_SHIPPING_LIMIT = 399;
+
+  const cartDrawer = document.getElementById('cart-drawer');
+  const cartBackdrop = document.getElementById('cart-drawer-backdrop');
+  const cartOpenBtn = document.getElementById('cart-open-btn');
+  const cartCloseBtn = document.getElementById('cart-close-btn');
+  const cartEmptyCta = document.getElementById('cart-empty-cta');
+
   const cartItemsEl = document.getElementById('cart-items');
   const cartEmptyEl = document.getElementById('cart-empty');
   const cartSummaryEl = document.getElementById('cart-summary');
   const cartBadgeEl = document.getElementById('cart-badge');
   const cartCountEl = document.getElementById('cart-count');
   const cartSubtotalEl = document.getElementById('cart-subtotal');
+  const cartDiscountRowEl = document.getElementById('cart-discount-row');
+  const cartDiscountEl = document.getElementById('cart-discount');
+  const cartShippingEl = document.getElementById('cart-shipping');
   const cartTotalEl = document.getElementById('cart-total');
   const cartClearBtn = document.getElementById('cart-clear');
-  const cartCheckoutBtn = document.querySelector('#cart-summary button');
+  const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
+  const couponInput = document.getElementById('cart-coupon-input');
+  const couponBtn = document.getElementById('cart-coupon-btn');
+  const freeShippingMsg = document.getElementById('free-shipping-msg');
+  const freeShippingBar = document.getElementById('free-shipping-bar');
 
-  const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  function openCartDrawer() {
+    if (!cartDrawer || !cartBackdrop) return;
+    cartDrawer.classList.add('is-open');
+    cartBackdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCartDrawer() {
+    if (!cartDrawer || !cartBackdrop) return;
+    cartDrawer.classList.remove('is-open');
+    cartBackdrop.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  if (cartOpenBtn) cartOpenBtn.addEventListener('click', openCartDrawer);
+  if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCartDrawer);
+  if (cartBackdrop) cartBackdrop.addEventListener('click', closeCartDrawer);
+  if (cartEmptyCta) {
+    cartEmptyCta.addEventListener('click', () => {
+      closeCartDrawer();
+      document.getElementById('queridinhos')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCartDrawer();
+  });
 
   function loadCart() {
     try {
-      return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      const raw = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      // Filtra eventuais itens antigos quebrados (sem título/preço)
+      return Array.isArray(raw) ? raw.filter((i) => i && i.id && Number(i.price) > 0) : [];
     } catch {
       return [];
     }
@@ -81,6 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function saveCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     renderCart();
+  }
+
+  function hasCoupon() {
+    return localStorage.getItem(COUPON_KEY) === 'PRIMEIRACOMPRA';
   }
 
   function updateBadge(cart) {
@@ -96,9 +164,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function updateFreeShipping(subtotal) {
+    if (!freeShippingMsg || !freeShippingBar) return;
+    const pct = Math.min(100, Math.round((subtotal / FREE_SHIPPING_LIMIT) * 100));
+    freeShippingBar.style.width = `${pct}%`;
+    if (subtotal >= FREE_SHIPPING_LIMIT) {
+      freeShippingMsg.innerHTML = 'Parabéns! Você ganhou <strong>Frete Grátis!</strong> 🎉';
+      if (cartShippingEl) cartShippingEl.textContent = 'Grátis';
+    } else {
+      const diff = FREE_SHIPPING_LIMIT - subtotal;
+      freeShippingMsg.innerHTML = `Faltam <strong>${fmt.format(diff)}</strong> para você ganhar <strong>Frete Grátis!</strong>`;
+      if (cartShippingEl) cartShippingEl.textContent = 'A calcular';
+    }
+  }
+
   function renderCart() {
     const cart = loadCart();
     updateBadge(cart);
+
+    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
+
+    if (cartCountEl) cartCountEl.textContent = totalQty;
+    updateFreeShipping(subtotal);
 
     if (!cartItemsEl || !cartEmptyEl || !cartSummaryEl) return;
 
@@ -106,68 +194,76 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsEl.innerHTML = '';
       cartEmptyEl.classList.remove('hidden');
       cartSummaryEl.classList.add('hidden');
-      if (cartClearBtn) cartClearBtn.classList.add('hidden');
       if (window.lucide) lucide.createIcons();
       return;
     }
 
     cartEmptyEl.classList.add('hidden');
     cartSummaryEl.classList.remove('hidden');
-    if (cartClearBtn) cartClearBtn.classList.remove('hidden');
 
     cartItemsEl.innerHTML = '';
     cart.forEach((item) => {
+      const key = `${item.id}__${item.variant || 'Padrão'}`;
       const row = document.createElement('article');
-      row.className = 'flex gap-4 rounded-3xl border border-zinc-200 bg-white p-4 shadow-soft';
+      row.className = 'flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm';
       row.innerHTML = `
-        <div class="h-24 w-24 overflow-hidden rounded-2xl border border-zinc-200 sm:h-28 sm:w-28">
+        <div class="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-zinc-100 bg-zinc-50">
           <img src="${item.img}" alt="${item.title}" class="h-full w-full object-cover" loading="lazy" />
         </div>
-        <div class="flex flex-1 flex-col justify-between gap-3">
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h3 class="font-display text-base font-bold text-zinc-900">${item.title}</h3>
-              <p class="mt-1 text-sm text-zinc-500">Obra selecionada</p>
+        <div class="flex min-w-0 flex-1 flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div class="min-w-0">
+              <h3 class="truncate font-display text-sm font-bold text-zinc-900">${item.title}</h3>
+              <p class="mt-0.5 text-[11px] text-zinc-500">${item.variant || 'Moldura Natural'}</p>
             </div>
-            <button class="cart-remove grid h-9 w-9 place-items-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-50 hover:text-brand-magenta" data-id="${item.id}" aria-label="Remover">
-              <i data-lucide="trash-2" class="h-4 w-4"></i>
+            <button type="button" class="cart-remove grid h-7 w-7 shrink-0 place-items-center rounded-full text-zinc-400 transition hover:bg-pink-50 hover:text-brand-magenta" data-key="${key}" aria-label="Remover item">
+              <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
             </button>
           </div>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2 rounded-full border border-zinc-200 px-2 py-1 text-sm">
-              <button class="cart-qty grid h-7 w-7 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="dec">-</button>
-              <span class="w-6 text-center text-zinc-700">${item.qty || 1}</span>
-              <button class="cart-qty grid h-7 w-7 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="inc">+</button>
+          <div class="mt-2 flex items-center justify-between">
+            <div class="flex items-center gap-1.5 rounded-full border border-zinc-200 px-2 py-0.5 text-xs">
+              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-key="${key}" data-action="dec">-</button>
+              <span class="w-5 text-center font-medium text-zinc-800">${item.qty || 1}</span>
+              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-key="${key}" data-action="inc">+</button>
             </div>
-            <p class="font-display text-base font-bold text-brand-magenta">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
+            <p class="font-display text-sm font-bold text-[#9e004f]">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
           </div>
         </div>
       `;
       cartItemsEl.appendChild(row);
     });
 
-    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-    const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
+    const discount = hasCoupon() ? subtotal * 0.1 : 0;
+    const finalTotal = Math.max(0, subtotal - discount);
 
-    if (cartCountEl) cartCountEl.textContent = totalQty;
     if (cartSubtotalEl) cartSubtotalEl.textContent = fmt.format(subtotal);
-    if (cartTotalEl) cartTotalEl.textContent = fmt.format(subtotal);
+    if (cartDiscountRowEl && cartDiscountEl) {
+      if (discount > 0) {
+        cartDiscountRowEl.classList.remove('hidden');
+        cartDiscountRowEl.classList.add('flex');
+        cartDiscountEl.textContent = `- ${fmt.format(discount)}`;
+        if (couponInput) couponInput.value = 'PRIMEIRACOMPRA';
+      } else {
+        cartDiscountRowEl.classList.add('hidden');
+        cartDiscountRowEl.classList.remove('flex');
+      }
+    }
+    if (cartTotalEl) cartTotalEl.textContent = fmt.format(finalTotal);
 
     cartItemsEl.querySelectorAll('.cart-remove').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        const next = loadCart().filter((i) => i.id !== id);
+        const targetKey = btn.dataset.key;
+        const next = loadCart().filter((i) => `${i.id}__${i.variant || 'Padrão'}` !== targetKey);
         saveCart(next);
       });
     });
 
     cartItemsEl.querySelectorAll('.cart-qty').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
+        const targetKey = btn.dataset.key;
         const action = btn.dataset.action;
-        const cartNow = loadCart();
-        const next = cartNow.map((i) => {
-          if (i.id !== id) return i;
+        const next = loadCart().map((i) => {
+          if (`${i.id}__${i.variant || 'Padrão'}` !== targetKey) return i;
           const qty = (i.qty || 1) + (action === 'inc' ? 1 : -1);
           return { ...i, qty: qty < 1 ? 1 : qty };
         });
@@ -178,32 +274,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) lucide.createIcons();
   }
 
-  document.querySelectorAll('.add-to-cart').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const cart = loadCart();
-      const id = btn.dataset.id;
-      const existing = cart.find((i) => i.id === id);
-      if (existing) {
-        existing.qty = (existing.qty || 1) + 1;
-      } else {
-        cart.push({
-          id,
-          title: btn.dataset.title || 'Obra',
-          img: btn.dataset.img || '',
-          price: btn.dataset.price || 0,
-          qty: 1
-        });
-      }
-      saveCart(cart);
-      const menuEl = document.getElementById('site-menu');
-      if (menuEl) menuEl.classList.add('hidden');
-      const badgeEl = document.getElementById('cart-badge');
-      if (badgeEl) {
-        badgeEl.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 260 });
-      }
-      document.getElementById('carrinho')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+  // Delegação de evento para todos os botões/cards `.add-to-cart`
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.add-to-cart');
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    const title = btn.dataset.title || 'Obra 123 Quadros';
+    const img = btn.dataset.img || 'imagens/colecao/obra-1.jpg';
+    const price = Number(btn.dataset.price) || 199.90;
+    const variant = btn.dataset.variant || 'Moldura Natural';
+
+    if (!id) return;
+
+    const cart = loadCart();
+    const existing = cart.find((i) => i.id === id && (i.variant || 'Moldura Natural') === variant);
+    if (existing) {
+      existing.qty = (existing.qty || 1) + 1;
+    } else {
+      cart.push({ id, title, img, price, variant, qty: 1 });
+    }
+    saveCart(cart);
+    openCartDrawer();
   });
+
+  if (couponBtn && couponInput) {
+    couponBtn.addEventListener('click', () => {
+      const code = couponInput.value.trim().toUpperCase();
+      if (code === 'PRIMEIRACOMPRA' || code === '10OFF') {
+        localStorage.setItem(COUPON_KEY, 'PRIMEIRACOMPRA');
+        renderCart();
+      } else {
+        alert('Cupom inválido. Experimente usar o cupom PRIMEIRACOMPRA para 10% OFF!');
+      }
+    });
+  }
 
   if (cartClearBtn) {
     cartClearBtn.addEventListener('click', () => {
@@ -214,17 +319,203 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartCheckoutBtn) {
     cartCheckoutBtn.addEventListener('click', () => {
       const cart = loadCart();
-      if (cart.length === 0) {
-        alert('Seu carrinho está vazio.');
-        return;
-      }
-      alert('Pedido simulado! Em breve você receberá as instruções para finalizar o pagamento.');
+      if (cart.length === 0) return;
+      alert('Pedido recebido com sucesso! Em instantes você receberá as instruções de pagamento e envio.');
     });
   }
 
   renderCart();
 
-  // ---- Menu dropdown (3 barrinhas) ----
+  // =========================================================================
+  // C) SELETOR DE SWATCHES (BOLINHAS DE COR/MOLDURA ESTILO PRINT 2)
+  // =========================================================================
+  document.querySelectorAll('.product-card').forEach((card) => {
+    const swatches = Array.from(card.querySelectorAll('.swatch-btn'));
+    const addBtn = card.querySelector('.add-to-cart');
+    const prevSwatch = card.querySelector('.swatch-nav-prev');
+    const nextSwatch = card.querySelector('.swatch-nav-next');
+
+    if (swatches.length === 0) return;
+
+    function selectSwatch(idx) {
+      const normalized = (idx + swatches.length) % swatches.length;
+      swatches.forEach((s, i) => s.classList.toggle('is-selected', i === normalized));
+      const chosenVariant = swatches[normalized].dataset.variant || 'Moldura Natural';
+      if (addBtn) addBtn.dataset.variant = chosenVariant;
+    }
+
+    swatches.forEach((s, idx) => {
+      s.addEventListener('click', () => selectSwatch(idx));
+    });
+
+    if (prevSwatch) {
+      prevSwatch.addEventListener('click', () => {
+        const cur = swatches.findIndex((s) => s.classList.contains('is-selected'));
+        selectSwatch(cur <= 0 ? swatches.length - 1 : cur - 1);
+      });
+    }
+    if (nextSwatch) {
+      nextSwatch.addEventListener('click', () => {
+        const cur = swatches.findIndex((s) => s.classList.contains('is-selected'));
+        selectSwatch(cur + 1);
+      });
+    }
+  });
+
+  // =========================================================================
+  // D) CARROSSEL "QUERIDINHOS:" (NAVEGAÇÃO POR SETAS - PRINT 2)
+  // =========================================================================
+  const queridinhosTrack = document.getElementById('queridinhos-track');
+  const queridinhosPrev = document.getElementById('queridinhos-prev');
+  const queridinhosNext = document.getElementById('queridinhos-next');
+
+  if (queridinhosTrack && queridinhosPrev && queridinhosNext) {
+    queridinhosPrev.addEventListener('click', () => {
+      queridinhosTrack.scrollBy({ left: -310, behavior: 'smooth' });
+    });
+    queridinhosNext.addEventListener('click', () => {
+      queridinhosTrack.scrollBy({ left: 310, behavior: 'smooth' });
+    });
+  }
+
+  // =========================================================================
+  // E) CARROSSEL VERTICAL 5 CARDS (PRINT 3 - DESTAQUE CENTRAL INTERATIVO)
+  // =========================================================================
+  const storiesGrid = document.getElementById('stories-grid');
+  const storiesPrev = document.getElementById('stories-prev');
+  const storiesNext = document.getElementById('stories-next');
+
+  if (storiesGrid) {
+    const updateCenterHighlight = () => {
+      const items = Array.from(storiesGrid.querySelectorAll('.story-item'));
+      items.forEach((item, idx) => {
+        item.classList.toggle('is-center', idx === 2);
+      });
+    };
+
+    if (storiesNext) {
+      storiesNext.addEventListener('click', () => {
+        const first = storiesGrid.firstElementChild;
+        if (first) {
+          storiesGrid.appendChild(first);
+          updateCenterHighlight();
+        }
+      });
+    }
+
+    if (storiesPrev) {
+      storiesPrev.addEventListener('click', () => {
+        const last = storiesGrid.lastElementChild;
+        if (last) {
+          storiesGrid.prepend(last);
+          updateCenterHighlight();
+        }
+      });
+    }
+
+    // Clicar na imagem de um card lateral coloca ele em destaque no centro
+    storiesGrid.addEventListener('click', (e) => {
+      const media = e.target.closest('.story-media');
+      if (!media) return;
+      const clickedItem = media.closest('.story-item');
+      const items = Array.from(storiesGrid.querySelectorAll('.story-item'));
+      const idx = items.indexOf(clickedItem);
+      if (idx === -1 || idx === 2) return;
+
+      if (idx < 2) {
+        const steps = 2 - idx;
+        for (let i = 0; i < steps; i++) {
+          storiesGrid.prepend(storiesGrid.lastElementChild);
+        }
+      } else {
+        const steps = idx - 2;
+        for (let i = 0; i < steps; i++) {
+          storiesGrid.appendChild(storiesGrid.firstElementChild);
+        }
+      }
+      updateCenterHighlight();
+    });
+  }
+
+  // =========================================================================
+  // F) FILTROS FUNCIONAIS DA SEÇÃO COLEÇÃO
+  // =========================================================================
+  const filterBtns = document.querySelectorAll('#collection-filters .filter-btn');
+  const collectionCards = document.querySelectorAll('#collection-grid article[data-category]');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter || 'todos';
+
+      filterBtns.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('bg-[#9e004f]', active);
+        b.classList.toggle('border-[#9e004f]', active);
+        b.classList.toggle('text-white', active);
+        b.classList.toggle('bg-white', !active);
+        b.classList.toggle('border-zinc-200', !active);
+        b.classList.toggle('text-zinc-600', !active);
+      });
+
+      collectionCards.forEach((card) => {
+        const match = filter === 'todos' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !match);
+        card.classList.toggle('flex', match);
+      });
+    });
+  });
+
+  // =========================================================================
+  // G) EXPANSÃO DAS 17 OBRAS DA AUTORA (autora-09 a autora-17)
+  // =========================================================================
+  const authorMoreGrid = document.getElementById('author-more-grid');
+  const toggleAuthorMoreBtn = document.getElementById('toggle-author-more');
+
+  if (authorMoreGrid && toggleAuthorMoreBtn) {
+    const extraPrices = [199.90, 219.90, 249.90, 189.90, 229.90, 259.90, 179.90, 269.90, 209.90];
+    let renderedExtras = false;
+
+    toggleAuthorMoreBtn.addEventListener('click', () => {
+      if (!renderedExtras) {
+        let html = '';
+        for (let n = 9; n <= 17; n++) {
+          const num = String(n).padStart(2, '0');
+          const price = extraPrices[(n - 9) % extraPrices.length];
+          html += `
+            <article class="product-card flex flex-col">
+              <div class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-white p-5 shadow-sm">
+                <span class="absolute left-3 top-3 z-10 rounded-[3px] bg-[#9e004f] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">AUTORAL</span>
+                <img src="imagens/autora/autora-${num}.jpg" alt="Obra da Autora ${num}" class="h-full w-full rounded-sm object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </div>
+              <div class="pt-3">
+                <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Obra da Autora ${num}</h3>
+                <div class="mt-1 flex items-center gap-0.5 text-[#9e004f]">
+                  <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+                </div>
+                <p class="mt-1 text-sm font-bold text-zinc-900">${fmt.format(price)}</p>
+                <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="autora-${num}" data-title="Obra da Autora ${num}" data-img="imagens/autora/autora-${num}.jpg" data-price="${price}" data-variant="Moldura Natural">Comprar</button>
+              </div>
+            </article>
+          `;
+        }
+        authorMoreGrid.innerHTML = html;
+        renderedExtras = true;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      const isHidden = authorMoreGrid.classList.contains('hidden');
+      authorMoreGrid.classList.toggle('hidden', !isHidden);
+      authorMoreGrid.classList.toggle('grid', isHidden);
+      const span = toggleAuthorMoreBtn.querySelector('span');
+      if (span) {
+        span.textContent = isHidden ? 'Mostrar menos obras' : 'Ver todas as 17 obras da autora';
+      }
+    });
+  }
+
+  // =========================================================================
+  // H) MENU MOBILE E BARRA DE PESQUISA INTEGRADA
+  // =========================================================================
   const menuToggle = document.getElementById('menu-toggle');
   const siteMenu = document.getElementById('site-menu');
   if (menuToggle && siteMenu) {
@@ -247,50 +538,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- Botão de pesquisa (placeholder simples) ----
   const searchBtn = document.getElementById('search-btn');
-  if (searchBtn) {
+  const searchPanel = document.getElementById('search-bar-panel');
+  const searchInput = document.getElementById('search-input');
+  const searchClose = document.getElementById('search-close');
+
+  if (searchBtn && searchPanel && searchInput) {
     searchBtn.addEventListener('click', () => {
-      const query = prompt('Pesquisar no site...');
-      if (query && query.trim()) {
-        const q = query.trim().toLowerCase();
-        if (q.includes('catálogo') || q.includes('coleção') || q.includes('colecao')) {
-          document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (q.includes('autora') || q.includes('obras')) {
-          document.getElementById('obras-autora')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (q.includes('carrinho')) {
-          document.getElementById('carrinho')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (q.includes('depoimento')) {
-          document.getElementById('depoimentos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else if (q.includes('faq') || q.includes('pergunta')) {
-          document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      searchPanel.classList.toggle('hidden');
+      if (!searchPanel.classList.contains('hidden')) {
+        searchInput.focus();
+      }
+    });
+
+    if (searchClose) {
+      searchClose.addEventListener('click', () => {
+        searchInput.value = '';
+        searchPanel.classList.add('hidden');
+        document.querySelectorAll('.product-card').forEach((c) => c.classList.remove('hidden'));
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      document.querySelectorAll('#collection-grid .product-card, #author-grid .product-card').forEach((card) => {
+        const text = card.textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        card.classList.toggle('hidden', !match);
+      });
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
 
-  // ---- Carrossel de obras em destaque (Hero) ----
+  // =========================================================================
+  // I) CARROSSEL HERO
+  // =========================================================================
   const carousel = document.querySelector('[data-carousel]');
   if (carousel) {
     const slides = Array.from(carousel.querySelectorAll('[data-slide]'));
     const dots = Array.from(carousel.querySelectorAll('[data-carousel-dot]'));
     const prevBtn = carousel.querySelector('[data-carousel-prev]');
     const nextBtn = carousel.querySelector('[data-carousel-next]');
-    const counter = carousel.querySelector('[data-carousel-counter]');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let current = 0;
     let timer = null;
 
-    // Mostra o slide i e atualiza dots + contador
     const render = (i) => {
       current = (i + slides.length) % slides.length;
       slides.forEach((s, n) => s.classList.toggle('is-active', n === current));
       dots.forEach((d, n) => d.classList.toggle('is-active', n === current));
-      if (counter) {
-        counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
-      }
     };
 
     const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
@@ -300,17 +602,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextBtn) nextBtn.addEventListener('click', () => { render(current + 1); play(); });
     dots.forEach((d, n) => d.addEventListener('click', () => { render(n); play(); }));
 
-    // Pausa ao passar o mouse ou focar (acessibilidade)
     carousel.addEventListener('mouseenter', stop);
     carousel.addEventListener('mouseleave', play);
-    carousel.addEventListener('focusin', stop);
-    carousel.addEventListener('focusout', play);
 
     render(0);
     play();
   }
 
-  // ---- Animações de entrada (fade-in + slide-up) ----
+  // =========================================================================
+  // J) NEWSLETTER FORM -> ATIVA CUPOM PRIMEIRACOMPRA
+  // =========================================================================
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      localStorage.setItem(COUPON_KEY, 'PRIMEIRACOMPRA');
+      renderCart();
+      alert('Cupom PRIMEIRACOMPRA (10% OFF) ativado automaticamente na sua sacola!');
+      newsletterForm.reset();
+    });
+  }
+
+  // =========================================================================
+  // K) ANIMAÇÕES DE REVEAL E FAQ
+  // =========================================================================
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = document.querySelectorAll('[data-reveal]');
   if (reduce || !('IntersectionObserver' in window)) {
@@ -325,17 +640,15 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' }
     );
     items.forEach((el) => io.observe(el));
   }
 
-  // ---- FAQ: fecha os outros acordeões ao abrir um ----
   const faqs = document.querySelectorAll('#faq details');
   faqs.forEach((d) => {
     d.addEventListener('toggle', () => {
       if (d.open) faqs.forEach((o) => { if (o !== d) o.open = false; });
     });
   });
-
 });
