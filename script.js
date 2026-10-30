@@ -1,5 +1,5 @@
 /* ==========================================================================
-   123 Quadros — Inspirado na experiência e-commerce Boca Rosa
+   123 Quadros
    script.js — Configuração do Tailwind + comportamentos interativos do site
    ========================================================================== */
 
@@ -51,12 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
   // =========================================================================
-  // A) TOPBAR ROTATIVA DE PROMOÇÕES (Estilo Print 1)
+  // A) TOPBAR ROTATIVA DE AVISOS
   // =========================================================================
   const topbarMessages = [
-    '<span>Use o cupom <strong class="font-bold underline decoration-white/60 underline-offset-2">PRIMEIRACOMPRA</strong> para <strong>10%OFF</strong></span>',
+    '<span>Parcelamento em até <strong>12x sem juros</strong></span>',
     '<span><strong>Frete Grátis</strong> para todo o Brasil nas compras acima de <strong>R$ 399</strong></span>',
-    '<span>Parcelamento em até <strong>12x sem juros</strong> + Certificado de Autenticidade</span>',
   ];
   let topbarIndex = 0;
   const topbarTextEl = document.getElementById('topbar-text');
@@ -66,19 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderTopbar(index) {
     if (!topbarTextEl) return;
     topbarIndex = (index + topbarMessages.length) % topbarMessages.length;
-    topbarTextEl.innerHTML = `${topbarMessages[topbarIndex]} <i data-lucide="arrow-right" class="h-3.5 w-3.5 text-pink-300"></i>`;
-    if (window.lucide) lucide.createIcons();
+    topbarTextEl.innerHTML = topbarMessages[topbarIndex];
   }
 
   if (topbarPrevBtn) topbarPrevBtn.addEventListener('click', () => renderTopbar(topbarIndex - 1));
   if (topbarNextBtn) topbarNextBtn.addEventListener('click', () => renderTopbar(topbarIndex + 1));
-  setInterval(() => renderTopbar(topbarIndex + 1), 5500);
+  setInterval(() => renderTopbar(topbarIndex + 1), 5000);
 
   // =========================================================================
-  // B) SACOLA LATERAL DESLIZANTE (DRAWER) + CUPOM + FRETE GRÁTIS
+  // B) SACOLA LATERAL DESLIZANTE (DRAWER) + FRETE GRÁTIS
   // =========================================================================
   const CART_KEY = '123quadros-cart';
-  const COUPON_KEY = '123quadros-coupon';
   const FREE_SHIPPING_LIMIT = 399;
 
   const cartDrawer = document.getElementById('cart-drawer');
@@ -93,14 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartBadgeEl = document.getElementById('cart-badge');
   const cartCountEl = document.getElementById('cart-count');
   const cartSubtotalEl = document.getElementById('cart-subtotal');
-  const cartDiscountRowEl = document.getElementById('cart-discount-row');
-  const cartDiscountEl = document.getElementById('cart-discount');
   const cartShippingEl = document.getElementById('cart-shipping');
   const cartTotalEl = document.getElementById('cart-total');
   const cartClearBtn = document.getElementById('cart-clear');
   const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
-  const couponInput = document.getElementById('cart-coupon-input');
-  const couponBtn = document.getElementById('cart-coupon-btn');
   const freeShippingMsg = document.getElementById('free-shipping-msg');
   const freeShippingBar = document.getElementById('free-shipping-bar');
 
@@ -135,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadCart() {
     try {
       const raw = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      // Filtra eventuais itens antigos quebrados (sem título/preço)
       return Array.isArray(raw) ? raw.filter((i) => i && i.id && Number(i.price) > 0) : [];
     } catch {
       return [];
@@ -145,10 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function saveCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     renderCart();
-  }
-
-  function hasCoupon() {
-    return localStorage.getItem(COUPON_KEY) === 'PRIMEIRACOMPRA';
   }
 
   function updateBadge(cart) {
@@ -203,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cartItemsEl.innerHTML = '';
     cart.forEach((item) => {
-      const key = `${item.id}__${item.variant || 'Padrão'}`;
       const row = document.createElement('article');
       row.className = 'flex gap-3.5 rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm';
       row.innerHTML = `
@@ -214,17 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="flex items-start justify-between gap-2">
             <div class="min-w-0">
               <h3 class="truncate font-display text-sm font-bold text-zinc-900">${item.title}</h3>
-              <p class="mt-0.5 text-[11px] text-zinc-500">${item.variant || 'Moldura Natural'}</p>
+              <p class="mt-0.5 text-[11px] text-zinc-500">Quadro emoldurado</p>
             </div>
-            <button type="button" class="cart-remove grid h-7 w-7 shrink-0 place-items-center rounded-full text-zinc-400 transition hover:bg-pink-50 hover:text-brand-magenta" data-key="${key}" aria-label="Remover item">
+            <button type="button" class="cart-remove grid h-7 w-7 shrink-0 place-items-center rounded-full text-zinc-400 transition hover:bg-pink-50 hover:text-brand-magenta" data-id="${item.id}" aria-label="Remover item">
               <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
             </button>
           </div>
           <div class="mt-2 flex items-center justify-between">
             <div class="flex items-center gap-1.5 rounded-full border border-zinc-200 px-2 py-0.5 text-xs">
-              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-key="${key}" data-action="dec">-</button>
+              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="dec">-</button>
               <span class="w-5 text-center font-medium text-zinc-800">${item.qty || 1}</span>
-              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-key="${key}" data-action="inc">+</button>
+              <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="inc">+</button>
             </div>
             <p class="font-display text-sm font-bold text-[#9e004f]">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
           </div>
@@ -233,37 +220,23 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsEl.appendChild(row);
     });
 
-    const discount = hasCoupon() ? subtotal * 0.1 : 0;
-    const finalTotal = Math.max(0, subtotal - discount);
-
     if (cartSubtotalEl) cartSubtotalEl.textContent = fmt.format(subtotal);
-    if (cartDiscountRowEl && cartDiscountEl) {
-      if (discount > 0) {
-        cartDiscountRowEl.classList.remove('hidden');
-        cartDiscountRowEl.classList.add('flex');
-        cartDiscountEl.textContent = `- ${fmt.format(discount)}`;
-        if (couponInput) couponInput.value = 'PRIMEIRACOMPRA';
-      } else {
-        cartDiscountRowEl.classList.add('hidden');
-        cartDiscountRowEl.classList.remove('flex');
-      }
-    }
-    if (cartTotalEl) cartTotalEl.textContent = fmt.format(finalTotal);
+    if (cartTotalEl) cartTotalEl.textContent = fmt.format(subtotal);
 
     cartItemsEl.querySelectorAll('.cart-remove').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const targetKey = btn.dataset.key;
-        const next = loadCart().filter((i) => `${i.id}__${i.variant || 'Padrão'}` !== targetKey);
+        const targetId = btn.dataset.id;
+        const next = loadCart().filter((i) => i.id !== targetId);
         saveCart(next);
       });
     });
 
     cartItemsEl.querySelectorAll('.cart-qty').forEach((btn) => {
       btn.addEventListener('click', () => {
-        const targetKey = btn.dataset.key;
+        const targetId = btn.dataset.id;
         const action = btn.dataset.action;
         const next = loadCart().map((i) => {
-          if (`${i.id}__${i.variant || 'Padrão'}` !== targetKey) return i;
+          if (i.id !== targetId) return i;
           const qty = (i.qty || 1) + (action === 'inc' ? 1 : -1);
           return { ...i, qty: qty < 1 ? 1 : qty };
         });
@@ -280,35 +253,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!btn) return;
 
     const id = btn.dataset.id;
-    const title = btn.dataset.title || 'Obra 123 Quadros';
+    const title = btn.dataset.title || 'Quadro Decorativo';
     const img = btn.dataset.img || 'imagens/colecao/obra-1.jpg';
     const price = Number(btn.dataset.price) || 199.90;
-    const variant = btn.dataset.variant || 'Moldura Natural';
 
     if (!id) return;
 
     const cart = loadCart();
-    const existing = cart.find((i) => i.id === id && (i.variant || 'Moldura Natural') === variant);
+    const existing = cart.find((i) => i.id === id);
     if (existing) {
       existing.qty = (existing.qty || 1) + 1;
     } else {
-      cart.push({ id, title, img, price, variant, qty: 1 });
+      cart.push({ id, title, img, price, qty: 1 });
     }
     saveCart(cart);
     openCartDrawer();
   });
-
-  if (couponBtn && couponInput) {
-    couponBtn.addEventListener('click', () => {
-      const code = couponInput.value.trim().toUpperCase();
-      if (code === 'PRIMEIRACOMPRA' || code === '10OFF') {
-        localStorage.setItem(COUPON_KEY, 'PRIMEIRACOMPRA');
-        renderCart();
-      } else {
-        alert('Cupom inválido. Experimente usar o cupom PRIMEIRACOMPRA para 10% OFF!');
-      }
-    });
-  }
 
   if (cartClearBtn) {
     cartClearBtn.addEventListener('click', () => {
@@ -320,50 +280,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cartCheckoutBtn.addEventListener('click', () => {
       const cart = loadCart();
       if (cart.length === 0) return;
-      alert('Pedido recebido com sucesso! Em instantes você receberá as instruções de pagamento e envio.');
+      alert('Pedido recebido com sucesso! Em instantes você receberá as instruções para finalizar o pagamento.');
     });
   }
 
   renderCart();
 
   // =========================================================================
-  // C) SELETOR DE SWATCHES (BOLINHAS DE COR/MOLDURA ESTILO PRINT 2)
-  // =========================================================================
-  document.querySelectorAll('.product-card').forEach((card) => {
-    const swatches = Array.from(card.querySelectorAll('.swatch-btn'));
-    const addBtn = card.querySelector('.add-to-cart');
-    const prevSwatch = card.querySelector('.swatch-nav-prev');
-    const nextSwatch = card.querySelector('.swatch-nav-next');
-
-    if (swatches.length === 0) return;
-
-    function selectSwatch(idx) {
-      const normalized = (idx + swatches.length) % swatches.length;
-      swatches.forEach((s, i) => s.classList.toggle('is-selected', i === normalized));
-      const chosenVariant = swatches[normalized].dataset.variant || 'Moldura Natural';
-      if (addBtn) addBtn.dataset.variant = chosenVariant;
-    }
-
-    swatches.forEach((s, idx) => {
-      s.addEventListener('click', () => selectSwatch(idx));
-    });
-
-    if (prevSwatch) {
-      prevSwatch.addEventListener('click', () => {
-        const cur = swatches.findIndex((s) => s.classList.contains('is-selected'));
-        selectSwatch(cur <= 0 ? swatches.length - 1 : cur - 1);
-      });
-    }
-    if (nextSwatch) {
-      nextSwatch.addEventListener('click', () => {
-        const cur = swatches.findIndex((s) => s.classList.contains('is-selected'));
-        selectSwatch(cur + 1);
-      });
-    }
-  });
-
-  // =========================================================================
-  // D) CARROSSEL "QUERIDINHOS:" (NAVEGAÇÃO POR SETAS - PRINT 2)
+  // C) CARROSSEL "QUERIDINHOS:" (NAVEGAÇÃO POR SETAS)
   // =========================================================================
   const queridinhosTrack = document.getElementById('queridinhos-track');
   const queridinhosPrev = document.getElementById('queridinhos-prev');
@@ -379,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // E) CARROSSEL VERTICAL 5 CARDS (PRINT 3 - DESTAQUE CENTRAL INTERATIVO)
+  // D) CARROSSEL VERTICAL 5 CARDS
   // =========================================================================
   const storiesGrid = document.getElementById('stories-grid');
   const storiesPrev = document.getElementById('stories-prev');
@@ -413,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Clicar na imagem de um card lateral coloca ele em destaque no centro
     storiesGrid.addEventListener('click', (e) => {
       const media = e.target.closest('.story-media');
       if (!media) return;
@@ -438,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // F) FILTROS FUNCIONAIS DA SEÇÃO COLEÇÃO
+  // E) FILTROS FUNCIONAIS DA SEÇÃO COLEÇÃO
   // =========================================================================
   const filterBtns = document.querySelectorAll('#collection-filters .filter-btn');
   const collectionCards = document.querySelectorAll('#collection-grid article[data-category]');
@@ -466,55 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // G) EXPANSÃO DAS 17 OBRAS DA AUTORA (autora-09 a autora-17)
-  // =========================================================================
-  const authorMoreGrid = document.getElementById('author-more-grid');
-  const toggleAuthorMoreBtn = document.getElementById('toggle-author-more');
-
-  if (authorMoreGrid && toggleAuthorMoreBtn) {
-    const extraPrices = [199.90, 219.90, 249.90, 189.90, 229.90, 259.90, 179.90, 269.90, 209.90];
-    let renderedExtras = false;
-
-    toggleAuthorMoreBtn.addEventListener('click', () => {
-      if (!renderedExtras) {
-        let html = '';
-        for (let n = 9; n <= 17; n++) {
-          const num = String(n).padStart(2, '0');
-          const price = extraPrices[(n - 9) % extraPrices.length];
-          html += `
-            <article class="product-card flex flex-col">
-              <div class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-white p-5 shadow-sm">
-                <span class="absolute left-3 top-3 z-10 rounded-[3px] bg-[#9e004f] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">AUTORAL</span>
-                <img src="imagens/autora/autora-${num}.jpg" alt="Obra da Autora ${num}" class="h-full w-full rounded-sm object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-              </div>
-              <div class="pt-3">
-                <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Obra da Autora ${num}</h3>
-                <div class="mt-1 flex items-center gap-0.5 text-[#9e004f]">
-                  <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i>
-                </div>
-                <p class="mt-1 text-sm font-bold text-zinc-900">${fmt.format(price)}</p>
-                <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="autora-${num}" data-title="Obra da Autora ${num}" data-img="imagens/autora/autora-${num}.jpg" data-price="${price}" data-variant="Moldura Natural">Comprar</button>
-              </div>
-            </article>
-          `;
-        }
-        authorMoreGrid.innerHTML = html;
-        renderedExtras = true;
-        if (window.lucide) lucide.createIcons();
-      }
-
-      const isHidden = authorMoreGrid.classList.contains('hidden');
-      authorMoreGrid.classList.toggle('hidden', !isHidden);
-      authorMoreGrid.classList.toggle('grid', isHidden);
-      const span = toggleAuthorMoreBtn.querySelector('span');
-      if (span) {
-        span.textContent = isHidden ? 'Mostrar menos obras' : 'Ver todas as 17 obras da autora';
-      }
-    });
-  }
-
-  // =========================================================================
-  // H) MENU MOBILE E BARRA DE PESQUISA INTEGRADA
+  // F) MENU MOBILE E BARRA DE PESQUISA INTEGRADA
   // =========================================================================
   const menuToggle = document.getElementById('menu-toggle');
   const siteMenu = document.getElementById('site-menu');
@@ -561,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchInput.addEventListener('input', () => {
       const q = searchInput.value.trim().toLowerCase();
-      document.querySelectorAll('#collection-grid .product-card, #author-grid .product-card').forEach((card) => {
+      document.querySelectorAll('#collection-grid .product-card').forEach((card) => {
         const text = card.textContent.toLowerCase();
         const match = !q || text.includes(q);
         card.classList.toggle('hidden', !match);
@@ -577,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // I) CARROSSEL HERO
+  // G) CARROSSEL HERO
   // =========================================================================
   const carousel = document.querySelector('[data-carousel]');
   if (carousel) {
@@ -610,21 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // J) NEWSLETTER FORM -> ATIVA CUPOM PRIMEIRACOMPRA
-  // =========================================================================
-  const newsletterForm = document.getElementById('newsletter-form');
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      localStorage.setItem(COUPON_KEY, 'PRIMEIRACOMPRA');
-      renderCart();
-      alert('Cupom PRIMEIRACOMPRA (10% OFF) ativado automaticamente na sua sacola!');
-      newsletterForm.reset();
-    });
-  }
-
-  // =========================================================================
-  // K) ANIMAÇÕES DE REVEAL E FAQ
+  // H) ANIMAÇÕES DE REVEAL E FAQ
   // =========================================================================
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = document.querySelectorAll('[data-reveal]');

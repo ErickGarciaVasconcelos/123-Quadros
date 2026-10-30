@@ -77,35 +77,6 @@ details summary::-webkit-details-marker { display: none; }
 .hero-dot:hover { background: rgba(255,255,255,.85); }
 .hero-dot.is-active { width: 24px; background: #EA0273; }
 
-/* ---- Swatches de variação (estilo Boca Rosa) ---- */
-.swatch-btn {
-  position: relative;
-  width: 26px;
-  height: 26px;
-  border-radius: 9999px;
-  border: 1px solid rgba(0,0,0,.14);
-  transition: transform .2s ease, box-shadow .2s ease;
-  flex-shrink: 0;
-}
-.swatch-btn:hover {
-  transform: scale(1.08);
-}
-.swatch-btn.is-selected {
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px #71717a;
-}
-/* Linha diagonal suave igual às variações da Boca Rosa */
-.swatch-btn.has-slash::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -2px;
-  bottom: -2px;
-  width: 1.5px;
-  background: rgba(161, 161, 170, 0.75);
-  transform: translateX(-50%) rotate(38deg);
-  pointer-events: none;
-}
-
 /* ---- Carrossel Vertical (Stories / Reels — Print 3) ---- */
 .story-item {
   transition: all .45s cubic-bezier(.16,1,.3,1);
