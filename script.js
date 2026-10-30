@@ -364,7 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // E) FILTROS FUNCIONAIS DA SEÇÃO COLEÇÃO
   // =========================================================================
   const filterBtns = document.querySelectorAll('#collection-filters .filter-btn');
-  const collectionCards = document.querySelectorAll('#collection-grid article[data-category]');
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -380,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
         b.classList.toggle('text-zinc-600', !active);
       });
 
-      collectionCards.forEach((card) => {
+      document.querySelectorAll('#collection-grid article[data-category]').forEach((card) => {
         const match = filter === 'todos' || card.dataset.category === filter;
         card.classList.toggle('hidden', !match);
         card.classList.toggle('flex', match);
@@ -512,4 +511,210 @@ document.addEventListener('DOMContentLoaded', () => {
       if (d.open) faqs.forEach((o) => { if (o !== d) o.open = false; });
     });
   });
+
+  // =========================================================================
+  // I) INTEGRAÇÃO DINÂMICA COM PAINEL ADMIN (admin.html) E SUPABASE
+  // =========================================================================
+  function buildStarsHtml(count = 5) {
+    const n = Math.min(5, Math.max(1, Number(count) || 5));
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+      html += `<i data-lucide="star" class="h-3.5 w-3.5 ${i <= n ? 'fill-[#9e004f]' : 'text-zinc-300'}"></i>`;
+    }
+    return html;
+  }
+
+  function renderDynamicCatalog(items) {
+    if (!Array.isArray(items) || items.length === 0) return;
+
+    const activeItems = items
+      .filter((item) => item && item.ativo !== false)
+      .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0));
+
+    // 1. Queridinhos
+    const queridinhosItems = activeItems.filter((i) => i.secao === 'queridinhos' || i.secao === 'ambos');
+    if (queridinhosTrack && queridinhosItems.length > 0) {
+      queridinhosTrack.innerHTML = queridinhosItems
+        .map((item) => {
+          const orig = Number(item.preco_original) || 0;
+          const desc = Number(item.desconto_pct) || 0;
+          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
+          const hasDiscount = desc > 0 && orig > finalPrice;
+
+          let badgeHtml = '';
+          if (item.selo) {
+            badgeHtml = `<span class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-brand-magenta px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
+          } else if (hasDiscount) {
+            badgeHtml = `<span class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-800">-${desc}%</span>`;
+          }
+
+          const curadoriaHtml = item.selo_curadoria
+            ? `<div class="absolute left-5 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
+                <span class="text-brand-amarelo">2026</span>
+                <span>CURADORIA</span>
+                <span class="text-[6px] opacity-75">DESTAQUE</span>
+              </div>`
+            : '';
+
+          const priceHtml = hasDiscount
+            ? `<div class="mt-2 flex items-baseline gap-2 text-sm">
+                <span class="text-xs text-zinc-400 line-through">${fmt.format(orig)}</span>
+                <span class="font-bold text-zinc-800">${fmt.format(finalPrice)}</span>
+              </div>`
+            : `<div class="mt-2 text-sm font-bold text-zinc-800">${fmt.format(finalPrice)}</div>`;
+
+          return `
+            <article class="product-card flex w-[260px] shrink-0 flex-col sm:w-[285px]">
+              <div class="group relative flex aspect-square items-center justify-center overflow-hidden bg-white p-6">
+                ${badgeHtml}
+                ${curadoriaHtml}
+                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-4/5 w-4/5 rounded-sm object-cover shadow-md transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </div>
+              <div class="flex flex-1 flex-col justify-between pt-3.5">
+                <div>
+                  <h3 class="text-base font-normal text-zinc-700">${item.titulo}</h3>
+                  <p class="mt-1 line-clamp-2 min-h-[2rem] text-xs leading-relaxed text-zinc-500">${item.subtitulo || ''}</p>
+                  <div class="mt-2.5 flex items-center gap-0.5 text-[#9e004f]">
+                    ${buildStarsHtml(item.estrelas)}
+                  </div>
+                  ${priceHtml}
+                </div>
+                <button type="button" class="add-to-cart mt-4 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
+                  Adicionar à sacola
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    // 2. Coleção Completa
+    const colecaoGrid = document.getElementById('collection-grid');
+    const colecaoItems = activeItems.filter((i) => i.secao === 'colecao' || i.secao === 'ambos');
+    if (colecaoGrid && colecaoItems.length > 0) {
+      colecaoGrid.innerHTML = colecaoItems
+        .map((item) => {
+          const orig = Number(item.preco_original) || 0;
+          const desc = Number(item.desconto_pct) || 0;
+          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
+          const hasDiscount = desc > 0 && orig > finalPrice;
+
+          let badgeHtml = '';
+          if (item.selo) {
+            badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-brand-magenta px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
+          } else if (hasDiscount) {
+            badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">-${desc}%</span>`;
+          }
+
+          const priceHtml = hasDiscount
+            ? `<p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(orig)}</span><strong class="font-bold text-zinc-900">${fmt.format(finalPrice)}</strong></p>`
+            : `<p class="mt-1.5 text-sm font-bold text-zinc-900">${fmt.format(finalPrice)}</p>`;
+
+          return `
+            <article data-reveal data-category="${item.categoria || 'paisagem'}" class="product-card is-in flex flex-col">
+              <div class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-[#f7f7f7] p-5">
+                ${badgeHtml}
+                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full rounded-sm object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              </div>
+              <div class="flex flex-1 flex-col justify-between pt-3">
+                <div>
+                  <h3 class="text-sm font-medium text-zinc-800 sm:text-base">${item.titulo}</h3>
+                  <p class="mt-0.5 text-xs text-zinc-500">${item.subtitulo || ''}</p>
+                  <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
+                    ${buildStarsHtml(item.estrelas)}
+                  </div>
+                  ${priceHtml}
+                </div>
+                <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
+                  Comprar
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    // 3. Carrossel Vertical 5 Cards (Stories)
+    const storiesItems = activeItems.filter((i) => i.secao === 'stories');
+    if (storiesGrid && storiesItems.length > 0) {
+      storiesGrid.innerHTML = storiesItems
+        .map((item, idx) => {
+          const orig = Number(item.preco_original) || 0;
+          const desc = Number(item.desconto_pct) || 0;
+          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
+          const isCenter = idx === 2;
+
+          const topTagHtml = item.selo
+            ? `<span class="absolute left-3 top-3 rounded-full bg-brand-magenta px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow">${item.selo}</span>`
+            : item.tag_ambiente
+            ? `<span class="absolute bottom-3 left-3 inline-flex items-center gap-1 rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-medium text-white backdrop-blur-sm">
+                <i data-lucide="sparkles" class="h-3 w-3 text-brand-amarelo"></i> ${item.tag_ambiente}
+              </span>`
+            : '';
+
+          return `
+            <div class="story-item ${isCenter ? 'is-center w-[235px]' : 'w-[210px]'} shrink-0 lg:w-auto" data-story-index="${idx}">
+              <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-ink-950 shadow-sm">
+                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                ${topTagHtml}
+              </div>
+              <div class="add-to-cart mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-zinc-200/90 bg-white ${isCenter ? 'p-3' : 'p-2.5'} shadow-sm transition hover:border-brand-magenta/50" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
+                <img src="${item.imagem_url}" alt="${item.titulo}" class="${isCenter ? 'h-12 w-12' : 'h-11 w-11'} shrink-0 rounded-lg bg-zinc-100 object-cover" />
+                <div class="min-w-0 flex-1">
+                  <p class="truncate text-xs font-normal text-zinc-600">${item.titulo}</p>
+                  <p class="mt-0.5 ${isCenter ? 'text-sm' : 'text-xs'} font-bold text-zinc-800">${fmt.format(finalPrice)}</p>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  async function initDynamicCatalog() {
+    let savedConn = {};
+    try {
+      savedConn = JSON.parse(localStorage.getItem('123quadros-supabase-conn') || '{}');
+    } catch {}
+
+    const sbUrl = (savedConn.url || window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '').trim();
+    const sbKey = (savedConn.key || window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '').trim();
+
+    if (sbUrl && sbKey && window.supabase) {
+      try {
+        const client = window.supabase.createClient(sbUrl, sbKey);
+        const { data, error } = await client
+          .from('quadros')
+          .select('*')
+          .eq('ativo', true)
+          .order('ordem', { ascending: true });
+
+        if (!error && Array.isArray(data) && data.length > 0) {
+          renderDynamicCatalog(data);
+          return;
+        }
+      } catch (err) {
+        console.warn('Falha ao buscar catálogo do Supabase, usando fallback local:', err);
+      }
+    }
+
+    // Fallback para alterações salvas no Painel Admin em Modo Local
+    try {
+      const localRaw = localStorage.getItem('123quadros-catalog-v1');
+      if (localRaw) {
+        const parsed = JSON.parse(localRaw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          renderDynamicCatalog(parsed);
+        }
+      }
+    } catch {}
+  }
+
+  initDynamicCatalog();
 });

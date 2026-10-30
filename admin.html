@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Painel Administrativo — 123 Quadros</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="imagens/favicon/favicon.ico" sizes="any" />
+
+<!-- Fontes: Plus Jakarta Sans + Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+      },
+      colors: {
+        ink: { 950: '#020202', 900: '#0d0d11', 800: '#131318' },
+        brand: {
+          magenta: '#EA0273',
+          amarelo: '#FDC303',
+          azul: '#019AEB',
+          preto: '#020202',
+        },
+      },
+    },
+  },
+};
+</script>
+
+<!-- Supabase JS Client v2 + Configuração -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+</head>
+
+<body class="min-h-screen bg-zinc-50 font-sans text-zinc-700 antialiased">
+
+<!-- ============================ TOPBAR / HEADER ADMIN ============================ -->
+<header class="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur-md">
+  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-8">
+    <div class="flex items-center gap-3 sm:gap-4">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="imagens/logo/logo-web-crop.png" alt="123 Quadros" class="h-11 w-auto object-contain sm:h-12" />
+      </a>
+      <span class="hidden h-5 w-px bg-zinc-200 sm:block"></span>
+      <div>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#fdf2f6] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#9e004f]">
+          <i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i> Painel Admin
+        </span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3">
+      <!-- Status da Conexão -->
+      <button type="button" id="btn-open-config" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:border-brand-magenta hover:text-brand-magenta">
+        <span id="conn-dot" class="h-2 w-2 rounded-full bg-amber-400"></span>
+        <span id="conn-label">Modo Local (Configurar Supabase)</span>
+        <i data-lucide="settings" class="h-3.5 w-3.5 text-zinc-400"></i>
+      </button>
+
+      <!-- Botão Login/Logout Admin quando Supabase está ativo -->
+      <button type="button" id="btn-auth-modal" class="hidden items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300">
+        <i data-lucide="lock" class="h-3.5 w-3.5 text-[#9e004f]"></i>
+        <span id="auth-status-text">Entrar</span>
+      </button>
+
+      <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg bg-[#9e004f] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta">
+        <span>Ver Loja</span>
+        <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ CONTEÚDO PRINCIPAL ============================ -->
+<main class="mx-auto max-w-7xl px-4 py-8 sm:px-8">
+
+  <!-- Alerta Informativo / Feedback -->
+  <div id="toast-alert" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 rounded-xl bg-ink-950 px-5 py-3.5 text-xs font-semibold text-white shadow-xl">
+    <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-400"></i>
+    <span id="toast-text">Salvo com sucesso!</span>
+  </div>
+
+  <!-- KPIs / Resumo -->
+  <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <span>Total de Quadros</span>
+        <i data-lucide="frame" class="h-4 w-4 text-[#9e004f]"></i>
+      </div>
+      <p id="kpi-total" class="mt-2 font-display text-3xl font-extrabold text-zinc-900">0</p>
+      <p class="mt-1 text-xs text-zinc-500">cadastrados no catálogo</p>
+    </div>
+
+    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <span>Ativos na Vitrine</span>
+        <i data-lucide="eye" class="h-4 w-4 text-emerald-600"></i>
+      </div>
+      <p id="kpi-active" class="mt-2 font-display text-3xl font-extrabold text-emerald-600">0</p>
+      <p class="mt-1 text-xs text-zinc-500">visíveis para clientes</p>
+    </div>
+
+    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <span>Com Desconto</span>
+        <i data-lucide="percent" class="h-4 w-4 text-brand-magenta"></i>
+      </div>
+      <p id="kpi-discount" class="mt-2 font-display text-3xl font-extrabold text-brand-magenta">0</p>
+      <p class="mt-1 text-xs text-zinc-500">em oferta De/Por</p>
+    </div>
+
+    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <span>Ticket Médio</span>
+        <i data-lucide="tag" class="h-4 w-4 text-brand-azul"></i>
+      </div>
+      <p id="kpi-avg" class="mt-2 font-display text-2xl font-extrabold text-zinc-900 sm:text-3xl">R$ 0</p>
+      <p class="mt-1 text-xs text-zinc-500">valor médio final</p>
+    </div>
+  </section>
+
+  <!-- ============================ FORMULÁRIO + PREVIEW AO VIVO ============================ -->
+  <section id="form-section" class="mt-8 grid gap-8 lg:grid-cols-[1.45fr_0.85fr]">
+
+    <!-- Coluna Esquerda: Formulário de Cadastro / Edição -->
+    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+      <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
+        <div>
+          <h1 id="form-title" class="font-display text-xl font-bold text-zinc-900">Adicionar Novo Quadro</h1>
+          <p class="mt-0.5 text-xs text-zinc-500">Preencha os dados, defina o preço ou desconto e veja o card ao lado em tempo real.</p>
+        </div>
+        <button type="button" id="btn-reset-form" class="hidden items-center gap-1 rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-50">
+          <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i> Cancelar edição
+        </button>
+      </div>
+
+      <form id="quadro-form" class="mt-6 space-y-5">
+        <input type="hidden" id="field-id" value="" />
+
+        <!-- Título e Subtítulo -->
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="field-titulo" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Nome do Quadro *</label>
+            <input id="field-titulo" type="text" required placeholder="Ex: Fim de Tarde" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+          </div>
+
+          <div>
+            <label for="field-subtitulo" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Subtítulo / Descrição curta</label>
+            <input id="field-subtitulo" type="text" placeholder="Ex: Bianca Reis · Luz quente natural" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+          </div>
+        </div>
+
+        <!-- Calculadora de Preço e Desconto -->
+        <div class="rounded-2xl border border-pink-100 bg-[#fdf2f6]/60 p-4 sm:p-5">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#9e004f]">
+              <i data-lucide="calculator" class="h-3.5 w-3.5"></i> Preço &amp; Calculadora de Desconto
+            </span>
+            <span id="savings-pill" class="hidden rounded-full bg-brand-magenta px-2.5 py-0.5 text-[11px] font-bold text-white">
+              Economia de R$ 0,00
+            </span>
+          </div>
+
+          <div class="mt-3.5 grid gap-4 sm:grid-cols-3">
+            <div>
+              <label for="field-preco-original" class="block text-xs font-semibold text-zinc-700">Preço Original / De (R$) *</label>
+              <input id="field-preco-original" type="number" step="0.01" min="1" required value="249.90" class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm font-semibold text-zinc-900 outline-none focus:border-brand-magenta" />
+            </div>
+
+            <div>
+              <label for="field-desconto-pct" class="block text-xs font-semibold text-zinc-700">Desconto (% OFF)</label>
+              <div class="relative mt-1">
+                <input id="field-desconto-pct" type="number" step="1" min="0" max="90" value="0" class="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 pr-8 text-sm font-semibold text-brand-magenta outline-none focus:border-brand-magenta" />
+                <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-zinc-400">%</span>
+              </div>
+            </div>
+
+            <div>
+              <label for="field-preco-final" class="block text-xs font-semibold text-zinc-700">Preço Final / Por (R$) *</label>
+              <input id="field-preco-final" type="number" step="0.01" min="1" required value="249.90" class="mt-1 w-full rounded-xl border border-emerald-400 bg-white px-3.5 py-2.5 text-sm font-extrabold text-emerald-700 outline-none focus:border-emerald-600" />
+            </div>
+          </div>
+          <p class="mt-2 text-[11px] text-zinc-500">
+            Dica: Digite o <strong>Desconto (%)</strong> para calcular o valor final sozinho, ou digite o <strong>Preço Final</strong> diretamente. Quando o desconto é maior que 0%, o preço antigo aparece riscado no card.
+          </p>
+        </div>
+
+        <!-- Seção, Categoria, Selo e Estrelas -->
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <label for="field-secao" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Onde Exibir</label>
+            <select id="field-secao" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
+              <option value="ambos">Queridinhos + Coleção</option>
+              <option value="queridinhos">Só em Queridinhos</option>
+              <option value="colecao">Só em Coleção Completa</option>
+              <option value="stories">Carrossel Vertical (Stories)</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="field-categoria" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Categoria (Filtro)</label>
+            <select id="field-categoria" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
+              <option value="paisagem">Paisagem</option>
+              <option value="retrato">Botânico &amp; Retrato</option>
+              <option value="minimalista">Minimalista</option>
+              <option value="abstrato">Abstrato</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="field-selo" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Selo Superior</label>
+            <select id="field-selo" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
+              <option value="AUTO">Automático (% Desconto)</option>
+              <option value="LANÇAMENTO">LANÇAMENTO (Rosa)</option>
+              <option value="NOVO">NOVO (Rosa)</option>
+              <option value="EM DESTAQUE">EM DESTAQUE (Rosa)</option>
+              <option value="NENHUM">Sem selo</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="field-estrelas" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Avaliação</label>
+            <select id="field-estrelas" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
+              <option value="5">★★★★★ (5 estrelas)</option>
+              <option value="4">★★★★☆ (4 estrelas)</option>
+              <option value="3">★★★☆☆ (3 estrelas)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Imagem: Upload ou Galeria Local -->
+        <div class="rounded-2xl border border-zinc-200 bg-zinc-50/70 p-4">
+          <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Imagem do Quadro *</label>
+
+          <div class="mt-2.5 grid gap-3 sm:grid-cols-[1fr_auto]">
+            <input id="field-imagem-url" type="text" required placeholder="Caminho ou URL da imagem (ex: imagens/colecao/obra-3.jpg)" value="imagens/colecao/obra-3.jpg" class="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+
+            <label class="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#9e004f] bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#9e004f] transition hover:bg-[#9e004f] hover:text-white">
+              <i data-lucide="upload" class="h-4 w-4"></i>
+              <span>Subir Foto do PC/Celular</span>
+              <input id="field-imagem-file" type="file" accept="image/*" class="hidden" />
+            </label>
+          </div>
+
+          <!-- Atalho para escolher imagens já existentes na pasta do projeto -->
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-medium text-zinc-500">Ou escolha do acervo local:</span>
+            <select id="field-preset-img" class="rounded-lg border border-zinc-300 bg-white px-2.5 py-1 text-xs text-zinc-700 outline-none focus:border-brand-magenta">
+              <option value="">-- Selecionar foto do projeto --</option>
+              <optgroup label="Coleção">
+                <option value="imagens/colecao/obra-1.jpg">Coleção — Obra 1</option>
+                <option value="imagens/colecao/obra-2.webp">Coleção — Obra 2</option>
+                <option value="imagens/colecao/obra-3.jpg">Coleção — Fim de Tarde (Obra 3)</option>
+                <option value="imagens/colecao/obra-4.jpg">Coleção — Obra 4</option>
+                <option value="imagens/colecao/obra-5.webp">Coleção — Cerejeira ao Sul (Obra 5)</option>
+                <option value="imagens/colecao/obra-6.webp">Coleção — Noir IV (Obra 6)</option>
+                <option value="imagens/colecao/obra-7.webp">Coleção — Jardim Suspenso (Obra 7)</option>
+                <option value="imagens/colecao/obra-8.webp">Coleção — Obra 8</option>
+              </optgroup>
+              <optgroup label="Acervo Autoral (01 a 17)">
+                <option value="imagens/autora/autora-01.jpg">Autora 01</option>
+                <option value="imagens/autora/autora-02.jpg">Autora 02</option>
+                <option value="imagens/autora/autora-03.jpg">Autora 03</option>
+                <option value="imagens/autora/autora-04.jpg">Autora 04</option>
+                <option value="imagens/autora/autora-05.jpg">Autora 05</option>
+                <option value="imagens/autora/autora-06.jpg">Autora 06</option>
+                <option value="imagens/autora/autora-07.jpg">Autora 07</option>
+                <option value="imagens/autora/autora-08.jpg">Autora 08</option>
+                <option value="imagens/autora/autora-09.jpg">Autora 09</option>
+                <option value="imagens/autora/autora-10.jpg">Autora 10</option>
+                <option value="imagens/autora/autora-11.jpg">Autora 11</option>
+                <option value="imagens/autora/autora-12.jpg">Autora 12</option>
+                <option value="imagens/autora/autora-13.jpg">Autora 13</option>
+                <option value="imagens/autora/autora-14.jpg">Autora 14</option>
+                <option value="imagens/autora/autora-15.jpg">Autora 15</option>
+                <option value="imagens/autora/autora-16.jpg">Autora 16</option>
+                <option value="imagens/autora/autora-17.jpg">Autora 17</option>
+              </optgroup>
+            </select>
+            <span id="upload-status" class="text-[11px] font-medium text-brand-magenta"></span>
+          </div>
+        </div>
+
+        <!-- Opções Extras: Selo Curadoria, Tag Ambiente, Ordem e Ativo -->
+        <div class="grid gap-4 pt-1 sm:grid-cols-3">
+          <div>
+            <label for="field-tag-ambiente" class="block text-xs font-semibold text-zinc-700">Tag de Ambiente (Stories)</label>
+            <input id="field-tag-ambiente" type="text" placeholder="Ex: Sala de Estar" class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
+          </div>
+
+          <div>
+            <label for="field-ordem" class="block text-xs font-semibold text-zinc-700">Ordem na Vitrine</label>
+            <input id="field-ordem" type="number" step="1" min="1" value="1" class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
+          </div>
+
+          <div class="flex flex-col justify-end gap-2">
+            <label class="inline-flex cursor-pointer items-center gap-2 text-xs font-medium text-zinc-700">
+              <input id="field-curadoria" type="checkbox" class="h-4 w-4 rounded border-zinc-300 text-brand-magenta focus:ring-brand-magenta" />
+              <span>Selo redondo "2026 Curadoria"</span>
+            </label>
+            <label class="inline-flex cursor-pointer items-center gap-2 text-xs font-semibold text-zinc-800">
+              <input id="field-ativo" type="checkbox" checked class="h-4 w-4 rounded border-zinc-300 text-brand-magenta focus:ring-brand-magenta" />
+              <span>Quadro visível no site</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-100 pt-5">
+          <button type="submit" id="btn-submit-quadro" class="inline-flex items-center gap-2 rounded-xl bg-[#9e004f] px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95">
+            <i data-lucide="save" class="h-4 w-4"></i>
+            <span id="btn-submit-text">Salvar Quadro na Vitrine</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Coluna Direita: Preview em Tempo Real do Card -->
+    <div class="flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-[#f5f5f5] p-6">
+      <span class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500 shadow-sm">
+        <i data-lucide="eye" class="h-3.5 w-3.5 text-brand-magenta"></i> Pré-visualização ao Vivo
+      </span>
+
+      <!-- Card Preview (idêntico ao card do site) -->
+      <article class="flex w-[275px] flex-col">
+        <div class="group relative flex aspect-square items-center justify-center overflow-hidden bg-white p-6 shadow-sm">
+          <span id="preview-badge" class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-brand-magenta px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+            NOVO
+          </span>
+
+          <div id="preview-curadoria" class="absolute left-5 top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
+            <span class="text-brand-amarelo">2026</span>
+            <span>CURADORIA</span>
+            <span class="text-[6px] opacity-75">DESTAQUE</span>
+          </div>
+
+          <img id="preview-img" src="imagens/colecao/obra-3.jpg" alt="Preview do Quadro" class="h-4/5 w-4/5 rounded-sm object-cover shadow-md transition-transform duration-500" />
+        </div>
+
+        <div class="flex flex-1 flex-col justify-between pt-3.5">
+          <div>
+            <h3 id="preview-titulo" class="text-base font-normal text-zinc-700">Fim de Tarde</h3>
+            <p id="preview-subtitulo" class="mt-1 line-clamp-2 min-h-[2rem] text-xs leading-relaxed text-zinc-500">
+              Bianca Reis · Luz quente natural
+            </p>
+
+            <div id="preview-stars" class="mt-2.5 flex items-center gap-0.5 text-[#9e004f]"></div>
+
+            <div class="mt-2 flex items-baseline gap-2 text-sm">
+              <span id="preview-preco-old" class="hidden text-xs text-zinc-400 line-through">R$ 299,90</span>
+              <span id="preview-preco-final" class="font-bold text-zinc-800">R$ 249,90</span>
+            </div>
+          </div>
+
+          <button type="button" disabled class="mt-4 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white opacity-95">
+            Adicionar à sacola
+          </button>
+        </div>
+      </article>
+    </div>
+
+  </section>
+
+  <!-- ============================ LISTA DE QUADROS CADASTRADOS ============================ -->
+  <section class="mt-10 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+    <div class="flex flex-col gap-4 border-b border-zinc-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="font-display text-xl font-bold text-zinc-900">Catálogo de Quadros</h2>
+        <p class="mt-0.5 text-xs text-zinc-500">Gerencie preços, descontos, visibilidade e ordem de exibição.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Busca -->
+        <div class="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5">
+          <i data-lucide="search" class="h-4 w-4 text-zinc-400"></i>
+          <input id="admin-search" type="search" placeholder="Buscar quadro..." class="w-40 bg-transparent text-xs text-zinc-800 outline-none sm:w-52" />
+        </div>
+
+        <!-- Restaurar padrão -->
+        <button type="button" id="btn-restore-defaults" class="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 transition hover:border-zinc-300 hover:bg-zinc-50" title="Recarregar quadros padrão">
+          <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i>
+          <span>Restaurar Padrão</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Abas de Filtro por Seção -->
+    <div class="mt-4 flex flex-wrap gap-2" id="admin-tabs">
+      <button type="button" data-tab="todos" class="admin-tab rounded-full bg-[#9e004f] px-4 py-1.5 text-xs font-semibold text-white">Todos</button>
+      <button type="button" data-tab="queridinhos" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Queridinhos</button>
+      <button type="button" data-tab="colecao" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Coleção Completa</button>
+      <button type="button" data-tab="stories" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Stories Verticais</button>
+      <button type="button" data-tab="desconto" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Com Desconto</button>
+    </div>
+
+    <!-- Tabela / Lista Responsiva -->
+    <div class="mt-6 overflow-x-auto">
+      <table class="w-full min-w-[740px] border-collapse text-left text-sm">
+        <thead>
+          <tr class="border-b border-zinc-200 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+            <th class="pb-3 pl-2">Quadro</th>
+            <th class="pb-3">Seção / Categoria</th>
+            <th class="pb-3">Preço De / Por</th>
+            <th class="pb-3">Selo</th>
+            <th class="pb-3 text-center">Visível</th>
+            <th class="pb-3 pr-2 text-right">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="admin-table-body" class="divide-y divide-zinc-100"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ============================ MODAL: CONFIGURAÇÃO DO SUPABASE & LOGIN ============================ -->
+<div id="config-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+  <div class="w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl sm:p-7">
+    <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
+      <div class="flex items-center gap-2">
+        <i data-lucide="database" class="h-5 w-5 text-[#9e004f]"></i>
+        <h3 class="font-display text-lg font-bold text-zinc-900">Conexão com o Supabase</h3>
+      </div>
+      <button type="button" id="btn-close-config" class="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+    </div>
+
+    <div class="mt-4 space-y-4 text-xs leading-relaxed text-zinc-600">
+      <p>
+        1. No painel do <strong>Supabase</strong>, execute o arquivo <code>supabase-setup.sql</code> no <strong>SQL Editor</strong>.<br />
+        2. Em <strong>Project Settings → API</strong>, copie a <strong>Project URL</strong> e a <strong>anon / publishable key</strong> e cole abaixo:
+      </p>
+
+      <div>
+        <label for="sb-url-input" class="block font-bold uppercase tracking-wider text-zinc-700">Supabase Project URL</label>
+        <input id="sb-url-input" type="url" placeholder="https://seuprojeto.supabase.co" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+      </div>
+
+      <div>
+        <label for="sb-key-input" class="block font-bold uppercase tracking-wider text-zinc-700">Supabase Anon / Publishable Key</label>
+        <input id="sb-key-input" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+      </div>
+
+      <!-- Login Admin do Supabase (Opcional / Recomendado para RLS) -->
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+        <p class="font-bold uppercase tracking-wider text-zinc-700">Login Administrador (Supabase Auth)</p>
+        <p class="mt-0.5 text-[11px] text-zinc-500">Para salvar no banco com segurança (RLS), entre com o usuário criado em Authentication → Users no Supabase:</p>
+        <div class="mt-2.5 grid gap-2.5 sm:grid-cols-2">
+          <input id="sb-email-input" type="email" placeholder="admin@123quadro.com.br" class="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
+          <input id="sb-pass-input" type="password" placeholder="Sua senha" class="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-4">
+      <button type="button" id="btn-clear-sb" class="text-xs font-semibold text-zinc-400 underline hover:text-zinc-700">
+        Usar apenas Modo Local
+      </button>
+      <div class="flex gap-2">
+        <button type="button" id="btn-save-sb" class="rounded-xl bg-[#9e004f] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta">
+          Conectar e Sincronizar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ícones Lucide -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  if (window.lucide) lucide.createIcons();
+
+  const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  const LOCAL_CATALOG_KEY = '123quadros-catalog-v1';
+
+  // ---- Estado ----
+  let supabaseClient = null;
+  let isSupabaseConnected = false;
+  let quadros = [];
+  let activeTab = 'todos';
+
+  // ---- Elementos DOM ----
+  const connDot = document.getElementById('conn-dot');
+  const connLabel = document.getElementById('conn-label');
+  const toastEl = document.getElementById('toast-alert');
+  const toastText = document.getElementById('toast-text');
+
+  const form = document.getElementById('quadro-form');
+  const formTitle = document.getElementById('form-title');
+  const btnResetForm = document.getElementById('btn-reset-form');
+  const btnSubmitText = document.getElementById('btn-submit-text');
+
+  const fieldId = document.getElementById('field-id');
+  const fieldTitulo = document.getElementById('field-titulo');
+  const fieldSubtitulo = document.getElementById('field-subtitulo');
+  const fieldPrecoOriginal = document.getElementById('field-preco-original');
+  const fieldDescontoPct = document.getElementById('field-desconto-pct');
+  const fieldPrecoFinal = document.getElementById('field-preco-final');
+  const savingsPill = document.getElementById('savings-pill');
+  const fieldSecao = document.getElementById('field-secao');
+  const fieldCategoria = document.getElementById('field-categoria');
+  const fieldSelo = document.getElementById('field-selo');
+  const fieldEstrelas = document.getElementById('field-estrelas');
+  const fieldImagemUrl = document.getElementById('field-imagem-url');
+  const fieldImagemFile = document.getElementById('field-imagem-file');
+  const fieldPresetImg = document.getElementById('field-preset-img');
+  const uploadStatus = document.getElementById('upload-status');
+  const fieldTagAmbiente = document.getElementById('field-tag-ambiente');
+  const fieldOrdem = document.getElementById('field-ordem');
+  const fieldCuradoria = document.getElementById('field-curadoria');
+  const fieldAtivo = document.getElementById('field-ativo');
+
+  // Preview DOM
+  const previewBadge = document.getElementById('preview-badge');
+  const previewCuradoria = document.getElementById('preview-curadoria');
+  const previewImg = document.getElementById('preview-img');
+  const previewTitulo = document.getElementById('preview-titulo');
+  const previewSubtitulo = document.getElementById('preview-subtitulo');
+  const previewStars = document.getElementById('preview-stars');
+  const previewPrecoOld = document.getElementById('preview-preco-old');
+  const previewPrecoFinal = document.getElementById('preview-preco-final');
+
+  function showToast(msg) {
+    if (!toastEl || !toastText) return;
+    toastText.textContent = msg;
+    toastEl.classList.remove('hidden');
+    toastEl.classList.add('flex');
+    setTimeout(() => {
+      toastEl.classList.add('hidden');
+      toastEl.classList.remove('flex');
+    }, 3200);
+  }
+
+  // ---- Inicialização do Supabase (se configurado) ----
+  async function initSupabase() {
+    const cfg = window.QUADROS_SUPABASE_CONFIG || {};
+    const url = (cfg.SUPABASE_URL || '').trim();
+    const key = (cfg.SUPABASE_ANON_KEY || '').trim();
+
+    if (url && key && window.supabase) {
+      try {
+        supabaseClient = window.supabase.createClient(url, key);
+        const { data, error } = await supabaseClient
+          .from('quadros')
+          .select('*')
+          .order('ordem', { ascending: true })
+          .order('created_at', { ascending: false });
+
+        if (!error && Array.isArray(data)) {
+          isSupabaseConnected = true;
+          connDot.className = 'h-2 w-2 rounded-full bg-emerald-500';
+          connLabel.textContent = 'Supabase Conectado';
+          quadros = data.map(normalizeItem);
+          localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
+          renderAll();
+          return;
+        }
+      } catch (err) {
+        console.warn('Falha ao conectar no Supabase, usando catálogo local:', err);
+      }
+    }
+
+    isSupabaseConnected = false;
+    connDot.className = 'h-2 w-2 rounded-full bg-amber-400';
+    connLabel.textContent = 'Modo Local (Configurar Supabase)';
+    loadLocalCatalog();
+    renderAll();
+  }
+
+  function normalizeItem(q) {
+    const orig = Number(q.preco_original) || 0;
+    const pct = Number(q.desconto_pct) || 0;
+    const fin = Number(q.preco_final) || orig;
+    return {
+      id: q.id || 'quadro-' + Date.now(),
+      titulo: q.titulo || 'Quadro Decorativo',
+      subtitulo: q.subtitulo || '',
+      preco_original: orig,
+      desconto_pct: pct,
+      preco_final: fin,
+      selo: q.selo ?? '',
+      selo_curadoria: Boolean(q.selo_curadoria),
+      tag_ambiente: q.tag_ambiente || '',
+      secao: q.secao || 'colecao',
+      categoria: q.categoria || 'paisagem',
+      estrelas: Number(q.estrelas) || 5,
+      imagem_url: q.imagem_url || 'imagens/colecao/obra-3.jpg',
+      ativo: q.ativo !== false,
+      ordem: Number(q.ordem) || 10,
+    };
+  }
+
+  function loadLocalCatalog() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(LOCAL_CATALOG_KEY) || 'null');
+      if (Array.isArray(saved) && saved.length > 0) {
+        quadros = saved.map(normalizeItem);
+        return;
+      }
+    } catch {}
+    quadros = (window.DEFAULT_QUADROS_DATA || []).map(normalizeItem);
+    localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
+  }
+
+  function saveLocalCatalog() {
+    localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
+  }
+
+  // ---- Calculadora de Preço e Desconto + Preview em Tempo Real ----
+  function resolveBadgeText() {
+    const sel = fieldSelo.value;
+    const pct = Number(fieldDescontoPct.value) || 0;
+    if (sel === 'NENHUM') return '';
+    if (sel === 'AUTO') return pct > 0 ? `-${pct}%` : '';
+    return sel;
+  }
+
+  function updateFromDiscountPct() {
+    const orig = Number(fieldPrecoOriginal.value) || 0;
+    const pct = Math.min(90, Math.max(0, Number(fieldDescontoPct.value) || 0));
+    const finalVal = +(orig * (1 - pct / 100)).toFixed(2);
+    fieldPrecoFinal.value = finalVal.toFixed(2);
+    updatePreview();
+  }
+
+  function updateFromFinalPrice() {
+    const orig = Number(fieldPrecoOriginal.value) || 0;
+    const fin = Number(fieldPrecoFinal.value) || 0;
+    if (orig > 0 && fin < orig) {
+      const pct = Math.round(((orig - fin) / orig) * 100);
+      fieldDescontoPct.value = pct;
+    } else {
+      fieldDescontoPct.value = 0;
+    }
+    updatePreview();
+  }
+
+  function updatePreview() {
+    const orig = Number(fieldPrecoOriginal.value) || 0;
+    const fin = Number(fieldPrecoFinal.value) || 0;
+    const pct = Number(fieldDescontoPct.value) || 0;
+    const savings = Math.max(0, orig - fin);
+
+    if (savings > 0.05) {
+      savingsPill.textContent = `Economia de ${fmt.format(savings)} (-${pct}%)`;
+      savingsPill.classList.remove('hidden');
+      previewPrecoOld.textContent = fmt.format(orig);
+      previewPrecoOld.classList.remove('hidden');
+    } else {
+      savingsPill.classList.add('hidden');
+      previewPrecoOld.classList.add('hidden');
+    }
+
+    previewPrecoFinal.textContent = fmt.format(fin);
+    previewTitulo.textContent = fieldTitulo.value.trim() || 'Nome do Quadro';
+    previewSubtitulo.textContent = fieldSubtitulo.value.trim() || 'Descrição curta ou artista';
+    previewImg.src = fieldImagemUrl.value.trim() || 'imagens/colecao/obra-3.jpg';
+
+    const badgeText = resolveBadgeText();
+    if (badgeText) {
+      previewBadge.textContent = badgeText;
+      previewBadge.classList.remove('hidden');
+      const isDiscountBadge = badgeText.startsWith('-');
+      previewBadge.className = isDiscountBadge
+        ? 'absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-800 shadow-sm'
+        : 'absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-brand-magenta px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white';
+    } else {
+      previewBadge.classList.add('hidden');
+    }
+
+    if (fieldCuradoria.checked) {
+      previewCuradoria.classList.remove('hidden');
+      previewCuradoria.classList.add('flex');
+    } else {
+      previewCuradoria.classList.add('hidden');
+      previewCuradoria.classList.remove('flex');
+    }
+
+    const starsCount = Number(fieldEstrelas.value) || 5;
+    let starsHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      starsHtml += `<i data-lucide="star" class="h-3.5 w-3.5 ${i <= starsCount ? 'fill-[#9e004f] text-[#9e004f]' : 'text-zinc-300'}"></i>`;
+    }
+    previewStars.innerHTML = starsHtml;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  fieldPrecoOriginal.addEventListener('input', updateFromDiscountPct);
+  fieldDescontoPct.addEventListener('input', updateFromDiscountPct);
+  fieldPrecoFinal.addEventListener('input', updateFromFinalPrice);
+  [fieldTitulo, fieldSubtitulo, fieldSelo, fieldEstrelas, fieldImagemUrl, fieldCuradoria].forEach((el) => {
+    el.addEventListener('input', updatePreview);
+    el.addEventListener('change', updatePreview);
+  });
+
+  fieldPresetImg.addEventListener('change', () => {
+    if (fieldPresetImg.value) {
+      fieldImagemUrl.value = fieldPresetImg.value;
+      updatePreview();
+    }
+  });
+
+  // Upload de arquivo (Supabase Storage ou DataURL local)
+  fieldImagemFile.addEventListener('change', async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    uploadStatus.textContent = 'Processando imagem...';
+
+    if (isSupabaseConnected && supabaseClient) {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const filePath = `quadros/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+      const bucket = (window.QUADROS_SUPABASE_CONFIG && window.QUADROS_SUPABASE_CONFIG.STORAGE_BUCKET) || 'quadros-imagens';
+
+      const { error } = await supabaseClient.storage.from(bucket).upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true,
+      });
+
+      if (!error) {
+        const { data: pub } = supabaseClient.storage.from(bucket).getPublicUrl(filePath);
+        if (pub?.publicUrl) {
+          fieldImagemUrl.value = pub.publicUrl;
+          uploadStatus.textContent = 'Imagem enviada ao Supabase Storage!';
+          updatePreview();
+          return;
+        }
+      }
+    }
+
+    // Fallback instantâneo para DataURL (funciona mesmo sem Supabase configurado)
+    const reader = new FileReader();
+    reader.onload = () => {
+      fieldImagemUrl.value = reader.result;
+      uploadStatus.textContent = 'Imagem carregada!';
+      updatePreview();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ---- Salvar / Criar / Atualizar Quadro ----
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const editingId = fieldId.value.trim();
+    const payload = {
+      titulo: fieldTitulo.value.trim(),
+      subtitulo: fieldSubtitulo.value.trim(),
+      preco_original: Number(fieldPrecoOriginal.value) || 0,
+      desconto_pct: Number(fieldDescontoPct.value) || 0,
+      preco_final: Number(fieldPrecoFinal.value) || 0,
+      selo: resolveBadgeText(),
+      selo_curadoria: fieldCuradoria.checked,
+      tag_ambiente: fieldTagAmbiente.value.trim(),
+      secao: fieldSecao.value,
+      categoria: fieldCategoria.value,
+      estrelas: Number(fieldEstrelas.value) || 5,
+      imagem_url: fieldImagemUrl.value.trim(),
+      ativo: fieldAtivo.checked,
+      ordem: Number(fieldOrdem.value) || 10,
+    };
+
+    if (isSupabaseConnected && supabaseClient) {
+      if (editingId && !editingId.startsWith('queridinho-') && !editingId.startsWith('col-') && !editingId.startsWith('story-') && !editingId.startsWith('quadro-')) {
+        const { data, error } = await supabaseClient
+          .from('quadros')
+          .update(payload)
+          .eq('id', editingId)
+          .select()
+          .single();
+
+        if (error) {
+          quadros = quadros.map((q) => (q.id === editingId ? normalizeItem({ ...payload, id: editingId }) : q));
+          saveLocalCatalog();
+          renderAll();
+          sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
+          sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
+          configModal.classList.remove('hidden');
+          configModal.classList.add('flex');
+          showToast('Salvo localmente! Faça login Admin para gravar no Supabase.');
+          return;
+        }
+        quadros = quadros.map((q) => (q.id === editingId ? normalizeItem(data) : q));
+      } else {
+        const { data, error } = await supabaseClient
+          .from('quadros')
+          .insert([payload])
+          .select()
+          .single();
+
+        if (error) {
+          quadros.push(normalizeItem({ ...payload, id: 'quadro-' + Date.now() }));
+          saveLocalCatalog();
+          resetForm();
+          renderAll();
+          sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
+          sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
+          configModal.classList.remove('hidden');
+          configModal.classList.add('flex');
+          showToast('Salvo localmente! Faça login Admin para gravar no Supabase.');
+          return;
+        }
+        quadros.push(normalizeItem(data));
+      }
+    } else {
+      if (editingId) {
+        quadros = quadros.map((q) => (q.id === editingId ? normalizeItem({ ...payload, id: editingId }) : q));
+      } else {
+        quadros.push(normalizeItem({ ...payload, id: 'quadro-' + Date.now() }));
+      }
+    }
+
+    saveLocalCatalog();
+    resetForm();
+    renderAll();
+    showToast(editingId ? 'Quadro atualizado com sucesso!' : 'Novo quadro adicionado à vitrine!');
+  });
+
+  function resetForm() {
+    fieldId.value = '';
+    fieldTitulo.value = '';
+    fieldSubtitulo.value = '';
+    fieldPrecoOriginal.value = '249.90';
+    fieldDescontoPct.value = '0';
+    fieldPrecoFinal.value = '249.90';
+    fieldSecao.value = 'ambos';
+    fieldCategoria.value = 'paisagem';
+    fieldSelo.value = 'AUTO';
+    fieldEstrelas.value = '5';
+    fieldImagemUrl.value = 'imagens/colecao/obra-3.jpg';
+    fieldPresetImg.value = '';
+    fieldTagAmbiente.value = '';
+    fieldOrdem.value = String(quadros.length + 1);
+    fieldCuradoria.checked = false;
+    fieldAtivo.checked = true;
+    uploadStatus.textContent = '';
+
+    formTitle.textContent = 'Adicionar Novo Quadro';
+    btnSubmitText.textContent = 'Salvar Quadro na Vitrine';
+    btnResetForm.classList.add('hidden');
+    btnResetForm.classList.remove('inline-flex');
+    updatePreview();
+  }
+
+  btnResetForm.addEventListener('click', resetForm);
+
+  // ---- Renderização da Tabela e KPIs ----
+  function renderKPIs() {
+    const activeList = quadros.filter((q) => q.ativo);
+    const discountList = quadros.filter((q) => q.desconto_pct > 0 || q.preco_final < q.preco_original);
+    const avg = activeList.length
+      ? activeList.reduce((acc, q) => acc + (Number(q.preco_final) || 0), 0) / activeList.length
+      : 0;
+
+    document.getElementById('kpi-total').textContent = quadros.length;
+    document.getElementById('kpi-active').textContent = activeList.length;
+    document.getElementById('kpi-discount').textContent = discountList.length;
+    document.getElementById('kpi-avg').textContent = fmt.format(avg);
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('admin-table-body');
+    const searchQ = (document.getElementById('admin-search')?.value || '').trim().toLowerCase();
+
+    const filtered = quadros
+      .slice()
+      .sort((a, b) => (a.ordem || 10) - (b.ordem || 10))
+      .filter((q) => {
+        if (activeTab === 'queridinhos' && q.secao !== 'queridinhos' && q.secao !== 'ambos') return false;
+        if (activeTab === 'colecao' && q.secao !== 'colecao' && q.secao !== 'ambos') return false;
+        if (activeTab === 'stories' && q.secao !== 'stories') return false;
+        if (activeTab === 'desconto' && !(q.desconto_pct > 0 || q.preco_final < q.preco_original)) return false;
+        if (searchQ && !`${q.titulo} ${q.subtitulo} ${q.categoria}`.toLowerCase().includes(searchQ)) return false;
+        return true;
+      });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="py-10 text-center text-xs text-zinc-400">
+            Nenhum quadro encontrado para este filtro.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const secaoLabels = {
+      queridinhos: 'Queridinhos',
+      colecao: 'Coleção Completa',
+      ambos: 'Queridinhos + Coleção',
+      stories: 'Stories Verticais',
+    };
+
+    tbody.innerHTML = filtered
+      .map((q) => {
+        const hasDiscount = q.desconto_pct > 0 || q.preco_final < q.preco_original;
+        return `
+          <tr class="group transition hover:bg-zinc-50/80 ${q.ativo ? '' : 'opacity-50'}">
+            <td class="py-3.5 pl-2">
+              <div class="flex items-center gap-3">
+                <img src="${q.imagem_url}" alt="${q.titulo}" class="h-12 w-12 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
+                <div>
+                  <p class="font-display text-sm font-bold text-zinc-900">${q.titulo}</p>
+                  <p class="max-w-xs truncate text-xs text-zinc-500">${q.subtitulo || 'Sem subtítulo'}</p>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5">
+              <span class="inline-block rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700">${secaoLabels[q.secao] || q.secao}</span>
+              <span class="ml-1 text-xs capitalize text-zinc-400">· ${q.categoria}</span>
+            </td>
+            <td class="py-3.5">
+              ${hasDiscount ? `<span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(q.preco_original)}</span>` : ''}
+              <strong class="font-display text-sm font-bold text-zinc-900">${fmt.format(q.preco_final)}</strong>
+              ${hasDiscount ? `<span class="ml-1.5 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${q.desconto_pct}%</span>` : ''}
+            </td>
+            <td class="py-3.5">
+              ${q.selo ? `<span class="rounded bg-brand-magenta/10 px-2 py-0.5 text-[10px] font-bold uppercase text-brand-magenta">${q.selo}</span>` : '<span class="text-xs text-zinc-300">—</span>'}
+            </td>
+            <td class="py-3.5 text-center">
+              <button type="button" data-action="toggle" data-id="${q.id}" class="inline-flex h-7 w-12 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade">
+                <span class="h-5 w-5 rounded-full bg-white shadow"></span>
+              </button>
+            </td>
+            <td class="py-3.5 pr-2 text-right">
+              <div class="inline-flex items-center gap-1">
+                <button type="button" data-action="edit" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                  Editar
+                </button>
+                <button type="button" data-action="delete" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro">
+                  <i data-lucide="trash-2" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join('');
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function renderAll() {
+    renderKPIs();
+    renderTable();
+  }
+
+  // ---- Ações na Tabela (Editar, Alternar Visível, Excluir) ----
+  document.getElementById('admin-table-body').addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+    const target = quadros.find((q) => String(q.id) === String(id));
+    if (!target) return;
+
+    if (action === 'edit') {
+      fieldId.value = target.id;
+      fieldTitulo.value = target.titulo;
+      fieldSubtitulo.value = target.subtitulo;
+      fieldPrecoOriginal.value = Number(target.preco_original).toFixed(2);
+      fieldDescontoPct.value = target.desconto_pct || 0;
+      fieldPrecoFinal.value = Number(target.preco_final).toFixed(2);
+      fieldSecao.value = target.secao;
+      fieldCategoria.value = target.categoria;
+
+      if (!target.selo) fieldSelo.value = 'NENHUM';
+      else if (target.selo.startsWith('-')) fieldSelo.value = 'AUTO';
+      else fieldSelo.value = target.selo;
+
+      fieldEstrelas.value = String(target.estrelas || 5);
+      fieldImagemUrl.value = target.imagem_url;
+      fieldTagAmbiente.value = target.tag_ambiente || '';
+      fieldOrdem.value = String(target.ordem || 1);
+      fieldCuradoria.checked = Boolean(target.selo_curadoria);
+      fieldAtivo.checked = Boolean(target.ativo);
+
+      formTitle.textContent = `Editando: ${target.titulo}`;
+      btnSubmitText.textContent = 'Salvar Alterações';
+      btnResetForm.classList.remove('hidden');
+      btnResetForm.classList.add('inline-flex');
+      updatePreview();
+      document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (action === 'toggle') {
+      const nextAtivo = !target.ativo;
+      if (isSupabaseConnected && supabaseClient) {
+        await supabaseClient.from('quadros').update({ ativo: nextAtivo }).eq('id', id);
+      }
+      target.ativo = nextAtivo;
+      saveLocalCatalog();
+      renderAll();
+      showToast(nextAtivo ? 'Quadro ativado na vitrine!' : 'Quadro ocultado da vitrine.');
+    }
+
+    if (action === 'delete') {
+      if (!confirm(`Tem certeza que deseja remover o quadro "${target.titulo}"?`)) return;
+      if (isSupabaseConnected && supabaseClient) {
+        await supabaseClient.from('quadros').delete().eq('id', id);
+      }
+      quadros = quadros.filter((q) => String(q.id) !== String(id));
+      saveLocalCatalog();
+      renderAll();
+      showToast('Quadro removido.');
+    }
+  });
+
+  // ---- Abas e Busca ----
+  document.querySelectorAll('.admin-tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activeTab = tab.dataset.tab || 'todos';
+      document.querySelectorAll('.admin-tab').forEach((t) => {
+        const active = t === tab;
+        t.className = active
+          ? 'admin-tab rounded-full bg-[#9e004f] px-4 py-1.5 text-xs font-semibold text-white'
+          : 'admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta';
+      });
+      renderTable();
+    });
+  });
+
+  document.getElementById('admin-search').addEventListener('input', renderTable);
+
+  document.getElementById('btn-restore-defaults').addEventListener('click', () => {
+    if (!confirm('Restaurar o catálogo padrão original?')) return;
+    localStorage.removeItem(LOCAL_CATALOG_KEY);
+    loadLocalCatalog();
+    renderAll();
+    showToast('Catálogo padrão restaurado!');
+  });
+
+  // ---- Modal de Configuração do Supabase ----
+  const configModal = document.getElementById('config-modal');
+  const sbUrlInput = document.getElementById('sb-url-input');
+  const sbKeyInput = document.getElementById('sb-key-input');
+  const sbEmailInput = document.getElementById('sb-email-input');
+  const sbPassInput = document.getElementById('sb-pass-input');
+
+  document.getElementById('btn-open-config').addEventListener('click', () => {
+    sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
+    sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
+    configModal.classList.remove('hidden');
+    configModal.classList.add('flex');
+  });
+
+  document.getElementById('btn-close-config').addEventListener('click', () => {
+    configModal.classList.add('hidden');
+    configModal.classList.remove('flex');
+  });
+
+  document.getElementById('btn-save-sb').addEventListener('click', async () => {
+    const url = sbUrlInput.value.trim();
+    const key = sbKeyInput.value.trim();
+    const email = sbEmailInput.value.trim();
+    const password = sbPassInput.value;
+
+    if (url && key) {
+      localStorage.setItem('123quadros-sb-url', url);
+      localStorage.setItem('123quadros-sb-key', key);
+      window.QUADROS_SUPABASE_CONFIG.SUPABASE_URL = url;
+      window.QUADROS_SUPABASE_CONFIG.SUPABASE_ANON_KEY = key;
+
+      await initSupabase();
+
+      if (supabaseClient && email && password) {
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert('Aviso de login: ' + error.message);
+        } else {
+          showToast('Conectado e autenticado no Supabase!');
+        }
+      } else {
+        showToast('Configuração do Supabase salva!');
+      }
+    }
+
+    configModal.classList.add('hidden');
+    configModal.classList.remove('flex');
+  });
+
+  document.getElementById('btn-clear-sb').addEventListener('click', () => {
+    localStorage.removeItem('123quadros-sb-url');
+    localStorage.removeItem('123quadros-sb-key');
+    window.QUADROS_SUPABASE_CONFIG.SUPABASE_URL = '';
+    window.QUADROS_SUPABASE_CONFIG.SUPABASE_ANON_KEY = '';
+    initSupabase();
+    configModal.classList.add('hidden');
+    configModal.classList.remove('flex');
+    showToast('Modo Local ativado.');
+  });
+
+  // Inicializar
+  await initSupabase();
+  updatePreview();
+});
+</script>
+</body>
+</html>
+
