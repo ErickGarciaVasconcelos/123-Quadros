@@ -429,24 +429,27 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .join('\n');
 
+    // IMPORTANTE: O redirecionamento wa.me / WhatsApp Desktop corrompe emojis acima de U+FFFF
+    // (surrogate pairs de 4 bytes como \u{1F6D2}) em "". Por isso utilizamos exclusivamente
+    // emojis e símbolos BMP (<= U+FFFF, 3 bytes UTF-8, idênticos ao \u2501 e \u2022 que nunca quebram).
     const blocos = [
-      '\u{1F6D2} *NOVO PEDIDO \u2014 123quadro*',
+      '\u2728 *NOVO PEDIDO \u2014 123quadro*',
       '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
       '',
-      '\u{1F4E6} *ITENS DO PEDIDO*',
+      '\u2B50 *ITENS DO PEDIDO*',
       listaDeItens,
       '',
-      '\u{1F4B3} *RESUMO DE VALORES*',
+      '\u2705 *RESUMO DE VALORES*',
       `\u2022 *Subtotal:* ${subtotal}`,
       `\u2022 *Frete:* ${frete}`,
       `\u2022 *Total:* *${total}*`,
       `\u2022 *Forma de Pagamento:* ${formaPagamento}`,
       '',
-      '\u{1F464} *DADOS DO CLIENTE*',
+      '\u2756 *DADOS DO CLIENTE*',
       `\u2022 *Nome:* ${nome}`,
       `\u2022 *WhatsApp:* ${telefone}`,
       '',
-      '\u{1F4CD} *ENDERE\u00C7O DE ENTREGA*',
+      '\u27A4 *ENDERE\u00C7O DE ENTREGA*',
       `\u2022 *Endere\u00E7o:* ${endereco}`,
       `\u2022 *Bairro:* ${bairro}`,
       `\u2022 *Cidade/UF:* ${cidadeUf}`,
@@ -454,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     if (obs) {
-      blocos.push('', `\u{1F4DD} *Observa\u00E7\u00F5es:* ${obs}`);
+      blocos.push('', `\u270F *Observa\u00E7\u00F5es:* ${obs}`);
     }
 
     return blocos.join('\n');
