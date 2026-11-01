@@ -779,6 +779,128 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
+  // G.2) MOTOR DE EFEITO PARALLAX (SCROLL MULTICAMADAS + 3D POINTER + TILT)
+  // =========================================================================
+  let parallaxRaf = null;
+
+  function updateScrollParallax() {
+    parallaxRaf = null;
+    if (reduce) return;
+
+    const vh = window.innerHeight || 800;
+    const viewportCenter = vh * 0.5;
+
+    // 1. Camadas com [data-parallax] (Hero, Coleção, Inspirações, Depoimentos)
+    document.querySelectorAll('[data-parallax]').forEach((el) => {
+      const speed = parseFloat(el.dataset.parallax) || 0;
+      if (!speed) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -120 || rect.top > vh + 120) return;
+
+      const elCenter = rect.top + rect.height * 0.5;
+      const distFromCenter = elCenter - viewportCenter;
+      const offsetY = Math.max(-55, Math.min(55, distFromCenter * speed));
+      el.style.setProperty('--parallax-y', `${offsetY.toFixed(1)}px`);
+    });
+
+    // 2. Slides de fundo do Hero com [data-parallax-bg]
+    document.querySelectorAll('[data-parallax-bg]').forEach((el) => {
+      const speed = parseFloat(el.dataset.parallaxBg) || 0.2;
+      const parent = el.parentElement || el;
+      const rect = parent.getBoundingClientRect();
+      if (rect.bottom < -100 || rect.top > vh + 100) return;
+
+      const offsetY = Math.max(-45, Math.min(45, -rect.top * speed));
+      el.style.setProperty('--bg-parallax-y', `${offsetY.toFixed(1)}px`);
+    });
+
+    // 3. Onda sutil de Parallax entre colunas dos cards visíveis da Coleção
+    const visibleCards = document.querySelectorAll('#collection-grid .product-card.flex');
+    const isDesktop = window.innerWidth >= 1024;
+    visibleCards.forEach((card, idx) => {
+      const rect = card.getBoundingClientRect();
+      if (rect.bottom < -80 || rect.top > vh + 80) return;
+      const col = isDesktop ? idx % 4 : idx % 2;
+      const colSpeed = col % 2 === 0 ? -0.035 : 0.035;
+      const distFromCenter = rect.top + rect.height * 0.5 - viewportCenter;
+      const offsetY = Math.max(-14, Math.min(14, distFromCenter * colSpeed));
+      card.style.setProperty('--card-parallax-y', `${offsetY.toFixed(1)}px`);
+    });
+  }
+
+  function requestParallaxUpdate() {
+    if (reduce) return;
+    if (!parallaxRaf) {
+      parallaxRaf = window.requestAnimationFrame(updateScrollParallax);
+    }
+  }
+
+  if (!reduce) {
+    window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+    window.addEventListener('resize', requestParallaxUpdate, { passive: true });
+    requestParallaxUpdate();
+
+    // 4. Parallax 3D interativo com o mouse no Hero ([data-parallax-scene])
+    const heroScene = document.querySelector('[data-parallax-scene]');
+    if (heroScene && window.matchMedia('(hover: hover)').matches) {
+      const depthLayers = heroScene.querySelectorAll('[data-parallax-depth]');
+      heroScene.addEventListener('pointermove', (e) => {
+        const rect = heroScene.getBoundingClientRect();
+        const normX = (e.clientX - rect.left) / rect.width - 0.5;
+        const normY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        depthLayers.forEach((layer) => {
+          const depth = parseFloat(layer.dataset.parallaxDepth) || 15;
+          const moveX = normX * depth;
+          const moveY = normY * depth;
+          layer.style.setProperty('--mouse-x', `${moveX.toFixed(1)}px`);
+          layer.style.setProperty('--mouse-y', `${moveY.toFixed(1)}px`);
+        });
+      });
+
+      heroScene.addEventListener('pointerleave', () => {
+        depthLayers.forEach((layer) => {
+          layer.style.setProperty('--mouse-x', '0px');
+          layer.style.setProperty('--mouse-y', '0px');
+        });
+      });
+    }
+
+    // 5. Efeito 3D Tilt nos cards da Coleção ao passar o mouse (Desktop)
+    const colecaoContainer = document.getElementById('collection-grid');
+    if (colecaoContainer && window.matchMedia('(hover: hover)').matches) {
+      colecaoContainer.addEventListener('pointermove', (e) => {
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.setProperty('--tilt-x', `${(-y * 5).toFixed(2)}deg`);
+        card.style.setProperty('--tilt-y', `${(x * 5).toFixed(2)}deg`);
+      });
+
+      colecaoContainer.addEventListener(
+        'pointerleave',
+        () => {
+          colecaoContainer.querySelectorAll('.product-card').forEach((c) => {
+            c.style.setProperty('--tilt-x', '0deg');
+            c.style.setProperty('--tilt-y', '0deg');
+          });
+        },
+        true
+      );
+
+      colecaoContainer.addEventListener('pointerout', (e) => {
+        const card = e.target.closest('.product-card');
+        if (card && !card.contains(e.relatedTarget)) {
+          card.style.setProperty('--tilt-x', '0deg');
+          card.style.setProperty('--tilt-y', '0deg');
+        }
+      });
+    }
+  }
+
+  // =========================================================================
   // H) INTEGRAÇÃO DINÂMICA COM PAINEL ADMIN (admin.html) E SUPABASE
   // =========================================================================
   function buildStarsHtml(count = 5) {
@@ -867,6 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const desc = Number(item.desconto_pct) || 0;
           const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
           const isCenter = idx === 2;
+          const storySpeed = isCenter ? '-0.11' : idx % 2 === 0 ? '0.06' : '-0.05';
 
           const topTagHtml = item.selo
             ? `<span class="absolute left-3 top-3 rounded-full bg-brand-magenta px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow">${item.selo}</span>`
@@ -877,7 +1000,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : '';
 
           return `
-            <div class="story-item ${isCenter ? 'is-center w-[235px]' : 'w-[210px]'} shrink-0 lg:w-auto" data-story-index="${idx}">
+            <div class="story-item ${isCenter ? 'is-center w-[235px]' : 'w-[210px]'} shrink-0 lg:w-auto" data-story-index="${idx}" data-parallax="${storySpeed}">
               <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-ink-950 shadow-sm">
                 <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
@@ -897,6 +1020,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (window.lucide) lucide.createIcons();
+    requestParallaxUpdate();
   }
 
   function mergeWithDefaults(loadedItems) {

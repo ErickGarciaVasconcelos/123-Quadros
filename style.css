@@ -49,23 +49,42 @@ details summary::-webkit-details-marker { display: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* ---- Carrossel Hero ---- */
+/* ---- Carrossel Hero + Parallax de Fundo ---- */
 .hero-slide {
   position: absolute;
-  inset: 0;
+  inset: -8% 0;
   opacity: 0;
   visibility: hidden;
-  transform: scale(1.03);
-  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1), visibility 0s linear .7s;
+  transform: translate3d(0, var(--bg-parallax-y, 0px), 0) scale(1.03);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), visibility 0s linear .7s;
+  will-change: transform, opacity;
 }
 .hero-slide.is-active {
   opacity: 1;
   visibility: visible;
-  transform: scale(1);
-  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+  transform: translate3d(0, var(--bg-parallax-y, 0px), 0) scale(1);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1);
 }
-.hero-slide img { transform: scale(1.06); transition: transform 6s ease-out; }
-.hero-slide.is-active img { transform: scale(1); }
+.hero-slide img { transform: scale(1.08); transition: transform 6s ease-out; }
+.hero-slide.is-active img { transform: scale(1.02); }
+
+/* ---- Camadas de Efeito Parallax (Scroll + Mouse 3D) ---- */
+.parallax-layer,
+.story-item[data-parallax] {
+  --parallax-y: 0px;
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+  transform: translate3d(var(--mouse-x, 0px), calc(var(--parallax-y, 0px) + var(--mouse-y, 0px)), 0);
+  will-change: transform;
+}
+
+/* Compõe [data-reveal] com o deslocamento Parallax sem conflito */
+[data-reveal].parallax-layer {
+  transform: translate3d(var(--mouse-x, 0px), calc(22px + var(--parallax-y, 0px) + var(--mouse-y, 0px)), 0);
+}
+[data-reveal].parallax-layer.is-in {
+  transform: translate3d(var(--mouse-x, 0px), calc(var(--parallax-y, 0px) + var(--mouse-y, 0px)), 0);
+}
 
 .hero-dot {
   width: 8px;
@@ -77,17 +96,22 @@ details summary::-webkit-details-marker { display: none; }
 .hero-dot:hover { background: rgba(255,255,255,.85); }
 .hero-dot.is-active { width: 24px; background: #EA0273; }
 
-/* ---- Cards da Coleção sobre o fundo Rosa Oficial (#EA0273) ---- */
+/* ---- Cards da Coleção sobre o fundo Rosa Oficial (#EA0273) + Tilt Parallax ---- */
 #collection-grid .product-card {
+  --card-parallax-y: 0px;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
   background-color: #ffffff;
   border-radius: 0.875rem;
   padding: 0.75rem;
   box-shadow: 0 14px 30px -12px rgba(2, 2, 2, 0.24);
-  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+  transform: perspective(900px) translate3d(0, var(--card-parallax-y, 0px), 0) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform .25s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+  will-change: transform;
 }
 #collection-grid .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 38px -12px rgba(2, 2, 2, 0.32);
+  transform: perspective(900px) translate3d(0, calc(var(--card-parallax-y, 0px) - 5px), 0) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  box-shadow: 0 22px 40px -12px rgba(2, 2, 2, 0.34);
 }
 
 /* ---- Carrossel Vertical (Stories / Reels — Print 3) ---- */

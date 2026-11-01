@@ -159,46 +159,48 @@
   </header>
 
 
-  <!-- ============================ HERO FULL-WIDTH SPLIT ============================ -->
-  <section class="relative w-full overflow-hidden bg-[#f8dde7]">
+  <!-- ============================ HERO FULL-WIDTH SPLIT (COM PARALLAX MULTICAMADAS) ============================ -->
+  <section id="hero-section" class="relative w-full overflow-hidden bg-[#f8dde7]" data-parallax-scene>
     <div class="grid min-h-[480px] w-full lg:min-h-[540px] lg:grid-cols-2">
 
       <!-- Metade Esquerda: Galeria Lifestyle / Carrossel Editorial de Paredes -->
       <div class="relative min-h-[360px] w-full overflow-hidden bg-zinc-900 lg:min-h-full" data-carousel>
         <!-- Slide 1 -->
-        <div data-slide class="hero-slide is-active">
+        <div data-slide class="hero-slide is-active" data-parallax-bg="0.22">
           <img
             src="https://static.stealthelook.com.br/wp-content/uploads/2023/06/inspiracoes-de-parede-de-quadros-20230614192604.jpg"
             alt="Parede decorada com composição de quadros" class="block h-full w-full object-cover"
             fetchpriority="high" />
         </div>
         <!-- Slide 2 -->
-        <div data-slide class="hero-slide">
+        <div data-slide class="hero-slide" data-parallax-bg="0.22">
           <img
             src="https://acdn-us.mitiendanube.com/stores/003/889/735/products/109-moldura-madeira-6472690eab73d2282e17740193048669-1024-1024.webp"
             alt="Quadro em destaque com moldura de madeira" class="block h-full w-full object-cover" loading="lazy" />
         </div>
         <!-- Slide 3 -->
-        <div data-slide class="hero-slide">
+        <div data-slide class="hero-slide" data-parallax-bg="0.22">
           <img src="https://casavee.cdn.magazord.com.br/img/2024/07/blog/5173/quadros-na-decoracao-de-casa.jpg"
             alt="Quadros na decoração de uma sala" class="block h-full w-full object-cover" loading="lazy" />
         </div>
         <!-- Slide 4 -->
-        <div data-slide class="hero-slide">
+        <div data-slide class="hero-slide" data-parallax-bg="0.22">
           <img src="imagens/autora/autora-03.jpg" alt="Obra autoral exclusiva 123 Quadros"
             class="block h-full w-full object-cover" loading="lazy" />
         </div>
         <!-- Slide 5 -->
-        <div data-slide class="hero-slide">
+        <div data-slide class="hero-slide" data-parallax-bg="0.22">
           <img src="imagens/autora/autora-08.jpg" alt="Arte autoral em destaque"
             class="block h-full w-full object-cover" loading="lazy" />
         </div>
 
-        <!-- Gradiente suave inferior com palavras de impacto ("Nova" / "Icônica") -->
+        <!-- Gradiente suave inferior com palavras de impacto ("Nova" / "Icônica") em camada parallax -->
         <div
           class="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-black/55 via-black/15 to-transparent px-8 pb-7 pt-20">
-          <span class="font-display text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl">Nova</span>
-          <span class="font-display text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl">Icônica</span>
+          <span data-parallax="-0.12" data-parallax-depth="10"
+            class="parallax-layer font-display text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl">Nova</span>
+          <span data-parallax="-0.16" data-parallax-depth="-10"
+            class="parallax-layer font-display text-3xl font-bold tracking-tight text-white drop-shadow sm:text-4xl">Icônica</span>
         </div>
 
         <!-- Setas discretas -->
@@ -221,12 +223,18 @@
         </div>
       </div>
 
-      <!-- Metade Direita: Bloco Rosé de Lançamento -->
+      <!-- Metade Direita: Bloco Rosé de Lançamento com Camadas 3D Parallax -->
       <div
         class="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#f8dce7] via-[#f3c5d7] to-[#eab0c7] px-6 py-10 sm:px-12 lg:py-12">
+        <!-- Luzes decorativas de fundo em parallax -->
+        <div aria-hidden="true" data-parallax="0.28" data-parallax-depth="-22"
+          class="parallax-layer pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand-magenta/15 blur-3xl"></div>
+        <div aria-hidden="true" data-parallax="-0.22" data-parallax-depth="18"
+          class="parallax-layer pointer-events-none absolute -bottom-20 left-8 h-56 w-56 rounded-full bg-brand-amarelo/25 blur-3xl"></div>
+
         <div class="relative z-10 grid h-full items-center gap-8 sm:grid-cols-[1.05fr_.95fr]">
           <!-- Texto de Lançamento -->
-          <div>
+          <div data-parallax="-0.08" data-parallax-depth="8" class="parallax-layer">
             <span
               class="inline-block rounded-full border border-[#8e0047]/60 px-5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-[#8e0047]">
               LANÇAMENTO
@@ -252,23 +260,23 @@
             </div>
           </div>
 
-          <!-- Trio de Quadros escalonados à direita + Selo -->
+          <!-- Trio de Quadros escalonados à direita + Selo (cada quadro em profundidade Parallax distinta) -->
           <div class="relative mx-auto flex h-[280px] w-full max-w-[330px] items-end justify-center sm:h-[330px]">
-            <div
-              class="relative z-10 -mr-4 mb-6 w-36 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-xl transition-transform duration-300 hover:-translate-y-1 sm:w-40">
+            <div data-parallax="-0.14" data-parallax-depth="16"
+              class="parallax-layer relative z-10 -mr-4 mb-6 w-36 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-xl transition-shadow duration-300 hover:shadow-2xl sm:w-40">
               <img src="imagens/autora/autora-01.jpg" alt="Obra Autoral 01" class="aspect-[3/4] w-full object-cover" />
             </div>
-            <div
-              class="relative z-20 -mr-4 mb-2 w-32 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-2xl transition-transform duration-300 hover:-translate-y-1 sm:w-36">
+            <div data-parallax="-0.24" data-parallax-depth="30"
+              class="parallax-layer relative z-20 -mr-4 mb-2 w-32 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-2xl transition-shadow duration-300 sm:w-36">
               <img src="imagens/autora/autora-02.jpg" alt="Obra Autoral 02" class="aspect-[3/4] w-full object-cover" />
             </div>
-            <div
-              class="relative z-10 mb-8 w-28 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-lg transition-transform duration-300 hover:-translate-y-1 sm:w-32">
+            <div data-parallax="-0.09" data-parallax-depth="12"
+              class="parallax-layer relative z-10 mb-8 w-28 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-lg transition-shadow duration-300 hover:shadow-xl sm:w-32">
               <img src="imagens/autora/autora-04.jpg" alt="Obra Autoral 04" class="aspect-[3/4] w-full object-cover" />
             </div>
 
-            <div
-              class="absolute -bottom-2 right-12 z-30 flex h-24 w-16 flex-col items-center justify-center rounded-full border border-white/30 bg-[#8e0047] px-2 text-center text-white shadow-lg">
+            <div data-parallax="-0.30" data-parallax-depth="40"
+              class="parallax-layer absolute -bottom-2 right-12 z-30 flex h-24 w-16 flex-col items-center justify-center rounded-full border border-white/30 bg-[#8e0047] px-2 text-center text-white shadow-lg">
               <span class="text-[9px] font-bold uppercase tracking-widest opacity-85">ARTE</span>
               <i data-lucide="frame" class="my-0.5 h-4 w-4 text-brand-amarelo"></i>
               <span class="font-display text-base font-extrabold leading-none">100%</span>
@@ -283,10 +291,24 @@
 
 
   <!-- ============================ SEÇÃO ÚNICA: COLEÇÃO ============================ -->
-  <section id="colecao" class="relative bg-brand-magenta py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-8">
+  <section id="colecao" class="relative overflow-hidden bg-brand-magenta py-16 sm:py-20">
+    <!-- Elementos decorativos de profundidade Parallax no fundo Rosa -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div data-parallax="0.32"
+        class="parallax-layer absolute -left-24 top-16 h-80 w-80 rounded-full bg-white/10 blur-3xl"></div>
+      <div data-parallax="-0.28"
+        class="parallax-layer absolute -right-20 top-1/3 h-96 w-96 rounded-full bg-brand-amarelo/15 blur-3xl"></div>
+      <div data-parallax="0.22"
+        class="parallax-layer absolute bottom-12 left-1/4 h-72 w-72 rounded-full bg-[#9e004f]/45 blur-3xl"></div>
+      <div data-parallax="-0.18"
+        class="parallax-layer absolute right-10 top-12 hidden h-36 w-28 rotate-6 rounded-xl border-2 border-white/10 lg:block"></div>
+      <div data-parallax="0.24"
+        class="parallax-layer absolute bottom-20 left-8 hidden h-44 w-32 -rotate-6 rounded-xl border-2 border-brand-amarelo/15 lg:block"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div data-reveal class="max-w-2xl">
+        <div data-reveal data-parallax="-0.06" class="parallax-layer max-w-2xl">
           <span
             class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-amarelo">
             <span class="h-px w-6 bg-brand-amarelo"></span> Catálogo Curado
@@ -1223,9 +1245,28 @@
   </section>
 
 
-  <!-- ============================ SEÇÃO CARROSSEL VERTICAL 5 CARDS ============================ -->
-  <section id="inspiracoes" class="relative border-t border-zinc-200/70 bg-[#f5f5f5] py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-8">
+  <!-- ============================ SEÇÃO CARROSSEL VERTICAL 5 CARDS + FAIXA PARALLAX ============================ -->
+  <section id="inspiracoes" class="relative overflow-hidden border-t border-zinc-200/70 bg-[#f5f5f5] py-16 sm:py-20">
+    <!-- Luzes decorativas em Parallax -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div data-parallax="-0.25"
+        class="parallax-layer absolute -left-20 top-10 h-72 w-72 rounded-full bg-brand-magenta/10 blur-3xl"></div>
+      <div data-parallax="0.25"
+        class="parallax-layer absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-brand-amarelo/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
+      <!-- Cabeçalho com efeito Parallax suave -->
+      <div data-reveal data-parallax="-0.06" class="parallax-layer mb-8 text-center">
+        <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
+          <span class="h-px w-6 bg-brand-magenta/60"></span> Ambientes Reais <span
+            class="h-px w-6 bg-brand-magenta/60"></span>
+        </span>
+        <h2 class="mt-2 font-display text-2xl font-extrabold tracking-tight text-zinc-900 sm:text-3xl">
+          Inspirações que ganham vida na parede
+        </h2>
+      </div>
+
       <div class="relative flex items-center">
         <button type="button" id="stories-prev" aria-label="Anterior"
           class="absolute -left-2 top-[42%] z-20 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-zinc-700 shadow-sm transition hover:bg-white sm:-left-4">
@@ -1241,7 +1282,7 @@
           class="no-scrollbar flex w-full items-center gap-4 overflow-x-auto py-4 lg:grid lg:grid-cols-5 lg:overflow-visible">
 
           <!-- Story 1 -->
-          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="0">
+          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="0" data-parallax="0.06">
             <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-ink-950 shadow-sm">
               <img src="imagens/autora/autora-05.jpg" alt="Ambiente Sala de Estar"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -1265,7 +1306,7 @@
           </div>
 
           <!-- Story 2 -->
-          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="1">
+          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="1" data-parallax="-0.05">
             <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-[#f3dce4] shadow-sm">
               <img src="imagens/autora/autora-06.jpg" alt="Paleta de Cores"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -1289,7 +1330,7 @@
           </div>
 
           <!-- Story 3 (CARD CENTRAL EM DESTAQUE) -->
-          <div class="story-item is-center w-[235px] shrink-0 lg:w-auto" data-story-index="2">
+          <div class="story-item is-center w-[235px] shrink-0 lg:w-auto" data-story-index="2" data-parallax="-0.11">
             <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-[#d45679] shadow-md">
               <img src="imagens/autora/autora-03.jpg" alt="Composição em Destaque"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -1313,7 +1354,7 @@
           </div>
 
           <!-- Story 4 -->
-          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="3">
+          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="3" data-parallax="-0.05">
             <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-ink-950 shadow-sm">
               <img src="imagens/autora/autora-08.jpg" alt="Moldura Artesanal"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -1337,7 +1378,7 @@
           </div>
 
           <!-- Story 5 -->
-          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="4">
+          <div class="story-item w-[210px] shrink-0 lg:w-auto" data-story-index="4" data-parallax="0.06">
             <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-zinc-100 shadow-sm">
               <img src="imagens/autora/autora-09.jpg" alt="Arte Exclusiva"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
@@ -1367,9 +1408,9 @@
 
 
   <!-- ============================ DEPOIMENTOS ============================ -->
-  <section id="depoimentos" class="relative border-t border-zinc-100 py-20 sm:py-24">
+  <section id="depoimentos" class="relative overflow-hidden border-t border-zinc-100 py-20 sm:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-8">
-      <div data-reveal class="mx-auto max-w-2xl text-center">
+      <div data-reveal data-parallax="-0.05" class="parallax-layer mx-auto max-w-2xl text-center">
         <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-magenta">
           <span class="h-px w-6 bg-brand-magenta/60"></span> Quem já pendurou <span
             class="h-px w-6 bg-brand-magenta/60"></span>
@@ -1380,8 +1421,8 @@
 
       <div class="mt-14 grid gap-6 md:grid-cols-3">
         <!-- Depoimento 1 -->
-        <figure data-reveal
-          class="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
+        <figure data-reveal data-parallax="-0.06"
+          class="parallax-layer flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
           <div class="flex items-center gap-1 text-[#9e004f]">
             <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
               class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
@@ -1403,8 +1444,8 @@
         </figure>
 
         <!-- Depoimento 2 -->
-        <figure data-reveal
-          class="reveal-delay-100 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
+        <figure data-reveal data-parallax="0.06"
+          class="parallax-layer reveal-delay-100 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
           <div class="flex items-center gap-1 text-[#9e004f]">
             <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
               class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
@@ -1426,8 +1467,8 @@
         </figure>
 
         <!-- Depoimento 3 -->
-        <figure data-reveal
-          class="reveal-delay-200 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
+        <figure data-reveal data-parallax="-0.06"
+          class="parallax-layer reveal-delay-200 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
           <div class="flex items-center gap-1 text-[#9e004f]">
             <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
               class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
