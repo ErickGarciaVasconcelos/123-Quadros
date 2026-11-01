@@ -130,7 +130,7 @@ window.DEFAULT_QUADROS_DATA = [
   {
     id: 'col-07',
     titulo: 'Jardim Suspenso',
-    subtitulo: 'Helena Dias · Arte botânica autoral pronta para pendurar.',
+    subtitulo: 'Arte botânica exclusiva pronta para pendurar.',
     preco_original: 239.90,
     desconto_pct: 0,
     preco_final: 239.90,
@@ -169,7 +169,7 @@ window.DEFAULT_QUADROS_DATA = [
     desconto_pct: 40,
     preco_final: 179.90,
     selo: '-40%',
-    selo_curadoria: true,
+    selo_curadoria: false,
     tag_ambiente: '',
     secao: 'colecao',
     categoria: 'retrato',
@@ -537,7 +537,7 @@ window.DEFAULT_QUADROS_DATA = [
   },
   {
     id: 'story-03',
-    titulo: 'Composição Autoral III',
+    titulo: 'Composição em Destaque III',
     subtitulo: 'Destaque Principal',
     preco_original: 238.90,
     desconto_pct: 0,

@@ -27,11 +27,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS + Configuração compartilhada do catálogo -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=3" charset="UTF-8"></script>
+  <script src="supabase-config.js?v=4" charset="UTF-8"></script>
   <!-- Configuração do Tailwind + comportamentos (ver script.js) -->
-  <script src="script.js?v=3" charset="UTF-8"></script>
+  <script src="script.js?v=4" charset="UTF-8"></script>
 
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 
 <body class="bg-white font-sans text-zinc-600 antialiased selection:bg-brand-magenta/30">
@@ -39,7 +39,7 @@
   <!-- ============================ TOPBAR + HEADER ============================ -->
   <header class="sticky top-0 z-40 bg-white shadow-sm">
     <!-- Faixa de Aviso no Topo -->
-    <div class="bg-[#9e004f] text-white">
+    <div class="bg-[#EA0273] text-white">
       <div class="mx-auto flex h-9 max-w-7xl items-center justify-between px-3 sm:h-10 sm:px-6">
         <button type="button" id="topbar-prev" aria-label="Aviso anterior"
           class="grid h-7 w-7 place-items-center rounded-full text-white/80 transition-colors hover:bg-white/10 hover:text-white">
@@ -64,12 +64,12 @@
         <!-- Lado esquerdo: Ajuda (?) + Pesquisa (Lupa) -->
         <div class="flex items-center gap-1 sm:gap-2">
           <a href="#faq"
-            class="grid h-10 w-10 place-items-center rounded-full text-[#9e004f] transition-colors duration-200 hover:bg-pink-50"
+            class="grid h-10 w-10 place-items-center rounded-full text-[#EA0273] transition-colors duration-200 hover:bg-pink-50"
             aria-label="Central de Ajuda" title="Dúvidas Frequentes">
             <i data-lucide="circle-help" class="h-5 w-5"></i>
           </a>
           <button type="button" id="search-btn"
-            class="grid h-10 w-10 place-items-center rounded-full text-[#9e004f] transition-colors duration-200 hover:bg-pink-50"
+            class="grid h-10 w-10 place-items-center rounded-full text-[#EA0273] transition-colors duration-200 hover:bg-pink-50"
             aria-label="Pesquisar" title="Buscar obras">
             <i data-lucide="search" class="h-5 w-5"></i>
           </button>
@@ -185,12 +185,12 @@
         </div>
         <!-- Slide 4 -->
         <div data-slide class="hero-slide" data-parallax-bg="0.22">
-          <img src="imagens/autora/autora-03.jpg" alt="Obra autoral exclusiva 123quadro"
+          <img src="imagens/autora/autora-03.jpg" alt="Obra exclusiva 123quadro"
             class="block h-full w-full object-cover" loading="lazy" />
         </div>
         <!-- Slide 5 -->
         <div data-slide class="hero-slide" data-parallax-bg="0.22">
-          <img src="imagens/autora/autora-08.jpg" alt="Arte autoral em destaque"
+          <img src="imagens/autora/autora-08.jpg" alt="Arte em destaque"
             class="block h-full w-full object-cover" loading="lazy" />
         </div>
 
@@ -223,64 +223,56 @@
         </div>
       </div>
 
-      <!-- Metade Direita: Bloco Rosé de Lançamento com Camadas 3D Parallax -->
+      <!-- Metade Direita: Bloco Rosa Oficial (#EA0273) de Lançamento com Camadas 3D Parallax -->
       <div
-        class="relative flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#f8dce7] via-[#f3c5d7] to-[#eab0c7] px-6 py-10 sm:px-12 lg:py-12">
+        class="relative flex flex-col justify-between overflow-hidden border-b border-white/20 bg-brand-magenta px-6 py-10 sm:px-12 lg:py-12">
         <!-- Luzes decorativas de fundo em parallax -->
         <div aria-hidden="true" data-parallax="0.28" data-parallax-depth="-22"
-          class="parallax-layer pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand-magenta/15 blur-3xl"></div>
+          class="parallax-layer pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/15 blur-3xl"></div>
         <div aria-hidden="true" data-parallax="-0.22" data-parallax-depth="18"
-          class="parallax-layer pointer-events-none absolute -bottom-20 left-8 h-56 w-56 rounded-full bg-brand-amarelo/25 blur-3xl"></div>
+          class="parallax-layer pointer-events-none absolute -bottom-20 left-8 h-56 w-56 rounded-full bg-brand-amarelo/20 blur-3xl"></div>
 
         <div class="relative z-10 grid h-full items-center gap-8 sm:grid-cols-[1.05fr_.95fr]">
           <!-- Texto de Lançamento -->
           <div data-parallax="-0.08" data-parallax-depth="8" class="parallax-layer">
             <span
-              class="inline-block rounded-full border border-[#8e0047]/60 px-5 py-1 text-[11px] font-medium uppercase tracking-[0.22em] text-[#8e0047]">
+              class="inline-block rounded-full border border-brand-amarelo px-5 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-amarelo">
               LANÇAMENTO
             </span>
 
             <h1
-              class="mt-4 font-display text-4xl font-extrabold leading-[1.02] tracking-tight text-[#8e0047] sm:text-5xl lg:text-[3.4rem]">
+              class="mt-4 font-display text-4xl font-extrabold leading-[1.02] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
               Nossa<br />
               Coleção<br />
 
             </h1>
 
-            <p class="mt-4 font-display text-lg font-medium leading-snug text-[#8e0047] sm:text-xl">
+            <p class="mt-4 font-display text-lg font-medium leading-snug text-white/95 sm:text-xl">
               Obras exclusivas<br />
               prontas para pendurar
             </p>
 
             <div class="mt-6 flex flex-wrap items-center gap-3">
               <a href="#colecao"
-                class="inline-flex items-center justify-center rounded-md bg-[#8e0047] px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all duration-200 hover:bg-brand-magenta hover:shadow-glow active:scale-95">
+                class="inline-flex items-center justify-center rounded-md bg-ink-950 px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all duration-200 hover:bg-brand-amarelo hover:text-ink-950 active:scale-95">
                 COMPRE AGORA
               </a>
             </div>
           </div>
 
-          <!-- Trio de Quadros escalonados à direita + Selo (cada quadro em profundidade Parallax distinta) -->
+          <!-- Trio de Quadros escalonados à direita (cada quadro em profundidade Parallax distinta) -->
           <div class="relative mx-auto flex h-[280px] w-full max-w-[330px] items-end justify-center sm:h-[330px]">
             <div data-parallax="-0.14" data-parallax-depth="16"
               class="parallax-layer relative z-10 -mr-4 mb-6 w-36 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-xl transition-shadow duration-300 hover:shadow-2xl sm:w-40">
-              <img src="imagens/autora/autora-01.jpg" alt="Obra Autoral 01" class="aspect-[3/4] w-full object-cover" />
+              <img src="imagens/autora/autora-01.jpg" alt="Obra 01" class="aspect-[3/4] w-full object-cover" />
             </div>
             <div data-parallax="-0.24" data-parallax-depth="30"
               class="parallax-layer relative z-20 -mr-4 mb-2 w-32 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-2xl transition-shadow duration-300 sm:w-36">
-              <img src="imagens/autora/autora-02.jpg" alt="Obra Autoral 02" class="aspect-[3/4] w-full object-cover" />
+              <img src="imagens/autora/autora-02.jpg" alt="Obra 02" class="aspect-[3/4] w-full object-cover" />
             </div>
             <div data-parallax="-0.09" data-parallax-depth="12"
               class="parallax-layer relative z-10 mb-8 w-28 overflow-hidden rounded-lg border-[5px] border-white bg-white shadow-lg transition-shadow duration-300 hover:shadow-xl sm:w-32">
-              <img src="imagens/autora/autora-04.jpg" alt="Obra Autoral 04" class="aspect-[3/4] w-full object-cover" />
-            </div>
-
-            <div data-parallax="-0.30" data-parallax-depth="40"
-              class="parallax-layer absolute -bottom-2 right-12 z-30 flex h-24 w-16 flex-col items-center justify-center rounded-full border border-white/30 bg-[#8e0047] px-2 text-center text-white shadow-lg">
-              <span class="text-[9px] font-bold uppercase tracking-widest opacity-85">ARTE</span>
-              <i data-lucide="frame" class="my-0.5 h-4 w-4 text-brand-amarelo"></i>
-              <span class="font-display text-base font-extrabold leading-none">100%</span>
-              <span class="text-[8px] uppercase tracking-wider opacity-80">Autoral</span>
+              <img src="imagens/autora/autora-04.jpg" alt="Obra 04" class="aspect-[3/4] w-full object-cover" />
             </div>
           </div>
         </div>
@@ -299,7 +291,7 @@
       <div data-parallax="-0.28"
         class="parallax-layer absolute -right-20 top-1/3 h-96 w-96 rounded-full bg-brand-amarelo/15 blur-3xl"></div>
       <div data-parallax="0.22"
-        class="parallax-layer absolute bottom-12 left-1/4 h-72 w-72 rounded-full bg-[#9e004f]/45 blur-3xl"></div>
+        class="parallax-layer absolute bottom-12 left-1/4 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
       <div data-parallax="-0.18"
         class="parallax-layer absolute right-10 top-12 hidden h-36 w-28 rotate-6 rounded-xl border-2 border-white/10 lg:block"></div>
       <div data-parallax="0.24"
@@ -309,11 +301,7 @@
     <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
       <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div data-reveal data-parallax="-0.06" class="parallax-layer max-w-2xl">
-          <span
-            class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-amarelo">
-            <span class="h-px w-6 bg-brand-amarelo"></span> Catálogo Curado
-          </span>
-          <h2 class="mt-2 font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
+          <h2 class="font-display text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Coleção
           </h2>
         </div>
@@ -323,14 +311,14 @@
           <button type="button" data-filter="todos"
             class="filter-btn rounded-full border border-ink-950 bg-ink-950 px-4 py-2 text-xs font-semibold text-white shadow-md transition-all duration-200 active:scale-95">Todos</button>
           <button type="button" data-filter="paisagem"
-            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#9e004f] active:scale-95">Paisagem</button>
+            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#EA0273] active:scale-95">Paisagem</button>
           <button type="button" data-filter="retrato"
-            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#9e004f] active:scale-95">Botânico
+            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#EA0273] active:scale-95">Botânico
             &amp; Retrato</button>
           <button type="button" data-filter="abstrato"
-            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#9e004f] active:scale-95">Abstrato</button>
+            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#EA0273] active:scale-95">Abstrato</button>
           <button type="button" data-filter="minimalista"
-            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#9e004f] active:scale-95">Minimalista</button>
+            class="filter-btn rounded-full border border-white/35 bg-white/15 px-4 py-2 text-xs font-semibold text-white transition-all duration-200 hover:border-white hover:bg-white hover:text-[#EA0273] active:scale-95">Minimalista</button>
         </div>
       </div>
 
@@ -352,11 +340,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Aurora Setentrional</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Quadro Fine Art em tela canvas 100%
                 algodão com acabamento acetinado.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 249,90</p>
             </div>
@@ -384,11 +372,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Maré de Vidro</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Obra com acabamento Soft Matte, máxima
                 fidelidade de cor e efeito natural.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 219,90</p>
             </div>
@@ -415,11 +403,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Fim de Tarde</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Bianca Reis · Luz quente natural e
                 traços orgânicos para salas e quartos.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 229,90</p>
             </div>
@@ -446,11 +434,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Tríptico Peônias Rosé</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Conjunto de 3 quadros florais em tons
                 rosé com acabamento elegante.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 289,90</p>
             </div>
@@ -478,11 +466,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Cerejeira ao Sul</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Yumi Sato · Série Botânica de alta
                 definição com traços suaves e elegantes.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">R$ 299,90</span><strong
                   class="font-bold text-zinc-900">R$ 194,90</strong></p>
@@ -508,11 +496,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Noir IV</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Diego Lemos · Contraste contemporâneo em
                 traços minimalistas.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 259,90</p>
             </div>
@@ -535,12 +523,12 @@
           <div class="flex flex-1 flex-col justify-between pt-3">
             <div>
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Jardim Suspenso</h3>
-              <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Helena Dias · Arte botânica autoral
+              <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Arte botânica exclusiva
                 pronta para pendurar.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
                   class="h-3.5 w-3.5 text-zinc-300"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 239,90</p>
@@ -568,11 +556,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Mosaico Tropical</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Arte contemporânea vibrante inspirada na
                 fauna e flora brasileira.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 269,90</p>
             </div>
@@ -590,12 +578,6 @@
             class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-[#f7f7f7] p-5">
             <span
               class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">-40%</span>
-            <div
-              class="absolute left-4 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
-              <span class="text-brand-amarelo">2026</span>
-              <span>CURADORIA</span>
-              <span class="text-[6px] opacity-75">DESTAQUE</span>
-            </div>
             <img src="imagens/colecao/1788474029618.png" alt="Dupla Infantil Leãozinho e Aviador"
               class="h-full w-full rounded-sm object-cover shadow-sm transition-transform duration-500 group-hover:scale-105"
               loading="lazy" />
@@ -605,11 +587,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Dupla Infantil Leãozinho &amp; Aviador</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Kit com 2 quadros personalizados com
                 inicial do nome e moldura branca.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">R$ 299,90</span><strong
                   class="font-bold text-zinc-900">R$ 179,90</strong></p>
@@ -638,11 +620,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Dupla Infantil Avião &amp; Dino</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Par de quadros personalizados com letra
                 e nome para quarto infantil.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">R$ 253,20</span><strong
                   class="font-bold text-zinc-900">R$ 189,90</strong></p>
@@ -672,11 +654,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Trio Superesportivos &amp; Clássicos</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Composição automotiva com 3 quadros
                 emoldurados em preto fosco.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 279,90</p>
             </div>
@@ -704,11 +686,11 @@
               </h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Quadros delicados personalizados com
                 inicial e nome para quarto de bebê.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 189,90</p>
             </div>
@@ -736,11 +718,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Retrato Família &amp; Gestante P&amp;B</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Fotografia afetiva em preto e branco com
                 moldura branca de acabamento liso.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 149,90</p>
             </div>
@@ -768,11 +750,11 @@
               </h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Par de quadros personalizados com
                 iniciais e ilustrações autorais.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 189,90</p>
             </div>
@@ -800,11 +782,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Quadro Infantil Astronauta — Universo</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Arte espacial personalizada com frase
                 afetiva e moldura preta.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 149,90</p>
             </div>
@@ -830,11 +812,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Botânico Cacto em Moldura Pinus</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Quadro minimalista botânico com moldura
                 em madeira natural Pinus.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 159,90</p>
             </div>
@@ -863,11 +845,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Trio Santos FC — Vila Belmiro P&amp;B</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Conjunto de 3 quadros históricos em
                 preto e branco com moldura branca.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 269,90</p>
             </div>
@@ -893,11 +875,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Trio Botânico Beauty &amp; Natureza</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Composição de 3 quadros autorais em
                 moldura Pinus natural.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 279,90</p>
             </div>
@@ -925,11 +907,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Kit Molduras Personalizadas A3 &amp; A4</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Quadros sob medida com sua imagem
                 preferida em moldura preta ou branca.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 115,00</p>
             </div>
@@ -955,11 +937,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Trio Urbano Vila Belmiro — Edição Clássica</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Composição esportiva em 3 quadros com
                 acabamento branco fosco.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 249,90</p>
             </div>
@@ -986,11 +968,11 @@
               </h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Kit com 4 quadros personalizados com
                 suas fotos favoritas em moldura preta.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 259,90</p>
             </div>
@@ -1016,11 +998,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Quadro Infantil Voe Alto Meu Menino</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Quadro infantil personalizado emoldurado
                 com vidro e cantoneiras de proteção.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 139,90</p>
             </div>
@@ -1046,11 +1028,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Composição Sala Trio Beauty Pinus</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Trio de quadros decorativos em tamanho
                 grande para sala de estar.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 279,90</p>
             </div>
@@ -1076,11 +1058,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Galeria Botânica &amp; Floral (3 Peças)</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Conjunto de 3 obras botânicas com
                 moldura em madeira Pinus.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 279,90</p>
             </div>
@@ -1106,11 +1088,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Quadro Estádio Urbano Caldeira</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Fotografia exclusiva emoldurada em
                 acabamento branco de alta durabilidade.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 129,90</p>
             </div>
@@ -1139,11 +1121,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Quadro Árvore da Vida — Recordação Bebê</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Arte afetiva maternidade com dados de
                 nascimento e moldura preta.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 159,90</p>
             </div>
@@ -1169,11 +1151,11 @@
               <h3 class="text-sm font-medium text-zinc-800 sm:text-base">Dupla Infantil Safari &amp; Gatinhos</h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Kit de 2 quadros infantis personalizados
                 com nome e inicial.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 189,90</p>
             </div>
@@ -1200,11 +1182,11 @@
               </h3>
               <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">Par de quadros personalizados com
                 inicial e significado do nome.</p>
-              <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
-                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i
-                  data-lucide="star" class="h-3.5 w-3.5 fill-[#9e004f]"></i><i data-lucide="star"
-                  class="h-3.5 w-3.5 fill-[#9e004f]"></i>
+              <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
+                <i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i
+                  data-lucide="star" class="h-3.5 w-3.5 fill-[#EA0273]"></i><i data-lucide="star"
+                  class="h-3.5 w-3.5 fill-[#EA0273]"></i>
               </div>
               <p class="mt-1.5 text-sm font-bold text-zinc-900">R$ 189,90</p>
             </div>
@@ -1230,12 +1212,12 @@
         </div>
         <div class="mt-1 flex flex-wrap items-center justify-center gap-3">
           <button type="button" id="collection-load-more"
-            class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-[#9e004f] shadow-lg transition-all duration-200 hover:bg-brand-amarelo hover:text-ink-950 active:scale-95">
+            class="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-[#EA0273] shadow-lg transition-all duration-200 hover:bg-brand-amarelo hover:text-ink-950 active:scale-95">
             <span>Ver mais quadros</span>
             <i data-lucide="chevron-down" class="h-4 w-4"></i>
           </button>
           <button type="button" id="collection-show-less"
-            class="hidden items-center gap-2 rounded-full border border-white/45 bg-white/15 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-200 hover:bg-white hover:text-[#9e004f] active:scale-95">
+            class="hidden items-center gap-2 rounded-full border border-white/45 bg-white/15 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-200 hover:bg-white hover:text-[#EA0273] active:scale-95">
             <span>Mostrar menos</span>
             <i data-lucide="chevron-up" class="h-4 w-4"></i>
           </button>
@@ -1331,7 +1313,7 @@
 
           <!-- Story 3 (CARD CENTRAL EM DESTAQUE) -->
           <div class="story-item is-center w-[235px] shrink-0 lg:w-auto" data-story-index="2" data-parallax="-0.11">
-            <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-[#d45679] shadow-md">
+            <div class="story-media group relative cursor-pointer overflow-hidden rounded-2xl bg-brand-magenta shadow-md">
               <img src="imagens/autora/autora-03.jpg" alt="Composição em Destaque"
                 class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
@@ -1342,12 +1324,12 @@
             </div>
             <div
               class="add-to-cart mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-zinc-200/90 bg-white p-3 shadow-sm transition hover:border-brand-magenta/50"
-              data-id="story-03" data-title="Composição Autoral III" data-img="imagens/autora/autora-03.jpg"
+              data-id="story-03" data-title="Composição em Destaque III" data-img="imagens/autora/autora-03.jpg"
               data-price="238.90">
-              <img src="imagens/autora/autora-03.jpg" alt="Composição Autoral III"
+              <img src="imagens/autora/autora-03.jpg" alt="Composição em Destaque III"
                 class="h-12 w-12 shrink-0 rounded-lg bg-zinc-100 object-cover" />
               <div class="min-w-0 flex-1">
-                <p class="truncate text-xs font-normal text-zinc-600">Composição Autoral III</p>
+                <p class="truncate text-xs font-normal text-zinc-600">Composição em Destaque III</p>
                 <p class="mt-0.5 text-sm font-bold text-zinc-800">R$ 238,90</p>
               </div>
             </div>
@@ -1423,11 +1405,11 @@
         <!-- Depoimento 1 -->
         <figure data-reveal data-parallax="-0.06"
           class="parallax-layer flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
-          <div class="flex items-center gap-1 text-[#9e004f]">
-            <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
-              data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i>
+          <div class="flex items-center gap-1 text-[#EA0273]">
+            <i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i
+              data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i>
           </div>
           <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
             “Comprei três obras para a sala e parece outra casa. A qualidade da moldura e o cuidado na embalagem me
@@ -1446,14 +1428,14 @@
         <!-- Depoimento 2 -->
         <figure data-reveal data-parallax="0.06"
           class="parallax-layer reveal-delay-100 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
-          <div class="flex items-center gap-1 text-[#9e004f]">
-            <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
-              data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i>
+          <div class="flex items-center gap-1 text-[#EA0273]">
+            <i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i
+              data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i>
           </div>
           <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
-            “A curadoria acertou em cheio. Eu não entendo nada de arte e eles montaram uma parede incrível dentro do meu
+            “A escolha dos quadros acertou em cheio. Eu queria renovar a sala e consegui montar uma parede incrível dentro do meu
             orçamento.”
           </blockquote>
           <figcaption class="mt-6 flex items-center gap-3 border-t border-zinc-200/70 pt-5">
@@ -1469,11 +1451,11 @@
         <!-- Depoimento 3 -->
         <figure data-reveal data-parallax="-0.06"
           class="parallax-layer reveal-delay-200 flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
-          <div class="flex items-center gap-1 text-[#9e004f]">
-            <i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i
-              data-lucide="star" class="h-4 w-4 fill-[#9e004f]"></i><i data-lucide="star"
-              class="h-4 w-4 fill-[#9e004f]"></i>
+          <div class="flex items-center gap-1 text-[#EA0273]">
+            <i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i
+              data-lucide="star" class="h-4 w-4 fill-[#EA0273]"></i><i data-lucide="star"
+              class="h-4 w-4 fill-[#EA0273]"></i>
           </div>
           <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
             “Comprei para o consultório e a recepção virou ponto de elogio. As cores pessoalmente são ainda mais vivas
@@ -1573,30 +1555,23 @@
   </section>
 
 
-  <!-- ============================ FOOTER ============================ -->
+  <!-- ============================ FOOTER (DEGRADÊ DE BAIXO PARA CIMA) ============================ -->
   <footer id="footer"
-    class="relative overflow-hidden border-t border-[#EA0273]/30 bg-gradient-to-br from-[#fff7fb] via-[#EA0273] to-[#8e0047] text-white">
-    <!-- Luzes decorativas de degradê da paleta oficial (#FDC303 Amarelo e #019AEB Azul) -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
-      <div class="absolute -left-16 -top-16 h-80 w-80 rounded-full bg-white/85 blur-2xl"></div>
-      <div class="absolute left-1/3 -top-24 h-72 w-72 rounded-full bg-[#FDC303]/25 blur-3xl"></div>
-      <div class="absolute -bottom-24 -right-16 h-80 w-80 rounded-full bg-[#019AEB]/30 blur-3xl"></div>
-    </div>
-
+    class="relative overflow-hidden border-t border-zinc-200/60 bg-[linear-gradient(to_top,#EA0273_0%,#f154a1_48%,#fde9f3_84%,#ffffff_100%)] text-ink-950">
     <div class="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-8">
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <!-- Marca + Instagram -->
         <div class="lg:col-span-2">
           <a href="#" class="inline-flex items-center">
             <img src="imagens/logo/logo2.png" alt="123quadro — Galeria de Arte"
-              class="h-20 w-auto origin-center cursor-pointer transform-gpu object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.9)] transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105 sm:h-24" />
+              class="h-20 w-auto origin-center cursor-pointer transform-gpu object-contain drop-shadow-[0_2px_10px_rgba(255,255,255,0.85)] transition-transform duration-300 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105 sm:h-24" />
           </a>
 
           <div class="mt-5">
             <a href="https://www.instagram.com/123_quadro" target="_blank" rel="noopener noreferrer"
               aria-label="Siga a 123quadro no Instagram"
-              class="inline-flex items-center gap-2.5 rounded-full border border-white/50 bg-gradient-to-r from-[#8e0047] via-[#EA0273] to-[#FDC303] p-[2px] shadow-md transition-transform duration-200 hover:scale-105 active:scale-95">
-              <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#8e0047]">
+              class="inline-flex items-center gap-2.5 rounded-full border border-white/60 bg-gradient-to-r from-[#EA0273] via-[#FDC303] to-[#019AEB] p-[2px] shadow-md transition-transform duration-200 hover:scale-105 active:scale-95">
+              <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold text-ink-950">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#EA0273]">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -1611,34 +1586,34 @@
 
         <!-- Vitrine -->
         <div>
-          <p class="font-display text-sm font-bold uppercase tracking-wider text-brand-amarelo drop-shadow-sm">Vitrine</p>
+          <p class="font-display text-sm font-bold uppercase tracking-wider text-ink-950">Vitrine</p>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="#colecao" class=" font-medium text-white transition hover:text-brand-amarelo hover:underline">Coleção</a>
+            <li><a href="#colecao" class="font-semibold text-ink-950/90 transition hover:text-white hover:underline">Coleção</a>
             </li>
             <li><a href="#inspiracoes"
-                class="font-medium text-white transition hover:text-brand-amarelo hover:underline">Ambientes &amp;
+                class="font-semibold text-ink-950/90 transition hover:text-white hover:underline">Ambientes &amp;
                 Reels</a></li>
           </ul>
         </div>
 
         <!-- Ajuda -->
         <div>
-          <p class="font-display text-sm font-bold uppercase tracking-wider text-brand-amarelo drop-shadow-sm">Atendimento</p>
+          <p class="font-display text-sm font-bold uppercase tracking-wider text-ink-950">Atendimento</p>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="#faq" class="font-medium text-white transition hover:text-brand-amarelo hover:underline">Central de
+            <li><a href="#faq" class="font-semibold text-ink-950/90 transition hover:text-white hover:underline">Central de
                 dúvidas</a></li>
-            <li><a href="#faq" class="font-medium text-white transition hover:text-brand-amarelo hover:underline">Frete e
+            <li><a href="#faq" class="font-semibold text-ink-950/90 transition hover:text-white hover:underline">Frete e
                 prazos</a></li>
-            <li><a href="#faq" class="font-medium text-white transition hover:text-brand-amarelo hover:underline">Trocas e
+            <li><a href="#faq" class="font-semibold text-ink-950/90 transition hover:text-white hover:underline">Trocas e
                 devoluções</a></li>
           </ul>
         </div>
       </div>
 
-      <!-- Barra inferior -->
-      <div class="mt-12 flex flex-col items-center justify-between gap-5 border-t border-white/25 pt-8 sm:flex-row">
-        <p class="text-xs font-medium text-white/95">© 2026 123quadro. Todos os direitos reservados. CNPJ 67.185.748/0001-87</p>
-        <div class="flex items-center gap-2 text-[#9e004f]">
+      <!-- Barra inferior (sobre a base #EA0273 do degradê) -->
+      <div class="mt-12 flex flex-col items-center justify-between gap-5 border-t border-white/35 pt-8 sm:flex-row">
+        <p class="text-xs font-medium text-white">© 2026 123quadro. Todos os direitos reservados. CNPJ 67.185.748/0001-87</p>
+        <div class="flex items-center gap-2 text-[#EA0273]">
           <span class="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">PIX</span>
           <span class="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">VISA</span>
           <span class="rounded-lg bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">MASTER</span>
@@ -1657,7 +1632,7 @@
     <!-- Topo da Sacola -->
     <div class="flex items-center justify-between border-b border-zinc-200 px-6 py-4">
       <div class="flex items-center gap-2.5">
-        <i data-lucide="shopping-bag" class="h-5 w-5 text-[#9e004f]"></i>
+        <i data-lucide="shopping-bag" class="h-5 w-5 text-[#EA0273]"></i>
         <h2 id="cart-drawer-title" class="font-display text-base font-bold text-zinc-900">
           Minha Sacola <span class="text-sm font-normal text-zinc-500">(<span id="cart-count">0</span>)</span>
         </h2>
@@ -1670,7 +1645,7 @@
 
     <!-- Barra de Progresso de Frete Grátis -->
     <div class="border-b border-pink-100 bg-[#fdf2f6] px-6 py-3">
-      <p id="free-shipping-msg" class="text-center text-xs font-medium text-[#8e0047]">
+      <p id="free-shipping-msg" class="text-center text-xs font-medium text-[#EA0273]">
         Faltam <strong>R$ 399,00</strong> para você ganhar <strong>Frete Grátis!</strong>
       </p>
       <div class="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-pink-200">
@@ -1685,7 +1660,7 @@
         <div id="cart-items" class="flex flex-col gap-4"></div>
 
         <div id="cart-empty" class="flex h-full flex-col items-center justify-center py-14 text-center">
-          <div class="grid h-16 w-16 place-items-center rounded-full bg-pink-50 text-[#9e004f]">
+          <div class="grid h-16 w-16 place-items-center rounded-full bg-pink-50 text-[#EA0273]">
             <i data-lucide="shopping-bag" class="h-7 w-7"></i>
           </div>
           <h3 class="mt-4 font-display text-base font-bold text-zinc-900">Sua sacola está vazia</h3>
@@ -1693,7 +1668,7 @@
             Explore nossa Coleção para transformar sua parede.
           </p>
           <button type="button" id="cart-empty-cta"
-            class="mt-6 rounded-md bg-[#9e004f] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-brand-magenta">
+            class="mt-6 rounded-md bg-[#EA0273] px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition hover:bg-brand-magenta">
             Escolher produtos
           </button>
         </div>
@@ -1718,7 +1693,7 @@
         </div>
 
         <button type="button" id="cart-checkout-btn"
-          class="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-[#9e004f] py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95">
+          class="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-[#EA0273] py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95">
           <span>Finalizar orçamento</span>
           <i data-lucide="arrow-right" class="h-4 w-4"></i>
         </button>
@@ -1739,7 +1714,7 @@
         <!-- Barra superior de retorno + resumo rápido -->
         <div class="flex items-center justify-between rounded-xl border border-pink-100 bg-[#fdf2f6]/60 px-3.5 py-2.5">
           <button type="button" id="checkout-back-btn"
-            class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9e004f] transition hover:text-brand-magenta">
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#EA0273] transition hover:text-brand-magenta">
             <i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>
             <span>Voltar à sacola</span>
           </button>
@@ -1828,7 +1803,7 @@
             <label class="cursor-pointer">
               <input type="radio" name="chk-pagamento" value="Pix" checked class="peer sr-only" />
               <span
-                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#9e004f] peer-checked:bg-[#fdf2f6] peer-checked:text-[#9e004f]">
+                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#EA0273] peer-checked:bg-[#fdf2f6] peer-checked:text-[#EA0273]">
                 <i data-lucide="qr-code" class="mb-1 h-4 w-4"></i>
                 Pix
               </span>
@@ -1836,7 +1811,7 @@
             <label class="cursor-pointer">
               <input type="radio" name="chk-pagamento" value="Cartão de Crédito" class="peer sr-only" />
               <span
-                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#9e004f] peer-checked:bg-[#fdf2f6] peer-checked:text-[#9e004f]">
+                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#EA0273] peer-checked:bg-[#fdf2f6] peer-checked:text-[#EA0273]">
                 <i data-lucide="credit-card" class="mb-1 h-4 w-4"></i>
                 Cartão
               </span>
@@ -1844,7 +1819,7 @@
             <label class="cursor-pointer">
               <input type="radio" name="chk-pagamento" value="Boleto" class="peer sr-only" />
               <span
-                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#9e004f] peer-checked:bg-[#fdf2f6] peer-checked:text-[#9e004f]">
+                class="flex flex-col items-center justify-center rounded-xl border border-zinc-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-zinc-700 transition peer-checked:border-[#EA0273] peer-checked:bg-[#fdf2f6] peer-checked:text-[#EA0273]">
                 <i data-lucide="file-text" class="mb-1 h-4 w-4"></i>
                 Boleto
               </span>

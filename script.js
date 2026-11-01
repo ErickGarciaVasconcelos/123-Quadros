@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="w-5 text-center font-medium text-zinc-800">${item.qty || 1}</span>
               <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="inc">+</button>
             </div>
-            <p class="font-display text-sm font-bold text-[#9e004f]">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
+            <p class="font-display text-sm font-bold text-[#EA0273]">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
           </div>
         </div>
       `;
@@ -683,7 +683,7 @@ document.addEventListener('DOMContentLoaded', () => {
         b.classList.toggle('border-white/35', !active);
         b.classList.toggle('hover:border-white', !active);
         b.classList.toggle('hover:bg-white', !active);
-        b.classList.toggle('hover:text-[#9e004f]', !active);
+        b.classList.toggle('hover:text-[#EA0273]', !active);
       });
 
       applyCollectionFilter(filter, true);
@@ -946,7 +946,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const n = Math.min(5, Math.max(1, Number(count) || 5));
     let html = '';
     for (let i = 1; i <= 5; i++) {
-      html += `<i data-lucide="star" class="h-3.5 w-3.5 ${i <= n ? 'fill-[#9e004f]' : 'text-zinc-300'}"></i>`;
+      html += `<i data-lucide="star" class="h-3.5 w-3.5 ${i <= n ? 'fill-[#EA0273]' : 'text-zinc-300'}"></i>`;
     }
     return html;
   }
@@ -979,14 +979,6 @@ document.addEventListener('DOMContentLoaded', () => {
             badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">-${desc}%</span>`;
           }
 
-          const curadoriaHtml = item.selo_curadoria
-            ? `<div class="absolute left-4 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
-                <span class="text-brand-amarelo">2026</span>
-                <span>CURADORIA</span>
-                <span class="text-[6px] opacity-75">DESTAQUE</span>
-              </div>`
-            : '';
-
           const priceHtml = hasDiscount
             ? `<p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(orig)}</span><strong class="font-bold text-zinc-900">${fmt.format(finalPrice)}</strong></p>`
             : `<p class="mt-1.5 text-sm font-bold text-zinc-900">${fmt.format(finalPrice)}</p>`;
@@ -995,14 +987,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <article data-reveal data-category="${item.categoria || 'paisagem'}" class="product-card is-in flex flex-col">
               <div class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-[#f7f7f7] p-5">
                 ${badgeHtml}
-                ${curadoriaHtml}
                 <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full rounded-sm object-cover shadow-sm transition-transform duration-500 group-hover:scale-105" loading="lazy" />
               </div>
               <div class="flex flex-1 flex-col justify-between pt-3">
                 <div>
                   <h3 class="text-sm font-medium text-zinc-800 sm:text-base">${item.titulo}</h3>
                   <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">${item.subtitulo || ''}</p>
-                  <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
+                  <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
                     ${buildStarsHtml(item.estrelas)}
                   </div>
                   ${priceHtml}
