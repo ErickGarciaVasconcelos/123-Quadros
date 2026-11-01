@@ -434,46 +434,88 @@ document.addEventListener('DOMContentLoaded', () => {
       if (checkoutErrorEl) checkoutErrorEl.classList.add('hidden');
       saveCustomerInfo();
 
+      const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
       const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
-      const freteStatus = subtotal >= FREE_SHIPPING_LIMIT ? 'Grátis (compras acima de R$ 399,00)' : 'A combinar';
+      const freteStatus = subtotal >= FREE_SHIPPING_LIMIT ? 'Grátis (acima de R$ 399,00)' : 'A combinar';
+
+      const now = new Date();
+      const dataHora = now.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }) + ' às ' + now.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
 
       const itensTexto = cart
-        .map((item) => {
+        .map((item, idx) => {
           const qtd = item.qty || 1;
           const unit = Number(item.price) || 0;
           const totalItem = unit * qtd;
-          return `• ${qtd}x *${item.title}* — ${fmt.format(totalItem)}${qtd > 1 ? ` (${fmt.format(unit)} cada)` : ''}`;
+          const detalheUnit = qtd > 1 ? ` (${fmt.format(unit)} cada)` : '';
+          return [
+            `*${idx + 1}. ${item.title}*`,
+            `   ▪ Quantidade: ${qtd} ${qtd === 1 ? 'unidade' : 'unidades'}`,
+            `   ▪ Valor: *${fmt.format(totalItem)}*${detalheUnit}`,
+          ].join('\n');
         })
-        .join('\n');
+        .join('\n\n');
 
-      const enderecoLinha1 = `${rua}, nº ${numero}${complemento ? ` (${complemento})` : ''}`;
+      const divider = '──────────────────────';
+
+      const enderecoLinhas = [
+        `▪ *Rua/Av.:* ${rua}, nº ${numero}`,
+      ];
+      if (complemento) {
+        enderecoLinhas.push(`▪ *Complemento:* ${complemento}`);
+      }
+      enderecoLinhas.push(
+        `▪ *Bairro:* ${bairro}`,
+        `▪ *Cidade/UF:* ${cidade}`,
+        `▪ *CEP:* ${cep}`
+      );
 
       const lines = [
-        '🛍️ *NOVO PEDIDO — 123quadro*',
+        '*✦ NOVO ORÇAMENTO — 123quadro ✦*',
+        `_Realizado em ${dataHora}_`,
+        divider,
         '',
-        '🖼️ *ITENS DO PEDIDO:*',
+        '*▸ 1. QUADROS ESCOLHIDOS*',
         itensTexto,
         '',
-        '💰 *RESUMO DE VALORES:*',
-        `• Subtotal: ${fmt.format(subtotal)}`,
-        `• Frete: ${freteStatus}`,
-        `• *Total do Pedido: ${fmt.format(subtotal)}*`,
-        `• *Forma de Pagamento:* ${pagamento}`,
+        divider,
+        '*▸ 2. RESUMO DO PEDIDO*',
+        `▪ Volume total: *${totalQty} ${totalQty === 1 ? 'quadro' : 'quadros'}*`,
+        `▪ Subtotal: ${fmt.format(subtotal)}`,
+        `▪ Frete: _${freteStatus}_`,
+        `▪ Pagamento: *${pagamento}*`,
+        `*▸ TOTAL ESTIMADO: ${fmt.format(subtotal)}*`,
         '',
-        '👤 *DADOS DO CLIENTE:*',
-        `• Nome: ${nome}`,
-        `• WhatsApp/Tel: ${telefone}`,
+        divider,
+        '*▸ 3. DADOS DO CLIENTE*',
+        `▪ *Nome:* ${nome}`,
+        `▪ *WhatsApp:* ${telefone}`,
         '',
-        '📦 *ENDEREÇO PARA ENVIO:*',
-        `• Endereço: ${enderecoLinha1}`,
-        `• Bairro: ${bairro}`,
-        `• Cidade/UF: ${cidade}`,
-        `• CEP: ${cep}`,
+        divider,
+        '*▸ 4. ENDEREÇO PARA ENTREGA*',
+        ...enderecoLinhas,
       ];
 
       if (obs) {
-        lines.push('', `📝 *Observações:* ${obs}`);
+        lines.push(
+          '',
+          divider,
+          '*▸ 5. OBSERVAÇÕES*',
+          `_"${obs}"_`
+        );
       }
+
+      lines.push(
+        '',
+        divider,
+        '_Olá! Seguem os dados do meu orçamento para confirmação e envio._'
+      );
 
       const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
