@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>123quadro</title>
   <meta name="description"
     content="Encontre quadros decorativos modernos e exclusivos para transformar sua casa ou escritório. Qualidade premium, envio rápido e variedade. Confira agora!" />
@@ -31,7 +31,7 @@
   <!-- Configuração do Tailwind + comportamentos (ver script.js) -->
   <script src="script.js?v=4" charset="UTF-8"></script>
 
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 
 <body class="bg-white font-sans text-zinc-600 antialiased selection:bg-brand-magenta/30">
@@ -115,7 +115,7 @@
           <i data-lucide="search" class="h-4 w-4 text-brand-magenta"></i>
           <input id="search-input" type="search"
             placeholder="Busque por quadro, estilo (ex: Fim de Tarde, Abstrato, Noir)..."
-            class="w-full bg-transparent text-sm text-zinc-800 placeholder-zinc-400 outline-none" />
+            class="w-full bg-transparent text-base text-zinc-800 placeholder-zinc-400 outline-none sm:text-sm" />
           <button type="button" id="search-close"
             class="text-xs font-semibold text-zinc-400 hover:text-zinc-700">Fechar</button>
         </div>
@@ -1719,14 +1719,14 @@
             <label for="chk-nome" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Nome
               completo *</label>
             <input id="chk-nome" type="text" required placeholder="Ex: Maria Aparecida Silva"
-              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
           </div>
 
           <div>
             <label for="chk-telefone" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Seu
               Telefone / WhatsApp *</label>
             <input id="chk-telefone" type="tel" required placeholder="(11) 99999-9999"
-              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
           </div>
         </div>
 
@@ -1737,13 +1737,13 @@
               <label for="chk-cep" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">CEP
                 *</label>
               <input id="chk-cep" type="text" inputmode="numeric" maxlength="9" required placeholder="00000-000"
-                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
             </div>
             <div>
               <label for="chk-cidade" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Cidade
                 / UF *</label>
               <input id="chk-cidade" type="text" required placeholder="Ex: São Paulo / SP"
-                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
             </div>
           </div>
 
@@ -1751,7 +1751,7 @@
             <label for="chk-rua" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Rua /
               Avenida *</label>
             <input id="chk-rua" type="text" required placeholder="Ex: Av. Paulista"
-              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
           </div>
 
           <div class="grid grid-cols-2 gap-2.5">
@@ -1759,13 +1759,13 @@
               <label for="chk-numero" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Número
                 *</label>
               <input id="chk-numero" type="text" required placeholder="Ex: 1000"
-                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
             </div>
             <div>
               <label for="chk-complemento"
                 class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Complemento</label>
               <input id="chk-complemento" type="text" placeholder="Apto, Bloco, Casa..."
-                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+                class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
             </div>
           </div>
 
@@ -1773,7 +1773,7 @@
             <label for="chk-bairro" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Bairro
               *</label>
             <input id="chk-bairro" type="text" required placeholder="Ex: Bela Vista"
-              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
           </div>
         </div>
 
@@ -1813,7 +1813,7 @@
           <label for="chk-obs" class="block text-[11px] font-bold uppercase tracking-wider text-zinc-700">Observações
             (opcional)</label>
           <input id="chk-obs" type="text" placeholder="Alguma observação sobre o pedido ou entrega?"
-            class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+            class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-base text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15 sm:text-xs" />
         </div>
       </div>
 
