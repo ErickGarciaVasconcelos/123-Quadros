@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadCart() {
     try {
       const raw = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      return Array.isArray(raw) ? raw.filter((i) => i && i.id && Number(i.price) > 0) : [];
+      return Array.isArray(raw) ? raw.filter((i) => i && i.id) : [];
     } catch {
       return [];
     }
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cartCountEl) cartCountEl.textContent = totalQty;
     updateFreeShipping(subtotal);
     if (checkoutMiniSummary) {
-      checkoutMiniSummary.textContent = `${totalQty} ${totalQty === 1 ? 'item' : 'itens'} · ${fmt.format(subtotal)}`;
+      checkoutMiniSummary.textContent = `${totalQty} ${totalQty === 1 ? 'item' : 'itens'}`;
     }
 
     if (!cartItemsEl || !cartEmptyEl || !cartSummaryEl) return;
@@ -253,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
               <span class="w-5 text-center font-medium text-zinc-800">${item.qty || 1}</span>
               <button type="button" class="cart-qty grid h-5 w-5 place-items-center text-zinc-500 hover:text-zinc-900" data-id="${item.id}" data-action="inc">+</button>
             </div>
-            <p class="font-display text-sm font-bold text-[#EA0273]">${fmt.format((Number(item.price) || 0) * (item.qty || 1))}</p>
           </div>
         </div>
       `;
@@ -295,7 +294,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = btn.dataset.id;
     const title = btn.dataset.title || 'Quadro Decorativo';
     const img = btn.dataset.img || 'imagens/colecao/obra-1.jpg';
-    const price = Number(btn.dataset.price) || 199.90;
 
     if (!id) return;
 
@@ -304,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (existing) {
       existing.qty = (existing.qty || 1) + 1;
     } else {
-      cart.push({ id, title, img, price, qty: 1 });
+      cart.push({ id, title, img, qty: 1 });
     }
     saveCart(cart);
     showCartStep('items');
@@ -407,9 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Função dedicada para gerar a mensagem do WhatsApp no formato padrão
   function gerarMensagemWhatsApp({
     cart,
-    subtotal,
     frete,
-    total,
     formaPagamento,
     nome,
     telefone,
@@ -422,10 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaDeItens = cart
       .map((item) => {
         const qtd = item.qty || 1;
-        const unit = Number(item.price) || 0;
-        const totalItem = unit * qtd;
-        const detalheUnit = qtd > 1 ? ` (${fmt.format(unit)} cada)` : '';
-        return `\u2022 ${qtd}x *${item.title}* \u2014 ${fmt.format(totalItem)}${detalheUnit}`;
+        return `\u2022 ${qtd}x *${item.title}*`;
       })
       .join('\n');
 
@@ -439,10 +432,8 @@ document.addEventListener('DOMContentLoaded', () => {
       '\u2B50 *ITENS DO PEDIDO*',
       listaDeItens,
       '',
-      '\u2705 *RESUMO DE VALORES*',
-      `\u2022 *Subtotal:* ${subtotal}`,
+      '\u2705 *PAGAMENTO E FRETE*',
       `\u2022 *Frete:* ${frete}`,
-      `\u2022 *Total:* *${total}*`,
       `\u2022 *Forma de Pagamento:* ${formaPagamento}`,
       '',
       '\u2756 *DADOS DO CLIENTE*',
@@ -493,17 +484,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (checkoutErrorEl) checkoutErrorEl.classList.add('hidden');
       saveCustomerInfo();
 
-      const subtotalNum = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
-      const subtotal = fmt.format(subtotalNum);
-      const frete = subtotalNum >= FREE_SHIPPING_LIMIT ? 'Grátis (compras acima de R$ 399,00)' : 'A combinar';
-      const total = fmt.format(subtotalNum);
+      const frete = 'A combinar';
       const endereco = `${rua}, nº ${numero}${complemento ? ` (${complemento})` : ''}`;
 
       const mensagem = gerarMensagemWhatsApp({
         cart,
-        subtotal,
         frete,
-        total,
         formaPagamento,
         nome,
         telefone,
@@ -951,24 +937,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (colecaoGrid && colecaoItems.length > 0) {
       colecaoGrid.innerHTML = colecaoItems
         .map((item) => {
-          const orig = Number(item.preco_original) || 0;
-          const desc = Number(item.desconto_pct) || 0;
-          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
-          const hasDiscount = desc > 0 && orig > finalPrice;
-
           let badgeHtml = '';
-          if (item.selo) {
-            const isDiscountBadge = String(item.selo).startsWith('-');
-            badgeHtml = isDiscountBadge
-              ? `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">${item.selo}</span>`
-              : `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-brand-magenta px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
-          } else if (hasDiscount) {
-            badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">-${desc}%</span>`;
+          if (item.selo && !String(item.selo).startsWith('-')) {
+            badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-brand-magenta px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
           }
-
-          const priceHtml = hasDiscount
-            ? `<p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(orig)}</span><strong class="font-bold text-zinc-900">${fmt.format(finalPrice)}</strong></p>`
-            : `<p class="mt-1.5 text-sm font-bold text-zinc-900">${fmt.format(finalPrice)}</p>`;
 
           return `
             <article data-reveal data-category="${item.categoria || 'paisagem'}" class="product-card is-in flex flex-col">
@@ -983,9 +955,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   <div class="mt-1.5 flex items-center gap-0.5 text-[#EA0273]">
                     ${buildStarsHtml(item.estrelas)}
                   </div>
-                  ${priceHtml}
                 </div>
-                <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
+                <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}">
                   Adicionar
                 </button>
               </div>
@@ -1002,9 +973,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (storiesGrid && storiesItems.length > 0) {
       storiesGrid.innerHTML = storiesItems
         .map((item, idx) => {
-          const orig = Number(item.preco_original) || 0;
-          const desc = Number(item.desconto_pct) || 0;
-          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
           const isCenter = idx === 2;
 
           const topTagHtml = item.selo
@@ -1022,11 +990,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 ${topTagHtml}
               </div>
-              <div class="add-to-cart mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-zinc-200/90 bg-white ${isCenter ? 'p-3' : 'p-2.5'} shadow-sm transition hover:border-brand-magenta/50" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
+              <div class="add-to-cart mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-zinc-200/90 bg-white ${isCenter ? 'p-3' : 'p-2.5'} shadow-sm transition hover:border-brand-magenta/50" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}">
                 <img src="${item.imagem_url}" alt="${item.titulo}" class="${isCenter ? 'h-12 w-12' : 'h-11 w-11'} shrink-0 rounded-lg bg-zinc-100 object-cover" />
                 <div class="min-w-0 flex-1">
-                  <p class="truncate text-xs font-normal text-zinc-600">${item.titulo}</p>
-                  <p class="mt-0.5 ${isCenter ? 'text-sm' : 'text-xs'} font-bold text-zinc-800">${fmt.format(finalPrice)}</p>
+                  <p class="truncate text-xs font-semibold text-zinc-800">${item.titulo}</p>
                 </div>
               </div>
             </div>
