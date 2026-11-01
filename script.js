@@ -847,7 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   ${priceHtml}
                 </div>
                 <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
-                  Adicionar à sacola
+                  Adicionar
                 </button>
               </div>
             </article>
