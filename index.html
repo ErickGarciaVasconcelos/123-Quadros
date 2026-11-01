@@ -1534,9 +1534,11 @@
   </section>
 
 
-  <!-- ============================ FOOTER (OPÇÃO B: DEGRADÊ SUAVE PASTEL DAS 3 CORES DE BAIXO PARA CIMA) ============================ -->
-  <footer id="footer"
-    class="relative overflow-hidden border-t border-[#019AEB]/20 bg-[linear-gradient(to_top,#fbd0e5_0%,#fff4c2_52%,#dff2fc_100%)] text-ink-950">
+  <!-- ============================ FOOTER (OPÇÃO A: FUNDO EDITORIAL + FAIXA SUPERIOR EM DEGRADÊ 3 CORES) ============================ -->
+  <footer id="footer" class="relative overflow-hidden bg-[#fafafa] text-zinc-700">
+    <!-- Faixa superior em degradê com as 3 cores da paleta oficial (#EA0273, #FDC303, #019AEB) -->
+    <div aria-hidden="true" class="h-1.5 w-full bg-gradient-to-r from-[#EA0273] via-[#FDC303] to-[#019AEB]"></div>
+
     <div class="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-8">
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <!-- Marca + Instagram -->
@@ -1565,38 +1567,38 @@
 
         <!-- Vitrine -->
         <div>
-          <p class="font-display text-sm font-extrabold uppercase tracking-wider text-[#EA0273]">Vitrine</p>
+          <p class="font-display text-sm font-bold uppercase tracking-wider text-ink-950">Vitrine</p>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="#colecao" class="font-semibold text-ink-950 transition hover:text-[#EA0273]">Coleção</a>
+            <li><a href="#colecao" class="font-medium text-zinc-600 transition hover:text-brand-magenta">Coleção</a>
             </li>
             <li><a href="#inspiracoes"
-                class="font-semibold text-ink-950 transition hover:text-[#EA0273]">Ambientes &amp;
+                class="font-medium text-zinc-600 transition hover:text-brand-magenta">Ambientes &amp;
                 Reels</a></li>
           </ul>
         </div>
 
         <!-- Ajuda -->
         <div>
-          <p class="font-display text-sm font-extrabold uppercase tracking-wider text-[#EA0273]">Atendimento</p>
+          <p class="font-display text-sm font-bold uppercase tracking-wider text-ink-950">Atendimento</p>
           <ul class="mt-4 space-y-3 text-sm">
-            <li><a href="#faq" class="font-semibold text-ink-950 transition hover:text-[#EA0273]">Central de
+            <li><a href="#faq" class="font-medium text-zinc-600 transition hover:text-brand-magenta">Central de
                 dúvidas</a></li>
-            <li><a href="#faq" class="font-semibold text-ink-950 transition hover:text-[#EA0273]">Frete e
+            <li><a href="#faq" class="font-medium text-zinc-600 transition hover:text-brand-magenta">Frete e
                 prazos</a></li>
-            <li><a href="#faq" class="font-semibold text-ink-950 transition hover:text-[#EA0273]">Trocas e
+            <li><a href="#faq" class="font-medium text-zinc-600 transition hover:text-brand-magenta">Trocas e
                 devoluções</a></li>
           </ul>
         </div>
       </div>
 
       <!-- Barra inferior -->
-      <div class="mt-12 flex flex-col items-center justify-between gap-5 border-t border-[#EA0273]/20 pt-8 sm:flex-row">
-        <p class="text-xs font-medium text-zinc-800">© 2026 123quadro. Todos os direitos reservados. CNPJ 67.185.748/0001-87</p>
-        <div class="flex items-center gap-2 text-[#EA0273]">
-          <span class="rounded-lg border border-[#EA0273]/20 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">PIX</span>
-          <span class="rounded-lg border border-[#EA0273]/20 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">VISA</span>
-          <span class="rounded-lg border border-[#EA0273]/20 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">MASTER</span>
-          <span class="rounded-lg border border-[#EA0273]/20 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">BOLETO</span>
+      <div class="mt-12 flex flex-col items-center justify-between gap-5 border-t border-zinc-200/80 pt-8 sm:flex-row">
+        <p class="text-xs text-zinc-500">© 2026 123quadro. Todos os direitos reservados. CNPJ 67.185.748/0001-87</p>
+        <div class="flex items-center gap-2 text-zinc-700">
+          <span class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">PIX</span>
+          <span class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">VISA</span>
+          <span class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">MASTER</span>
+          <span class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-[11px] font-bold shadow-sm">BOLETO</span>
         </div>
       </div>
     </div>
