@@ -1,5 +1,5 @@
 /* ==========================================================================
-   123 Quadros
+   123quadro
    script.js — Configuração do Tailwind + comportamentos interativos do site
    ========================================================================== */
 
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const enderecoLinha1 = `${rua}, nº ${numero}${complemento ? ` (${complemento})` : ''}`;
 
       const lines = [
-        '🛍️ *NOVO PEDIDO — 123 QUADROS*',
+        '🛍️ *NOVO PEDIDO — 123quadro*',
         '',
         '🖼️ *ITENS DO PEDIDO:*',
         itensTexto,

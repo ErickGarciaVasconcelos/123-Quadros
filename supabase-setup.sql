@@ -1,5 +1,5 @@
 -- ============================================================================
--- 123 QUADROS — SCRIPT DE CONFIGURAÇÃO DO BANCO DE DADOS E STORAGE (SUPABASE)
+-- 123quadro — SCRIPT DE CONFIGURAÇÃO DO BANCO DE DADOS E STORAGE (SUPABASE)
 -- Como usar:
 -- 1. Acesse seu projeto no painel do Supabase (https://supabase.com/dashboard)
 -- 2. No menu lateral esquerdo, clique em "SQL Editor" -> "New query"

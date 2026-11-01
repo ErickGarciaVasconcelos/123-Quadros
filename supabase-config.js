@@ -1,5 +1,5 @@
 /* ==========================================================================
-   123 Quadros — Configuração do Supabase
+   123quadro — Configuração do Supabase
    supabase-config.js
    --------------------------------------------------------------------------
    Para conectar o site e o painel administrativo ao Supabase em produção:

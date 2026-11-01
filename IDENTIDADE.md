@@ -1,4 +1,4 @@
-# 🔒 IDENTIDADE E REGRAS FIXAS — 123 Quadros / Site de Quadros
+# 🔒 IDENTIDADE E REGRAS FIXAS — 123quadro / Site de Quadros
 
 > **ESTE ARQUIVO É A FONTE DE VERDADE DO PROJETO.**
 > As informações marcadas com 🔒 **NUNCA podem ser alteradas, apagadas ou substituídas**
@@ -26,7 +26,7 @@
 ### Favicon 🔒
 - Arte: bloco arredondado branco + faixa com as 3 cores da marca (magenta/azul/amarelo) + **"123" em preto** — inspirado no nome e na paleta da logo.
 - Arquivos em `imagens/favicon/` (`favicon.ico` com 16/32/48 + PNGs 16/32/48/64/180/192/512) e `apple-touch-icon.png` na raiz.
-- Declarado no `<head>` do `index.html` + `site.webmanifest` (nome "123 Quadros", `theme_color` `#EA0273`).
+- Declarado no `<head>` do `index.html` + `site.webmanifest` (nome "123quadro", `theme_color` `#EA0273`).
 - 🔒 Cores sempre da paleta oficial (§2) — nunca inventar tons.
 - **Hover:** expansão `hover:scale-110` com `transition-transform duration-300` e easing `cubic-bezier(.16,1,.3,1)` + `hover:drop-shadow-md`.
 - A logo deve permanecer **clicável** (link para o topo/`#`) e com `alt` preenchido.
@@ -129,7 +129,7 @@ Ordem atual do `index.html` — **todas as seções devem existir**:
 - Faixa de números (2.400+ / 180 / 12 / 4,9★)
 - Micro-provas sociais (nota 4,9 / +2.400 colecionadores) e badges de Certificado e Frete grátis no hero
 - Pill "Curadoria independente" e grade `bg-grid`
-- Seção **Por que a 123 Quadros / Diferenciais** (bento grid de 6 blocos) e o botão secundário do hero **"Como funciona"**
+- Seção **Por que a 123quadro / Diferenciais** (bento grid de 6 blocos) e o botão secundário do hero **"Como funciona"**
 - **Preços das obras (R$)** nos cards da Coleção — hoje cada card exibe botão **"Comprar"**
 
 ---
@@ -139,7 +139,7 @@ Ordem atual do `index.html` — **todas as seções devem existir**:
 > Espaço reservado para as informações extraídas do PDF da cliente.
 > **Nada daqui pode ser inventado ou alterado por IA.**
 
-- ⏳ Nome oficial da marca / razão social: marca **123 Quadros** (em uso no site desde 18/10/2026 por pedido; razão social a confirmar no catálogo)
+- ⏳ Nome oficial da marca / razão social: marca **123quadro** (em uso no site desde 18/10/2026 por pedido; razão social a confirmar no catálogo)
 - ⏳ Slogan / missão:
 - ⏳ Tipagem de cores exatas (CMYK/HEX/Pantone):
 - ⏳ Tipografia oficial da marca:
