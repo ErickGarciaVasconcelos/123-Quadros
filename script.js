@@ -404,6 +404,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Função dedicada para gerar a mensagem do WhatsApp no formato padrão
+  function gerarMensagemWhatsApp({
+    cart,
+    subtotal,
+    frete,
+    total,
+    formaPagamento,
+    nome,
+    telefone,
+    endereco,
+    bairro,
+    cidadeUf,
+    cep,
+    obs,
+  }) {
+    const listaDeItens = cart
+      .map((item) => {
+        const qtd = item.qty || 1;
+        const unit = Number(item.price) || 0;
+        const totalItem = unit * qtd;
+        const detalheUnit = qtd > 1 ? ` (${fmt.format(unit)} cada)` : '';
+        return `\u2022 ${qtd}x *${item.title}* \u2014 ${fmt.format(totalItem)}${detalheUnit}`;
+      })
+      .join('\n');
+
+    const blocos = [
+      '\u{1F6D2} *NOVO PEDIDO \u2014 123quadro*',
+      '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
+      '',
+      '\u{1F4E6} *ITENS DO PEDIDO*',
+      listaDeItens,
+      '',
+      '\u{1F4B3} *RESUMO DE VALORES*',
+      `\u2022 *Subtotal:* ${subtotal}`,
+      `\u2022 *Frete:* ${frete}`,
+      `\u2022 *Total:* *${total}*`,
+      `\u2022 *Forma de Pagamento:* ${formaPagamento}`,
+      '',
+      '\u{1F464} *DADOS DO CLIENTE*',
+      `\u2022 *Nome:* ${nome}`,
+      `\u2022 *WhatsApp:* ${telefone}`,
+      '',
+      '\u{1F4CD} *ENDERE\u00C7O DE ENTREGA*',
+      `\u2022 *Endere\u00E7o:* ${endereco}`,
+      `\u2022 *Bairro:* ${bairro}`,
+      `\u2022 *Cidade/UF:* ${cidadeUf}`,
+      `\u2022 *CEP:* ${cep}`,
+    ];
+
+    if (obs) {
+      blocos.push('', `\u{1F4DD} *Observa\u00E7\u00F5es:* ${obs}`);
+    }
+
+    return blocos.join('\n');
+  }
+
   // Envio do Pedido pelo WhatsApp
   if (cartStepCheckout) {
     cartStepCheckout.addEventListener('submit', (e) => {
@@ -414,16 +470,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const nome = (chkNome?.value || '').trim();
       const telefone = (chkTelefone?.value || '').trim();
       const cep = (chkCep?.value || '').trim();
-      const cidade = (chkCidade?.value || '').trim();
+      const cidadeUf = (chkCidade?.value || '').trim();
       const rua = (chkRua?.value || '').trim();
       const numero = (chkNumero?.value || '').trim();
       const complemento = (chkComplemento?.value || '').trim();
       const bairro = (chkBairro?.value || '').trim();
       const obs = (chkObs?.value || '').trim();
       const pagamentoInput = cartStepCheckout.querySelector('input[name="chk-pagamento"]:checked');
-      const pagamento = pagamentoInput ? pagamentoInput.value : 'Pix';
+      const formaPagamento = pagamentoInput ? pagamentoInput.value : 'Pix';
 
-      if (!nome || !telefone || !cep || !cidade || !rua || !numero || !bairro) {
+      if (!nome || !telefone || !cep || !cidadeUf || !rua || !numero || !bairro) {
         if (checkoutErrorEl) {
           checkoutErrorEl.textContent = 'Por favor, preencha todos os campos obrigatórios (*) para o envio.';
           checkoutErrorEl.classList.remove('hidden');
@@ -434,90 +490,28 @@ document.addEventListener('DOMContentLoaded', () => {
       if (checkoutErrorEl) checkoutErrorEl.classList.add('hidden');
       saveCustomerInfo();
 
-      const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-      const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
-      const freteStatus = subtotal >= FREE_SHIPPING_LIMIT ? 'Grátis (acima de R$ 399,00)' : 'A combinar';
+      const subtotalNum = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
+      const subtotal = fmt.format(subtotalNum);
+      const frete = subtotalNum >= FREE_SHIPPING_LIMIT ? 'Grátis (compras acima de R$ 399,00)' : 'A combinar';
+      const total = fmt.format(subtotalNum);
+      const endereco = `${rua}, nº ${numero}${complemento ? ` (${complemento})` : ''}`;
 
-      const now = new Date();
-      const dataHora = now.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }) + ' às ' + now.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit',
+      const mensagem = gerarMensagemWhatsApp({
+        cart,
+        subtotal,
+        frete,
+        total,
+        formaPagamento,
+        nome,
+        telefone,
+        endereco,
+        bairro,
+        cidadeUf,
+        cep,
+        obs,
       });
 
-      const itensTexto = cart
-        .map((item, idx) => {
-          const qtd = item.qty || 1;
-          const unit = Number(item.price) || 0;
-          const totalItem = unit * qtd;
-          const detalheUnit = qtd > 1 ? ` (${fmt.format(unit)} cada)` : '';
-          return [
-            `*${idx + 1}. ${item.title}*`,
-            `   ▪ Quantidade: ${qtd} ${qtd === 1 ? 'unidade' : 'unidades'}`,
-            `   ▪ Valor: *${fmt.format(totalItem)}*${detalheUnit}`,
-          ].join('\n');
-        })
-        .join('\n\n');
-
-      const divider = '──────────────────────';
-
-      const enderecoLinhas = [
-        `▪ *Rua/Av.:* ${rua}, nº ${numero}`,
-      ];
-      if (complemento) {
-        enderecoLinhas.push(`▪ *Complemento:* ${complemento}`);
-      }
-      enderecoLinhas.push(
-        `▪ *Bairro:* ${bairro}`,
-        `▪ *Cidade/UF:* ${cidade}`,
-        `▪ *CEP:* ${cep}`
-      );
-
-      const lines = [
-        '*✦ NOVO ORÇAMENTO — 123quadro ✦*',
-        `_Realizado em ${dataHora}_`,
-        divider,
-        '',
-        '*▸ 1. QUADROS ESCOLHIDOS*',
-        itensTexto,
-        '',
-        divider,
-        '*▸ 2. RESUMO DO PEDIDO*',
-        `▪ Volume total: *${totalQty} ${totalQty === 1 ? 'quadro' : 'quadros'}*`,
-        `▪ Subtotal: ${fmt.format(subtotal)}`,
-        `▪ Frete: _${freteStatus}_`,
-        `▪ Pagamento: *${pagamento}*`,
-        `*▸ TOTAL ESTIMADO: ${fmt.format(subtotal)}*`,
-        '',
-        divider,
-        '*▸ 3. DADOS DO CLIENTE*',
-        `▪ *Nome:* ${nome}`,
-        `▪ *WhatsApp:* ${telefone}`,
-        '',
-        divider,
-        '*▸ 4. ENDEREÇO PARA ENTREGA*',
-        ...enderecoLinhas,
-      ];
-
-      if (obs) {
-        lines.push(
-          '',
-          divider,
-          '*▸ 5. OBSERVAÇÕES*',
-          `_"${obs}"_`
-        );
-      }
-
-      lines.push(
-        '',
-        divider,
-        '_Olá! Seguem os dados do meu orçamento para confirmação e envio._'
-      );
-
-      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
       saveCart([]);
