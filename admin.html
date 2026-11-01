@@ -5,7 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Painel Administrativo — 123 Quadros</title>
 <meta name="robots" content="noindex, nofollow" />
-<link rel="icon" href="imagens/favicon/favicon.ico" sizes="any" />
+<link rel="icon" href="imagens/favicon/favicon.ico?v=2" sizes="any" />
+<link rel="icon" type="image/png" href="imagens/favicon/favicon-32x32.png?v=2" sizes="32x32" />
+<link rel="icon" type="image/png" href="imagens/favicon/favicon-16x16.png?v=2" sizes="16x16" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2" />
 
 <!-- Fontes: Plus Jakarta Sans + Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -199,9 +202,7 @@ tailwind.config = {
           <div>
             <label for="field-secao" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Onde Exibir</label>
             <select id="field-secao" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
-              <option value="ambos">Queridinhos + Coleção</option>
-              <option value="queridinhos">Só em Queridinhos</option>
-              <option value="colecao">Só em Coleção Completa</option>
+              <option value="colecao">Coleção (Grade Principal)</option>
               <option value="stories">Carrossel Vertical (Stories)</option>
             </select>
           </div>
@@ -256,15 +257,35 @@ tailwind.config = {
             <span class="text-[11px] font-medium text-zinc-500">Ou escolha do acervo local:</span>
             <select id="field-preset-img" class="rounded-lg border border-zinc-300 bg-white px-2.5 py-1 text-xs text-zinc-700 outline-none focus:border-brand-magenta">
               <option value="">-- Selecionar foto do projeto --</option>
-              <optgroup label="Coleção">
-                <option value="imagens/colecao/obra-1.jpg">Coleção — Obra 1</option>
-                <option value="imagens/colecao/obra-2.webp">Coleção — Obra 2</option>
-                <option value="imagens/colecao/obra-3.jpg">Coleção — Fim de Tarde (Obra 3)</option>
-                <option value="imagens/colecao/obra-4.jpg">Coleção — Obra 4</option>
-                <option value="imagens/colecao/obra-5.webp">Coleção — Cerejeira ao Sul (Obra 5)</option>
-                <option value="imagens/colecao/obra-6.webp">Coleção — Noir IV (Obra 6)</option>
-                <option value="imagens/colecao/obra-7.webp">Coleção — Jardim Suspenso (Obra 7)</option>
-                <option value="imagens/colecao/obra-8.webp">Coleção — Obra 8</option>
+              <optgroup label="Coleção (28 Obras)">
+                <option value="imagens/colecao/obra-1.jpg">01 — Aurora Setentrional (obra-1.jpg)</option>
+                <option value="imagens/colecao/obra-2.webp">02 — Maré de Vidro (obra-2.webp)</option>
+                <option value="imagens/colecao/obra-3.jpg">03 — Fim de Tarde (obra-3.jpg)</option>
+                <option value="imagens/colecao/obra-4.jpg">04 — Tríptico Peônias Rosé (obra-4.jpg)</option>
+                <option value="imagens/colecao/obra-5.webp">05 — Cerejeira ao Sul (obra-5.webp)</option>
+                <option value="imagens/colecao/obra-6.webp">06 — Noir IV (obra-6.webp)</option>
+                <option value="imagens/colecao/obra-7.webp">07 — Jardim Suspenso (obra-7.webp)</option>
+                <option value="imagens/colecao/obra-8.webp">08 — Mosaico Tropical (obra-8.webp)</option>
+                <option value="imagens/colecao/1788474029618.png">09 — Dupla Infantil Leãozinho &amp; Aviador</option>
+                <option value="imagens/colecao/file_0000000001a871f5a851ddbd5da9f658.png">10 — Dupla Infantil Avião &amp; Dino</option>
+                <option value="imagens/colecao/file_0000000032c071f58ff88e2319ab41cd.png">11 — Trio Superesportivos &amp; Clássicos</option>
+                <option value="imagens/colecao/file_0000000040c471f58feb9ce32d3fd866.png">12 — Dupla Infantil Borboletas &amp; Elefantinho</option>
+                <option value="imagens/colecao/file_000000006170820e9657ca76cdb9b419.png">13 — Retrato Família &amp; Gestante P&amp;B</option>
+                <option value="imagens/colecao/file_00000000ab00820ebd8285a38fc9cf46.png">14 — Dupla Infantil Pets &amp; Flor de Cerejeira</option>
+                <option value="imagens/colecao/imagem 1.png">15 — Quadro Infantil Astronauta — Universo</option>
+                <option value="imagens/colecao/imagem 2.png">16 — Botânico Cacto em Moldura Pinus</option>
+                <option value="imagens/colecao/imagem 3.png">17 — Trio Santos FC — Vila Belmiro P&amp;B</option>
+                <option value="imagens/colecao/IMG-20241209-WA0011.jpg">18 — Trio Botânico Beauty &amp; Natureza</option>
+                <option value="imagens/colecao/IMG-20250322-WA0062.jpg">19 — Kit Molduras Personalizadas A3 &amp; A4</option>
+                <option value="imagens/colecao/IMG-20250411-WA0010.png">20 — Trio Urbano Vila Belmiro — Edição Clássica</option>
+                <option value="imagens/colecao/IMG-20250719-WA0021.jpg">21 — Composição Memórias &amp; Viagens (4 Quadros)</option>
+                <option value="imagens/colecao/IMG_20241104_161429.jpg">22 — Quadro Infantil Voe Alto Meu Menino</option>
+                <option value="imagens/colecao/IMG_20241126_190543.jpg">23 — Composição Sala Trio Beauty Pinus</option>
+                <option value="imagens/colecao/IMG_20241126_190547.jpg">24 — Galeria Botânica &amp; Floral (3 Peças)</option>
+                <option value="imagens/colecao/IMG_20250326_014631.jpg">25 — Quadro Estádio Urbano Caldeira</option>
+                <option value="imagens/colecao/IMG_20250409_211128.png">26 — Quadro Árvore da Vida — Recordação Bebê</option>
+                <option value="imagens/colecao/IMG_20251103_183916.png">27 — Dupla Infantil Safari &amp; Gatinhos</option>
+                <option value="imagens/colecao/IMG_20251103_183933.png">28 — Dupla Infantil Safari &amp; Pequeno Astronauta</option>
               </optgroup>
               <optgroup label="Acervo Autoral (01 a 17)">
                 <option value="imagens/autora/autora-01.jpg">Autora 01</option>
@@ -395,8 +416,7 @@ tailwind.config = {
     <!-- Abas de Filtro por Seção -->
     <div class="mt-4 flex flex-wrap gap-2" id="admin-tabs">
       <button type="button" data-tab="todos" class="admin-tab rounded-full bg-[#9e004f] px-4 py-1.5 text-xs font-semibold text-white">Todos</button>
-      <button type="button" data-tab="queridinhos" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Queridinhos</button>
-      <button type="button" data-tab="colecao" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Coleção Completa</button>
+      <button type="button" data-tab="colecao" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Coleção</button>
       <button type="button" data-tab="stories" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Stories Verticais</button>
       <button type="button" data-tab="desconto" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Com Desconto</button>
     </div>
@@ -483,7 +503,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (window.lucide) lucide.createIcons();
 
   const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-  const LOCAL_CATALOG_KEY = '123quadros-catalog-v1';
+  const LOCAL_CATALOG_KEY = '123quadros-catalog-v2';
 
   // ---- Estado ----
   let supabaseClient = null;
@@ -562,7 +582,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           isSupabaseConnected = true;
           connDot.className = 'h-2 w-2 rounded-full bg-emerald-500';
           connLabel.textContent = 'Supabase Conectado';
-          quadros = data.map(normalizeItem);
+          const normalized = data.map(normalizeItem);
+          const existingUrls = new Set(normalized.map((i) => i.imagem_url));
+          const missing = (window.DEFAULT_QUADROS_DATA || []).filter((d) => !existingUrls.has(d.imagem_url)).map(normalizeItem);
+          quadros = [...normalized, ...missing];
           localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
           renderAll();
           return;
@@ -835,7 +858,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     fieldPrecoOriginal.value = '249.90';
     fieldDescontoPct.value = '0';
     fieldPrecoFinal.value = '249.90';
-    fieldSecao.value = 'ambos';
+    fieldSecao.value = 'colecao';
     fieldCategoria.value = 'paisagem';
     fieldSelo.value = 'AUTO';
     fieldEstrelas.value = '5';
@@ -878,8 +901,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       .slice()
       .sort((a, b) => (a.ordem || 10) - (b.ordem || 10))
       .filter((q) => {
-        if (activeTab === 'queridinhos' && q.secao !== 'queridinhos' && q.secao !== 'ambos') return false;
-        if (activeTab === 'colecao' && q.secao !== 'colecao' && q.secao !== 'ambos') return false;
+        if (activeTab === 'colecao' && q.secao === 'stories') return false;
         if (activeTab === 'stories' && q.secao !== 'stories') return false;
         if (activeTab === 'desconto' && !(q.desconto_pct > 0 || q.preco_final < q.preco_original)) return false;
         if (searchQ && !`${q.titulo} ${q.subtitulo} ${q.categoria}`.toLowerCase().includes(searchQ)) return false;
@@ -898,9 +920,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const secaoLabels = {
-      queridinhos: 'Queridinhos',
-      colecao: 'Coleção Completa',
-      ambos: 'Queridinhos + Coleção',
+      queridinhos: 'Coleção',
+      colecao: 'Coleção',
+      ambos: 'Coleção',
       stories: 'Stories Verticais',
     };
 
@@ -975,7 +997,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       fieldPrecoOriginal.value = Number(target.preco_original).toFixed(2);
       fieldDescontoPct.value = target.desconto_pct || 0;
       fieldPrecoFinal.value = Number(target.preco_final).toFixed(2);
-      fieldSecao.value = target.secao;
+      fieldSecao.value = target.secao === 'stories' ? 'stories' : 'colecao';
       fieldCategoria.value = target.categoria;
 
       if (!target.selo) fieldSelo.value = 'NENHUM';

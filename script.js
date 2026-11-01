@@ -73,16 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(() => renderTopbar(topbarIndex + 1), 5000);
 
   // =========================================================================
-  // B) SACOLA LATERAL DESLIZANTE (DRAWER) + FRETE GRÁTIS
+  // B) SACOLA LATERAL DESLIZANTE (DRAWER) + CHECKOUT WHATSAPP
   // =========================================================================
   const CART_KEY = '123quadros-cart';
+  const CUSTOMER_KEY = '123quadros-customer-info';
   const FREE_SHIPPING_LIMIT = 399;
+  const WHATSAPP_NUMBER = '5511960212652'; // (11) 96021-2652
 
   const cartDrawer = document.getElementById('cart-drawer');
   const cartBackdrop = document.getElementById('cart-drawer-backdrop');
   const cartOpenBtn = document.getElementById('cart-open-btn');
   const cartCloseBtn = document.getElementById('cart-close-btn');
   const cartEmptyCta = document.getElementById('cart-empty-cta');
+
+  const cartStepItems = document.getElementById('cart-step-items');
+  const cartStepCheckout = document.getElementById('cart-step-checkout');
+  const checkoutBackBtn = document.getElementById('checkout-back-btn');
+  const checkoutMiniSummary = document.getElementById('checkout-mini-summary');
+  const checkoutErrorEl = document.getElementById('checkout-error');
 
   const cartItemsEl = document.getElementById('cart-items');
   const cartEmptyEl = document.getElementById('cart-empty');
@@ -96,6 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartCheckoutBtn = document.getElementById('cart-checkout-btn');
   const freeShippingMsg = document.getElementById('free-shipping-msg');
   const freeShippingBar = document.getElementById('free-shipping-bar');
+
+  // Campos do formulário de Checkout
+  const chkNome = document.getElementById('chk-nome');
+  const chkTelefone = document.getElementById('chk-telefone');
+  const chkCep = document.getElementById('chk-cep');
+  const chkCidade = document.getElementById('chk-cidade');
+  const chkRua = document.getElementById('chk-rua');
+  const chkNumero = document.getElementById('chk-numero');
+  const chkComplemento = document.getElementById('chk-complemento');
+  const chkBairro = document.getElementById('chk-bairro');
+  const chkObs = document.getElementById('chk-obs');
+
+  function showCartStep(step) {
+    if (!cartStepItems || !cartStepCheckout) return;
+    if (step === 'checkout') {
+      cartStepItems.classList.add('hidden');
+      cartStepItems.classList.remove('flex');
+      cartStepCheckout.classList.remove('hidden');
+      cartStepCheckout.classList.add('flex');
+      if (checkoutErrorEl) checkoutErrorEl.classList.add('hidden');
+      if (chkNome && !chkNome.value) chkNome.focus();
+    } else {
+      cartStepCheckout.classList.add('hidden');
+      cartStepCheckout.classList.remove('flex');
+      cartStepItems.classList.remove('hidden');
+      cartStepItems.classList.add('flex');
+    }
+  }
 
   function openCartDrawer() {
     if (!cartDrawer || !cartBackdrop) return;
@@ -117,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (cartEmptyCta) {
     cartEmptyCta.addEventListener('click', () => {
       closeCartDrawer();
-      document.getElementById('queridinhos')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth' });
     });
   }
 
@@ -175,10 +211,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (cartCountEl) cartCountEl.textContent = totalQty;
     updateFreeShipping(subtotal);
+    if (checkoutMiniSummary) {
+      checkoutMiniSummary.textContent = `${totalQty} ${totalQty === 1 ? 'item' : 'itens'} · ${fmt.format(subtotal)}`;
+    }
 
     if (!cartItemsEl || !cartEmptyEl || !cartSummaryEl) return;
 
     if (cart.length === 0) {
+      showCartStep('items');
       cartItemsEl.innerHTML = '';
       cartEmptyEl.classList.remove('hidden');
       cartSummaryEl.classList.add('hidden');
@@ -267,6 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
       cart.push({ id, title, img, price, qty: 1 });
     }
     saveCart(cart);
+    showCartStep('items');
     openCartDrawer();
   });
 
@@ -280,30 +321,173 @@ document.addEventListener('DOMContentLoaded', () => {
     cartCheckoutBtn.addEventListener('click', () => {
       const cart = loadCart();
       if (cart.length === 0) return;
-      alert('Pedido recebido com sucesso! Em instantes você receberá as instruções para finalizar o pagamento.');
+      showCartStep('checkout');
     });
   }
 
+  if (checkoutBackBtn) {
+    checkoutBackBtn.addEventListener('click', () => {
+      showCartStep('items');
+    });
+  }
+
+  // ---- Persistência e máscaras do formulário de Checkout ----
+  function loadCustomerInfo() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(CUSTOMER_KEY) || '{}');
+      if (chkNome && saved.nome) chkNome.value = saved.nome;
+      if (chkTelefone && saved.telefone) chkTelefone.value = saved.telefone;
+      if (chkCep && saved.cep) chkCep.value = saved.cep;
+      if (chkCidade && saved.cidade) chkCidade.value = saved.cidade;
+      if (chkRua && saved.rua) chkRua.value = saved.rua;
+      if (chkNumero && saved.numero) chkNumero.value = saved.numero;
+      if (chkComplemento && saved.complemento) chkComplemento.value = saved.complemento;
+      if (chkBairro && saved.bairro) chkBairro.value = saved.bairro;
+    } catch {}
+  }
+
+  function saveCustomerInfo() {
+    try {
+      const data = {
+        nome: chkNome?.value.trim() || '',
+        telefone: chkTelefone?.value.trim() || '',
+        cep: chkCep?.value.trim() || '',
+        cidade: chkCidade?.value.trim() || '',
+        rua: chkRua?.value.trim() || '',
+        numero: chkNumero?.value.trim() || '',
+        complemento: chkComplemento?.value.trim() || '',
+        bairro: chkBairro?.value.trim() || '',
+      };
+      localStorage.setItem(CUSTOMER_KEY, JSON.stringify(data));
+    } catch {}
+  }
+
+  [chkNome, chkTelefone, chkCep, chkCidade, chkRua, chkNumero, chkComplemento, chkBairro].forEach((input) => {
+    if (input) input.addEventListener('input', saveCustomerInfo);
+  });
+
+  // Máscara de Telefone: (11) 99999-9999
+  if (chkTelefone) {
+    chkTelefone.addEventListener('input', () => {
+      let digits = chkTelefone.value.replace(/\D/g, '').slice(0, 11);
+      if (digits.length > 6) {
+        chkTelefone.value = `(${digits.slice(0, 2)}) ${digits.slice(2, digits.length - 4)}-${digits.slice(-4)}`;
+      } else if (digits.length > 2) {
+        chkTelefone.value = `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+      } else if (digits.length > 0) {
+        chkTelefone.value = `(${digits}`;
+      }
+    });
+  }
+
+  // Máscara de CEP: 00000-000 + preenchimento automático via ViaCEP
+  if (chkCep) {
+    chkCep.addEventListener('input', async () => {
+      const digits = chkCep.value.replace(/\D/g, '').slice(0, 8);
+      chkCep.value = digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
+
+      if (digits.length === 8) {
+        try {
+          const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+          const data = await res.json();
+          if (data && !data.erro) {
+            if (chkRua && data.logradouro) chkRua.value = data.logradouro;
+            if (chkBairro && data.bairro) chkBairro.value = data.bairro;
+            if (chkCidade && data.localidade) {
+              chkCidade.value = data.uf ? `${data.localidade} / ${data.uf}` : data.localidade;
+            }
+            saveCustomerInfo();
+            if (chkNumero && !chkNumero.value) chkNumero.focus();
+          }
+        } catch {}
+      }
+    });
+  }
+
+  // Envio do Pedido pelo WhatsApp
+  if (cartStepCheckout) {
+    cartStepCheckout.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cart = loadCart();
+      if (cart.length === 0) return;
+
+      const nome = (chkNome?.value || '').trim();
+      const telefone = (chkTelefone?.value || '').trim();
+      const cep = (chkCep?.value || '').trim();
+      const cidade = (chkCidade?.value || '').trim();
+      const rua = (chkRua?.value || '').trim();
+      const numero = (chkNumero?.value || '').trim();
+      const complemento = (chkComplemento?.value || '').trim();
+      const bairro = (chkBairro?.value || '').trim();
+      const obs = (chkObs?.value || '').trim();
+      const pagamentoInput = cartStepCheckout.querySelector('input[name="chk-pagamento"]:checked');
+      const pagamento = pagamentoInput ? pagamentoInput.value : 'Pix';
+
+      if (!nome || !telefone || !cep || !cidade || !rua || !numero || !bairro) {
+        if (checkoutErrorEl) {
+          checkoutErrorEl.textContent = 'Por favor, preencha todos os campos obrigatórios (*) para o envio.';
+          checkoutErrorEl.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (checkoutErrorEl) checkoutErrorEl.classList.add('hidden');
+      saveCustomerInfo();
+
+      const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (item.qty || 1), 0);
+      const freteStatus = subtotal >= FREE_SHIPPING_LIMIT ? 'Grátis (compras acima de R$ 399,00)' : 'A combinar';
+
+      const itensTexto = cart
+        .map((item) => {
+          const qtd = item.qty || 1;
+          const unit = Number(item.price) || 0;
+          const totalItem = unit * qtd;
+          return `• ${qtd}x *${item.title}* — ${fmt.format(totalItem)}${qtd > 1 ? ` (${fmt.format(unit)} cada)` : ''}`;
+        })
+        .join('\n');
+
+      const enderecoLinha1 = `${rua}, nº ${numero}${complemento ? ` (${complemento})` : ''}`;
+
+      const lines = [
+        '🛍️ *NOVO PEDIDO — 123 QUADROS*',
+        '',
+        '🖼️ *ITENS DO PEDIDO:*',
+        itensTexto,
+        '',
+        '💰 *RESUMO DE VALORES:*',
+        `• Subtotal: ${fmt.format(subtotal)}`,
+        `• Frete: ${freteStatus}`,
+        `• *Total do Pedido: ${fmt.format(subtotal)}*`,
+        `• *Forma de Pagamento:* ${pagamento}`,
+        '',
+        '👤 *DADOS DO CLIENTE:*',
+        `• Nome: ${nome}`,
+        `• WhatsApp/Tel: ${telefone}`,
+        '',
+        '📦 *ENDEREÇO PARA ENVIO:*',
+        `• Endereço: ${enderecoLinha1}`,
+        `• Bairro: ${bairro}`,
+        `• Cidade/UF: ${cidade}`,
+        `• CEP: ${cep}`,
+      ];
+
+      if (obs) {
+        lines.push('', `📝 *Observações:* ${obs}`);
+      }
+
+      const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+      saveCart([]);
+      closeCartDrawer();
+    });
+  }
+
+  loadCustomerInfo();
   renderCart();
 
   // =========================================================================
-  // C) CARROSSEL "QUERIDINHOS:" (NAVEGAÇÃO POR SETAS)
-  // =========================================================================
-  const queridinhosTrack = document.getElementById('queridinhos-track');
-  const queridinhosPrev = document.getElementById('queridinhos-prev');
-  const queridinhosNext = document.getElementById('queridinhos-next');
-
-  if (queridinhosTrack && queridinhosPrev && queridinhosNext) {
-    queridinhosPrev.addEventListener('click', () => {
-      queridinhosTrack.scrollBy({ left: -310, behavior: 'smooth' });
-    });
-    queridinhosNext.addEventListener('click', () => {
-      queridinhosTrack.scrollBy({ left: 310, behavior: 'smooth' });
-    });
-  }
-
-  // =========================================================================
-  // D) CARROSSEL VERTICAL 5 CARDS
+  // C) CARROSSEL VERTICAL 5 CARDS (AMBIENTES / STORIES)
   // =========================================================================
   const storiesGrid = document.getElementById('stories-grid');
   const storiesPrev = document.getElementById('stories-prev');
@@ -361,9 +545,91 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // E) FILTROS FUNCIONAIS DA SEÇÃO COLEÇÃO
+  // D) FILTROS FUNCIONAIS E PAGINAÇÃO ("VER MAIS") DA SEÇÃO COLEÇÃO
   // =========================================================================
+  const ITEMS_PER_PAGE = 8; // 2 colunas × 4 linhas no celular (e 4×2 no desktop)
+  let currentCollectionFilter = 'todos';
+  let currentSearchQuery = '';
+  let visibleCount = ITEMS_PER_PAGE;
+
   const filterBtns = document.querySelectorAll('#collection-filters .filter-btn');
+  const loadMoreBtn = document.getElementById('collection-load-more');
+  const showLessBtn = document.getElementById('collection-show-less');
+  const counterEl = document.getElementById('collection-counter');
+  const progressBarEl = document.getElementById('collection-progress-bar');
+
+  function updateCollectionView() {
+    const allCards = Array.from(document.querySelectorAll('#collection-grid article[data-category]'));
+    const q = currentSearchQuery.trim().toLowerCase();
+
+    const matchingCards = allCards.filter((card) => {
+      const catMatch = currentCollectionFilter === 'todos' || card.dataset.category === currentCollectionFilter;
+      const textMatch = !q || card.textContent.toLowerCase().includes(q);
+      return catMatch && textMatch;
+    });
+
+    const totalMatching = matchingCards.length;
+    const shownCount = Math.min(visibleCount, totalMatching);
+
+    allCards.forEach((card) => {
+      card.classList.add('hidden');
+      card.classList.remove('flex');
+    });
+
+    matchingCards.slice(0, shownCount).forEach((card) => {
+      card.classList.remove('hidden');
+      card.classList.add('flex');
+      card.classList.add('is-in');
+    });
+
+    if (counterEl) {
+      if (totalMatching === 0) {
+        counterEl.innerHTML = 'Nenhum quadro encontrado para este filtro.';
+      } else {
+        counterEl.innerHTML = `Mostrando <strong class="font-bold text-white">${shownCount}</strong> de <strong class="font-bold text-white">${totalMatching}</strong> quadros`;
+      }
+    }
+
+    if (progressBarEl) {
+      const pct = totalMatching > 0 ? Math.min(100, Math.round((shownCount / totalMatching) * 100)) : 0;
+      progressBarEl.style.width = `${pct}%`;
+    }
+
+    if (loadMoreBtn) {
+      const remaining = totalMatching - shownCount;
+      loadMoreBtn.classList.toggle('hidden', remaining <= 0);
+      loadMoreBtn.classList.toggle('inline-flex', remaining > 0);
+    }
+
+    if (showLessBtn) {
+      const canShowLess = visibleCount > ITEMS_PER_PAGE && totalMatching > ITEMS_PER_PAGE && shownCount > ITEMS_PER_PAGE;
+      showLessBtn.classList.toggle('hidden', !canShowLess);
+      showLessBtn.classList.toggle('inline-flex', canShowLess);
+    }
+  }
+
+  function applyCollectionFilter(filter, resetPagination = false) {
+    currentCollectionFilter = filter || 'todos';
+    if (resetPagination) {
+      visibleCount = ITEMS_PER_PAGE;
+    }
+    updateCollectionView();
+  }
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      visibleCount += ITEMS_PER_PAGE;
+      updateCollectionView();
+    });
+  }
+
+  if (showLessBtn) {
+    showLessBtn.addEventListener('click', () => {
+      visibleCount = ITEMS_PER_PAGE;
+      updateCollectionView();
+      document.getElementById('colecao')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -371,24 +637,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       filterBtns.forEach((b) => {
         const active = b === btn;
-        b.classList.toggle('bg-[#9e004f]', active);
-        b.classList.toggle('border-[#9e004f]', active);
-        b.classList.toggle('text-white', active);
-        b.classList.toggle('bg-white', !active);
-        b.classList.toggle('border-zinc-200', !active);
-        b.classList.toggle('text-zinc-600', !active);
+        b.classList.toggle('bg-ink-950', active);
+        b.classList.toggle('border-ink-950', active);
+        b.classList.toggle('shadow-md', active);
+        b.classList.toggle('bg-white/15', !active);
+        b.classList.toggle('border-white/35', !active);
+        b.classList.toggle('hover:border-white', !active);
+        b.classList.toggle('hover:bg-white', !active);
+        b.classList.toggle('hover:text-[#9e004f]', !active);
       });
 
-      document.querySelectorAll('#collection-grid article[data-category]').forEach((card) => {
-        const match = filter === 'todos' || card.dataset.category === filter;
-        card.classList.toggle('hidden', !match);
-        card.classList.toggle('flex', match);
-      });
+      applyCollectionFilter(filter, true);
     });
   });
 
+  // Inicializa paginação no carregamento do HTML estático
+  updateCollectionView();
+
   // =========================================================================
-  // F) MENU MOBILE E BARRA DE PESQUISA INTEGRADA
+  // E) MENU MOBILE E BARRA DE PESQUISA INTEGRADA
   // =========================================================================
   const menuToggle = document.getElementById('menu-toggle');
   const siteMenu = document.getElementById('site-menu');
@@ -428,18 +695,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchClose) {
       searchClose.addEventListener('click', () => {
         searchInput.value = '';
+        currentSearchQuery = '';
+        visibleCount = ITEMS_PER_PAGE;
         searchPanel.classList.add('hidden');
-        document.querySelectorAll('.product-card').forEach((c) => c.classList.remove('hidden'));
+        updateCollectionView();
       });
     }
 
     searchInput.addEventListener('input', () => {
-      const q = searchInput.value.trim().toLowerCase();
-      document.querySelectorAll('#collection-grid .product-card').forEach((card) => {
-        const text = card.textContent.toLowerCase();
-        const match = !q || text.includes(q);
-        card.classList.toggle('hidden', !match);
-      });
+      currentSearchQuery = searchInput.value.trim().toLowerCase();
+      visibleCount = ITEMS_PER_PAGE;
+      updateCollectionView();
     });
 
     searchInput.addEventListener('keydown', (e) => {
@@ -451,7 +717,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // G) CARROSSEL HERO
+  // F) CARROSSEL HERO
   // =========================================================================
   const carousel = document.querySelector('[data-carousel]');
   if (carousel) {
@@ -484,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // H) ANIMAÇÕES DE REVEAL E FAQ
+  // G) ANIMAÇÕES DE REVEAL E FAQ
   // =========================================================================
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const items = document.querySelectorAll('[data-reveal]');
@@ -513,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // I) INTEGRAÇÃO DINÂMICA COM PAINEL ADMIN (admin.html) E SUPABASE
+  // H) INTEGRAÇÃO DINÂMICA COM PAINEL ADMIN (admin.html) E SUPABASE
   // =========================================================================
   function buildStarsHtml(count = 5) {
     const n = Math.min(5, Math.max(1, Number(count) || 5));
@@ -531,67 +797,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter((item) => item && item.ativo !== false)
       .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0));
 
-    // 1. Queridinhos
-    const queridinhosItems = activeItems.filter((i) => i.secao === 'queridinhos' || i.secao === 'ambos');
-    if (queridinhosTrack && queridinhosItems.length > 0) {
-      queridinhosTrack.innerHTML = queridinhosItems
-        .map((item) => {
-          const orig = Number(item.preco_original) || 0;
-          const desc = Number(item.desconto_pct) || 0;
-          const finalPrice = Number(item.preco_final) || Number((orig * (1 - desc / 100)).toFixed(2));
-          const hasDiscount = desc > 0 && orig > finalPrice;
-
-          let badgeHtml = '';
-          if (item.selo) {
-            badgeHtml = `<span class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-brand-magenta px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
-          } else if (hasDiscount) {
-            badgeHtml = `<span class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-800">-${desc}%</span>`;
-          }
-
-          const curadoriaHtml = item.selo_curadoria
-            ? `<div class="absolute left-5 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
-                <span class="text-brand-amarelo">2026</span>
-                <span>CURADORIA</span>
-                <span class="text-[6px] opacity-75">DESTAQUE</span>
-              </div>`
-            : '';
-
-          const priceHtml = hasDiscount
-            ? `<div class="mt-2 flex items-baseline gap-2 text-sm">
-                <span class="text-xs text-zinc-400 line-through">${fmt.format(orig)}</span>
-                <span class="font-bold text-zinc-800">${fmt.format(finalPrice)}</span>
-              </div>`
-            : `<div class="mt-2 text-sm font-bold text-zinc-800">${fmt.format(finalPrice)}</div>`;
-
-          return `
-            <article class="product-card flex w-[260px] shrink-0 flex-col sm:w-[285px]">
-              <div class="group relative flex aspect-square items-center justify-center overflow-hidden bg-white p-6">
-                ${badgeHtml}
-                ${curadoriaHtml}
-                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-4/5 w-4/5 rounded-sm object-cover shadow-md transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-              </div>
-              <div class="flex flex-1 flex-col justify-between pt-3.5">
-                <div>
-                  <h3 class="text-base font-normal text-zinc-700">${item.titulo}</h3>
-                  <p class="mt-1 line-clamp-2 min-h-[2rem] text-xs leading-relaxed text-zinc-500">${item.subtitulo || ''}</p>
-                  <div class="mt-2.5 flex items-center gap-0.5 text-[#9e004f]">
-                    ${buildStarsHtml(item.estrelas)}
-                  </div>
-                  ${priceHtml}
-                </div>
-                <button type="button" class="add-to-cart mt-4 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
-                  Adicionar à sacola
-                </button>
-              </div>
-            </article>
-          `;
-        })
-        .join('');
-    }
-
-    // 2. Coleção Completa
+    // 1. Seção Unificada: Coleção (reúne todos os quadros exceto stories)
     const colecaoGrid = document.getElementById('collection-grid');
-    const colecaoItems = activeItems.filter((i) => i.secao === 'colecao' || i.secao === 'ambos');
+    const colecaoItems = activeItems.filter((i) => i.secao !== 'stories');
     if (colecaoGrid && colecaoItems.length > 0) {
       colecaoGrid.innerHTML = colecaoItems
         .map((item) => {
@@ -602,10 +810,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
           let badgeHtml = '';
           if (item.selo) {
-            badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-brand-magenta px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
+            const isDiscountBadge = String(item.selo).startsWith('-');
+            badgeHtml = isDiscountBadge
+              ? `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">${item.selo}</span>`
+              : `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-brand-magenta px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">${item.selo}</span>`;
           } else if (hasDiscount) {
             badgeHtml = `<span class="absolute left-3 top-3 z-10 rounded-[3px] bg-white px-2.5 py-1 text-[11px] font-semibold text-zinc-800 shadow-sm">-${desc}%</span>`;
           }
+
+          const curadoriaHtml = item.selo_curadoria
+            ? `<div class="absolute left-4 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-ink-950 text-center text-[7px] font-bold uppercase leading-tight tracking-wider text-white shadow-md">
+                <span class="text-brand-amarelo">2026</span>
+                <span>CURADORIA</span>
+                <span class="text-[6px] opacity-75">DESTAQUE</span>
+              </div>`
+            : '';
 
           const priceHtml = hasDiscount
             ? `<p class="mt-1.5 text-sm"><span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(orig)}</span><strong class="font-bold text-zinc-900">${fmt.format(finalPrice)}</strong></p>`
@@ -615,28 +834,31 @@ document.addEventListener('DOMContentLoaded', () => {
             <article data-reveal data-category="${item.categoria || 'paisagem'}" class="product-card is-in flex flex-col">
               <div class="group relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-[#f7f7f7] p-5">
                 ${badgeHtml}
-                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full rounded-sm object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                ${curadoriaHtml}
+                <img src="${item.imagem_url}" alt="${item.titulo}" class="h-full w-full rounded-sm object-cover shadow-sm transition-transform duration-500 group-hover:scale-105" loading="lazy" />
               </div>
               <div class="flex flex-1 flex-col justify-between pt-3">
                 <div>
                   <h3 class="text-sm font-medium text-zinc-800 sm:text-base">${item.titulo}</h3>
-                  <p class="mt-0.5 text-xs text-zinc-500">${item.subtitulo || ''}</p>
+                  <p class="mt-0.5 line-clamp-2 min-h-[2rem] text-xs text-zinc-500">${item.subtitulo || ''}</p>
                   <div class="mt-1.5 flex items-center gap-0.5 text-[#9e004f]">
                     ${buildStarsHtml(item.estrelas)}
                   </div>
                   ${priceHtml}
                 </div>
                 <button type="button" class="add-to-cart mt-3 w-full rounded-md bg-ink-950 py-2.5 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-brand-magenta active:scale-95" data-id="${item.id}" data-title="${item.titulo}" data-img="${item.imagem_url}" data-price="${finalPrice}">
-                  Comprar
+                  Adicionar à sacola
                 </button>
               </div>
             </article>
           `;
         })
         .join('');
+
+      applyCollectionFilter(currentCollectionFilter);
     }
 
-    // 3. Carrossel Vertical 5 Cards (Stories)
+    // 2. Carrossel Vertical 5 Cards (Stories)
     const storiesItems = activeItems.filter((i) => i.secao === 'stories');
     if (storiesGrid && storiesItems.length > 0) {
       storiesGrid.innerHTML = storiesItems
@@ -677,6 +899,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.lucide) lucide.createIcons();
   }
 
+  function mergeWithDefaults(loadedItems) {
+    const defaults = Array.isArray(window.DEFAULT_QUADROS_DATA) ? window.DEFAULT_QUADROS_DATA : [];
+    if (!Array.isArray(loadedItems) || loadedItems.length === 0) return defaults;
+
+    // Substituir caminhos antigos de autora-01 e autora-02 que agora estão em imagens/colecao
+    const cleaned = loadedItems.filter(
+      (i) => i && i.imagem_url !== 'imagens/autora/autora-01.jpg' && i.imagem_url !== 'imagens/autora/autora-02.jpg'
+    );
+    const existingUrls = new Set(cleaned.map((i) => i.imagem_url));
+    const missing = defaults.filter((d) => d && !existingUrls.has(d.imagem_url));
+    return [...cleaned, ...missing];
+  }
+
   async function initDynamicCatalog() {
     let savedConn = {};
     try {
@@ -696,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .order('ordem', { ascending: true });
 
         if (!error && Array.isArray(data) && data.length > 0) {
-          renderDynamicCatalog(data);
+          renderDynamicCatalog(mergeWithDefaults(data));
           return;
         }
       } catch (err) {
@@ -706,11 +941,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fallback para alterações salvas no Painel Admin em Modo Local
     try {
-      const localRaw = localStorage.getItem('123quadros-catalog-v1');
+      const localRaw = localStorage.getItem('123quadros-catalog-v2') || localStorage.getItem('123quadros-catalog-v1');
       if (localRaw) {
         const parsed = JSON.parse(localRaw);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          renderDynamicCatalog(parsed);
+          renderDynamicCatalog(mergeWithDefaults(parsed));
         }
       }
     } catch {}
