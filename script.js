@@ -1010,10 +1010,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaults = Array.isArray(window.DEFAULT_QUADROS_DATA) ? window.DEFAULT_QUADROS_DATA : [];
     if (!Array.isArray(loadedItems) || loadedItems.length === 0) return defaults;
 
-    // Substituir caminhos antigos de autora-01 e autora-02 que agora estão em imagens/colecao
-    const cleaned = loadedItems.filter(
-      (i) => i && i.imagem_url !== 'imagens/autora/autora-01.jpg' && i.imagem_url !== 'imagens/autora/autora-02.jpg'
-    );
+    const replacedPaths = {
+      'imagens/colecao/IMG_20241104_161429.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg',
+      'imagens/colecao/IMG_20241126_190543.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg',
+    };
+
+    // Substituir caminhos antigos de autora-01, autora-02 e imagens substituídas
+    const cleaned = loadedItems
+      .filter(
+        (i) => i && i.imagem_url !== 'imagens/autora/autora-01.jpg' && i.imagem_url !== 'imagens/autora/autora-02.jpg'
+      )
+      .map((i) => (replacedPaths[i.imagem_url] ? { ...i, imagem_url: replacedPaths[i.imagem_url] } : i));
+
     const existingUrls = new Set(cleaned.map((i) => i.imagem_url));
     const missing = defaults.filter((d) => d && !existingUrls.has(d.imagem_url));
     return [...cleaned, ...missing];
