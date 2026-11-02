@@ -1485,7 +1485,154 @@
 
   <!-- ============================ FOOTER (FUNDO ROSA OFICIAL #EA0273) ============================ -->
   <footer id="footer" class="relative overflow-hidden bg-[#EA0273] text-white">
-    <div class="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-8">
+
+    <!-- ==================== LAYOUT MOBILE (EXCLUSIVO PARA DISPOSITIVOS MÓVEIS) ==================== -->
+    <div class="relative z-10 sm:hidden">
+      <!-- Topo Mobile: Logo + Instagram -->
+      <div class="flex flex-col items-start px-5 pb-6 pt-8">
+        <a href="#" class="inline-flex items-center">
+          <img src="imagens/logo/logo2.png" alt="123quadro — Galeria de Arte"
+            class="h-16 w-auto object-contain [filter:drop-shadow(0_0_2px_#ffffff)_drop-shadow(0_2px_12px_rgba(255,255,255,0.9))]" />
+        </a>
+
+        <div class="mt-4">
+          <a href="https://www.instagram.com/123_quadro" target="_blank" rel="noopener noreferrer"
+            aria-label="Siga a 123quadro no Instagram"
+            class="inline-flex items-center gap-2.5 rounded-full border border-white/60 bg-gradient-to-r from-[#EA0273] via-[#FDC303] to-[#019AEB] p-[2px] shadow-md active:scale-95">
+            <span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 text-xs font-bold text-ink-950">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-[#EA0273]">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
+              <span>@123_quadro</span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Acordeões Mobile (Estilo imagem de referência mantendo as informações do site) -->
+      <div class="border-t border-white/25">
+        <!-- Vitrine -->
+        <details class="group border-b border-white/25 px-5">
+          <summary class="flex cursor-pointer list-none items-center justify-between py-4 font-display text-xs font-bold uppercase tracking-wider text-white">
+            <span>Vitrine</span>
+            <i data-lucide="chevron-down" class="h-4 w-4 text-white/90 transition-transform duration-300 group-open:rotate-180"></i>
+          </summary>
+          <ul class="space-y-3 pb-4 text-sm">
+            <li><a href="#colecao" class="block font-medium text-white/90 transition hover:text-brand-amarelo">Coleção</a></li>
+            <li><a href="#inspiracoes" class="block font-medium text-white/90 transition hover:text-brand-amarelo">Ambientes &amp; Reels</a></li>
+          </ul>
+        </details>
+
+        <!-- Atendimento -->
+        <details class="group border-b border-white/25 px-5">
+          <summary class="flex cursor-pointer list-none items-center justify-between py-4 font-display text-xs font-bold uppercase tracking-wider text-white">
+            <span>Atendimento</span>
+            <i data-lucide="chevron-down" class="h-4 w-4 text-white/90 transition-transform duration-300 group-open:rotate-180"></i>
+          </summary>
+          <ul class="space-y-3 pb-4 text-sm">
+            <li><a href="#faq" class="block font-medium text-white/90 transition hover:text-brand-amarelo">Central de dúvidas</a></li>
+            <li><a href="#faq" class="block font-medium text-white/90 transition hover:text-brand-amarelo">Frete e prazos</a></li>
+            <li><a href="#faq" class="block font-medium text-white/90 transition hover:text-brand-amarelo">Trocas e devoluções</a></li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Meios de pagamento (Bandeiras conforme imagem) -->
+      <div class="px-5 py-6">
+        <p class="text-sm font-medium text-white">Meios de pagamento</p>
+        <div class="mt-3.5 flex flex-wrap items-center gap-2">
+          <!-- Visa -->
+          <span title="Visa" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-white px-1 shadow-sm">
+            <svg viewBox="0 0 48 16" class="h-3.5 w-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <text x="4" y="13" fill="#1A1F71" font-family="Arial, sans-serif" font-weight="900" font-style="italic" font-size="13" letter-spacing="-0.5">VISA</text>
+              <path d="M3 2.5H11L12.5 6.5" stroke="#F7B600" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </span>
+
+          <!-- Mastercard -->
+          <span title="Mastercard" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-white px-1 shadow-sm">
+            <svg viewBox="0 0 36 22" class="h-4 w-auto" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="13" cy="11" r="7.5" fill="#EB001B" />
+              <circle cx="23" cy="11" r="7.5" fill="#F79E1B" fill-opacity="0.9" />
+            </svg>
+          </span>
+
+          <!-- American Express -->
+          <span title="American Express" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-[#006FCF] px-1 shadow-sm">
+            <span class="font-sans text-[8px] font-black uppercase leading-none tracking-tighter text-white">AMEX</span>
+          </span>
+
+          <!-- Diners Club -->
+          <span title="Diners Club" class="inline-flex h-7 w-11 items-center justify-center gap-0.5 rounded-[4px] bg-white px-1 shadow-sm">
+            <svg viewBox="0 0 16 16" class="h-3.5 w-3.5 shrink-0" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="6.5" stroke="#0079BE" stroke-width="1.8" />
+              <line x1="6.5" y1="4" x2="6.5" y2="12" stroke="#0079BE" stroke-width="1.6" />
+              <line x1="9.5" y1="4" x2="9.5" y2="12" stroke="#0079BE" stroke-width="1.6" />
+            </svg>
+            <span class="text-[7px] font-bold tracking-tighter text-[#0079BE]">Diners</span>
+          </span>
+
+          <!-- Aura -->
+          <span title="Aura" class="inline-flex h-7 w-11 flex-col items-center justify-center overflow-hidden rounded-[4px] bg-[#FDC303] shadow-sm">
+            <span class="h-1.5 w-full bg-[#1A1F71]"></span>
+            <span class="h-1 w-full bg-[#EB001B]"></span>
+            <span class="py-0.5 text-[7.5px] font-extrabold leading-none text-[#1A1F71]">Aura</span>
+          </span>
+
+          <!-- Elo -->
+          <span title="Elo" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-white px-1 shadow-sm">
+            <span class="inline-flex items-center justify-center rounded-full bg-ink-950 px-2 py-0.5 text-[8.5px] font-extrabold lowercase tracking-tight text-white">elo</span>
+          </span>
+
+          <!-- Hipercard -->
+          <span title="Hipercard" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-white p-0.5 shadow-sm">
+            <span class="flex h-full w-full items-center justify-center rounded-[3px] bg-[#B3131B] text-[7px] font-bold italic text-white">Hipercard</span>
+          </span>
+
+          <!-- Discover -->
+          <span title="Discover" class="relative inline-flex h-7 w-11 items-center justify-center overflow-hidden rounded-[4px] bg-white px-1 shadow-sm">
+            <span class="text-[7px] font-black tracking-tighter text-zinc-900">DISCOVER</span>
+            <span class="absolute -bottom-1.5 -right-1.5 h-3.5 w-5 rounded-tl-full bg-[#F47216]"></span>
+          </span>
+
+          <!-- Boleto -->
+          <span title="Boleto" class="inline-flex h-7 w-11 items-center justify-center rounded-[4px] bg-white px-1.5 shadow-sm">
+            <svg viewBox="0 0 32 18" class="h-4 w-auto" fill="#18181B" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="2" width="2" height="14" />
+              <rect x="5" y="2" width="1" height="14" />
+              <rect x="8" y="2" width="3" height="14" />
+              <rect x="13" y="2" width="1.5" height="14" />
+              <rect x="16" y="2" width="1" height="14" />
+              <rect x="19" y="2" width="2.5" height="14" />
+              <rect x="23" y="2" width="1" height="14" />
+              <rect x="26" y="2" width="2" height="14" />
+              <rect x="29.5" y="2" width="1.5" height="14" />
+            </svg>
+          </span>
+
+          <!-- Pix -->
+          <span title="Pix" class="inline-flex h-7 w-11 items-center justify-center gap-1 rounded-[4px] bg-[#18181B] px-1.5 shadow-sm">
+            <svg viewBox="0 0 16 16" class="h-3 w-3 shrink-0" fill="#32BCAD" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1.5L14.5 8L8 14.5L1.5 8L8 1.5Z" />
+            </svg>
+            <span class="text-[8.5px] font-bold tracking-tight text-white">pix</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Barra Inferior Mobile (Copyright centralizado conforme imagem) -->
+      <div class="bg-black/20 px-5 py-6 text-center">
+        <p class="mx-auto max-w-xs text-[11px] leading-relaxed text-white/95">
+          © 2026 123quadro. Todos os direitos reservados.<br />CNPJ 67.185.748/0001-87
+        </p>
+      </div>
+    </div>
+
+    <!-- ==================== LAYOUT DESKTOP (MANTIDO INTACTO EM TELAS >= 640px) ==================== -->
+    <div class="relative z-10 mx-auto hidden max-w-7xl px-4 py-14 sm:block sm:px-8">
       <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <!-- Marca + Instagram -->
         <div class="lg:col-span-2">
@@ -1549,6 +1696,15 @@
       </div>
     </div>
   </footer>
+
+  <!-- Botão Flutuante de WhatsApp (Mobile) com verde esmeralda em degradê sofisticado -->
+  <a href="https://wa.me/5511960212652" target="_blank" rel="noopener noreferrer"
+    aria-label="Atendimento via WhatsApp"
+    class="fixed bottom-4 right-4 z-40 flex h-13 w-13 items-center justify-center rounded-full border-2 border-white/90 bg-gradient-to-tr from-[#0b844c] via-[#12a862] to-[#20c978] p-3.5 text-white shadow-[0_8px_24px_rgba(11,132,76,0.48)] transition-transform duration-200 active:scale-95 sm:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+      <path d="M12.031 2c-5.516 0-9.999 4.486-9.999 10.002 0 1.766.461 3.489 1.337 5.01L2 22l5.122-1.341a9.954 9.954 0 0 0 4.909 1.298h.004c5.515 0 9.998-4.486 9.998-10.002A9.96 9.96 0 0 0 19.106 4.93 9.938 9.938 0 0 0 12.031 2zm5.854 14.277c-.248.698-1.442 1.336-2.005 1.419-.513.077-1.163.109-1.877-.118-.433-.138-.988-.321-1.699-.628-2.99-1.291-4.943-4.303-5.092-4.502-.149-.199-1.216-1.618-1.216-3.086 0-1.468.769-2.189 1.042-2.488.273-.299.595-.373.794-.373.198 0 .397.002.57.01.183.009.428-.07.67.512.248.597.843 2.065.918 2.214.074.149.124.323.025.522-.099.199-.149.323-.298.497-.149.174-.313.389-.447.522-.149.149-.304.311-.13.609.174.299.771 1.272 1.656 2.061 1.137 1.014 2.096 1.328 2.394 1.477.298.149.471.124.645-.075.174-.199.744-.871.942-1.169.199-.299.397-.249.67-.149.273.1 1.736.819 2.034.968.298.149.496.224.571.348.074.124.074.721-.174 1.419z" />
+    </svg>
+  </a>
 
 
   <!-- ============================ SACOLA LATERAL DESLIZANTE (DRAWER) ============================ -->
