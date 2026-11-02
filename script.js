@@ -1013,6 +1013,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const replacedPaths = {
       'imagens/colecao/IMG_20241104_161429.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg',
       'imagens/colecao/IMG_20241126_190543.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg',
+      'imagens/colecao/IMG_20241126_190547.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-0.jpeg',
+      'imagens/autora/autora-08.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg',
+      'imagens/autora/autora-09.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg',
     };
 
     // Substituir caminhos antigos de autora-01, autora-02 e imagens substituídas

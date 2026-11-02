@@ -281,22 +281,19 @@ tailwind.config = {
                 <option value="imagens/colecao/IMG-20250719-WA0021.jpg">21 — Composição Memórias &amp; Viagens (4 Quadros)</option>
                 <option value="imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg">22 — Quadro Infantil Voe Alto Meu Menino</option>
                 <option value="imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg">23 — Composição Sala Trio Beauty Pinus</option>
-                <option value="imagens/colecao/IMG_20241126_190547.jpg">24 — Galeria Botânica &amp; Floral (3 Peças)</option>
+                <option value="imagens/Novas imagens/WhatsApp Image 2026-11-0.jpeg">24 — Quadro Infantil Voe Alto — Ambiente</option>
                 <option value="imagens/colecao/IMG_20250326_014631.jpg">25 — Quadro Estádio Urbano Caldeira</option>
                 <option value="imagens/colecao/IMG_20250409_211128.png">26 — Quadro Árvore da Vida — Recordação Bebê</option>
                 <option value="imagens/colecao/IMG_20251103_183916.png">27 — Dupla Infantil Safari &amp; Gatinhos</option>
                 <option value="imagens/colecao/IMG_20251103_183933.png">28 — Dupla Infantil Safari &amp; Pequeno Astronauta</option>
               </optgroup>
-              <optgroup label="Acervo Autoral (01 a 17)">
+              <optgroup label="Acervo Autoral">
                 <option value="imagens/autora/autora-01.jpg">Autora 01</option>
                 <option value="imagens/autora/autora-02.jpg">Autora 02</option>
                 <option value="imagens/autora/autora-03.jpg">Autora 03</option>
                 <option value="imagens/autora/autora-04.jpg">Autora 04</option>
                 <option value="imagens/autora/autora-05.jpg">Autora 05</option>
                 <option value="imagens/autora/autora-06.jpg">Autora 06</option>
-                <option value="imagens/autora/autora-07.jpg">Autora 07</option>
-                <option value="imagens/autora/autora-08.jpg">Autora 08</option>
-                <option value="imagens/autora/autora-09.jpg">Autora 09</option>
                 <option value="imagens/autora/autora-10.jpg">Autora 10</option>
                 <option value="imagens/autora/autora-11.jpg">Autora 11</option>
                 <option value="imagens/autora/autora-12.jpg">Autora 12</option>
@@ -602,10 +599,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderAll();
   }
 
+  const REPLACED_IMG_PATHS = {
+    'imagens/colecao/IMG_20241104_161429.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg',
+    'imagens/colecao/IMG_20241126_190543.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg',
+    'imagens/colecao/IMG_20241126_190547.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-0.jpeg',
+    'imagens/autora/autora-08.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg',
+    'imagens/autora/autora-09.jpg': 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg',
+  };
+
   function normalizeItem(q) {
     const orig = Number(q.preco_original) || 0;
     const pct = Number(q.desconto_pct) || 0;
     const fin = Number(q.preco_final) || orig;
+    const rawUrl = q.imagem_url || 'imagens/colecao/obra-3.jpg';
     return {
       id: q.id || 'quadro-' + Date.now(),
       titulo: q.titulo || 'Quadro Decorativo',
@@ -619,7 +625,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       secao: q.secao || 'colecao',
       categoria: q.categoria || 'paisagem',
       estrelas: Number(q.estrelas) || 5,
-      imagem_url: q.imagem_url || 'imagens/colecao/obra-3.jpg',
+      imagem_url: REPLACED_IMG_PATHS[rawUrl] || rawUrl,
       ativo: q.ativo !== false,
       ordem: Number(q.ordem) || 10,
     };
