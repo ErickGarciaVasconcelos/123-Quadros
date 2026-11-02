@@ -190,8 +190,8 @@ select * from (values
   ('Série Botânica V', 'Ambiente Sala de Estar', 189.90, 0, 189.90, '', false, 'Sala de Estar', 'stories', 'retrato', 5, 'imagens/autora/autora-05.jpg', true, 1),
   ('Estudo Cromático VI', 'Textura & Arte', 189.90, 0, 189.90, '', false, 'Textura & Arte', 'stories', 'abstrato', 5, 'imagens/autora/autora-06.jpg', true, 2),
   ('Composição Autoral III', 'Destaque Principal', 238.90, 0, 238.90, 'EM DESTAQUE', false, 'Em Destaque', 'stories', 'abstrato', 5, 'imagens/autora/autora-03.jpg', true, 3),
-  ('Horizonte Dourado VIII', 'Moldura Artesanal', 269.90, 0, 269.90, '', false, 'Moldura Artesanal', 'stories', 'paisagem', 5, 'imagens/autora/autora-08.jpg', true, 4),
-  ('Essência Floral IX', 'Favorito dos Clientes', 199.90, 0, 199.90, '', false, 'Favorito', 'stories', 'retrato', 5, 'imagens/autora/autora-09.jpg', true, 5)
+  ('Horizonte Dourado VIII', 'Moldura Artesanal', 269.90, 0, 269.90, '', false, 'Moldura Artesanal', 'stories', 'paisagem', 5, 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.24.13.jpeg', true, 4),
+  ('Essência Floral IX', 'Favorito dos Clientes', 199.90, 0, 199.90, '', false, 'Favorito', 'stories', 'retrato', 5, 'imagens/Novas imagens/WhatsApp Image 2026-11-01 at 17.243.jpeg', true, 5)
 ) as v(
   titulo, subtitulo, preco_original, desconto_pct, preco_final,
   selo, selo_curadoria, tag_ambiente, secao, categoria, estrelas, imagem_url, ativo, ordem
