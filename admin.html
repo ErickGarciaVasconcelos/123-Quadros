@@ -48,34 +48,44 @@ tailwind.config = {
 
 <!-- ============================ TOPBAR / HEADER ADMIN ============================ -->
 <header class="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur-md">
-  <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-8">
-    <div class="flex items-center gap-3 sm:gap-4">
-      <a href="index.html" class="flex items-center gap-3">
-        <img src="imagens/logo/logo-web-crop.png" alt="123quadro" class="h-11 w-auto object-contain sm:h-12" />
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-3 sm:h-20 sm:flex-nowrap sm:gap-3 sm:px-8 sm:py-0">
+    <div class="flex w-full items-center justify-between gap-3 sm:w-auto sm:justify-start sm:gap-4">
+      <a href="index.html" class="flex shrink-0 items-center gap-3">
+        <img src="imagens/logo/logo-web-crop.png" alt="123quadro" class="h-9 w-auto object-contain sm:h-12" />
       </a>
-      <span class="hidden h-5 w-px bg-zinc-200 sm:block"></span>
-      <div>
-        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#fdf2f6] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#9e004f]">
-          <i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i> Painel Admin
-        </span>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <span class="hidden h-5 w-px bg-zinc-200 sm:block"></span>
+        <div class="hidden sm:block">
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#fdf2f6] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#9e004f]">
+            <i data-lucide="sliders-horizontal" class="h-3.5 w-3.5"></i> Painel Admin
+          </span>
+        </div>
+
+        <!-- Ver Loja (mobile) -->
+        <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg bg-[#9e004f] px-3 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:hidden">
+          <span>Ver Loja</span>
+          <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
+        </a>
       </div>
     </div>
 
-    <div class="flex items-center gap-2 sm:gap-3">
+    <div class="flex w-full items-center gap-2 sm:ml-auto sm:w-auto sm:gap-3">
       <!-- Status da Conexão -->
-      <button type="button" id="btn-open-config" class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:border-brand-magenta hover:text-brand-magenta">
-        <span id="conn-dot" class="h-2 w-2 rounded-full bg-amber-400"></span>
-        <span id="conn-label">Modo Local (Configurar Supabase)</span>
-        <i data-lucide="settings" class="h-3.5 w-3.5 text-zinc-400"></i>
+      <button type="button" id="btn-open-config" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 shadow-sm transition hover:border-brand-magenta hover:text-brand-magenta sm:flex-none sm:justify-start sm:py-1.5">
+        <span id="conn-dot" class="h-2 w-2 shrink-0 rounded-full bg-amber-400"></span>
+        <span id="conn-label" class="truncate">Modo Local (Configurar Supabase)</span>
+        <i data-lucide="settings" class="hidden h-3.5 w-3.5 shrink-0 text-zinc-400 sm:block"></i>
       </button>
 
       <!-- Botão Login/Logout Admin quando Supabase está ativo -->
-      <button type="button" id="btn-auth-modal" class="hidden items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300">
+      <button type="button" id="btn-auth-modal" class="hidden shrink-0 items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300 sm:py-1.5">
         <i data-lucide="lock" class="h-3.5 w-3.5 text-[#9e004f]"></i>
         <span id="auth-status-text">Entrar</span>
       </button>
 
-      <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg bg-[#9e004f] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta">
+      <!-- Ver Loja (desktop) -->
+      <a href="index.html" target="_blank" class="hidden shrink-0 items-center gap-1.5 rounded-lg bg-[#9e004f] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:inline-flex">
         <span>Ver Loja</span>
         <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
       </a>
@@ -84,64 +94,64 @@ tailwind.config = {
 </header>
 
 <!-- ============================ CONTEÚDO PRINCIPAL ============================ -->
-<main class="mx-auto max-w-7xl px-4 py-8 sm:px-8">
+<main class="mx-auto max-w-7xl px-4 py-6 sm:px-8 sm:py-8">
 
   <!-- Alerta Informativo / Feedback -->
-  <div id="toast-alert" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 rounded-xl bg-ink-950 px-5 py-3.5 text-xs font-semibold text-white shadow-xl">
-    <i data-lucide="check-circle-2" class="h-4 w-4 text-emerald-400"></i>
+  <div id="toast-alert" class="fixed inset-x-4 bottom-4 z-50 hidden items-center justify-center gap-2.5 rounded-xl bg-ink-950 px-5 py-3.5 text-xs font-semibold text-white shadow-xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:justify-start">
+    <i data-lucide="check-circle-2" class="h-4 w-4 shrink-0 text-emerald-400"></i>
     <span id="toast-text">Salvo com sucesso!</span>
   </div>
 
   <!-- KPIs / Resumo -->
-  <section class="grid grid-cols-2 gap-4 lg:grid-cols-4">
-    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+  <section class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <div class="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+      <div class="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 sm:text-xs">
         <span>Total de Quadros</span>
-        <i data-lucide="frame" class="h-4 w-4 text-[#9e004f]"></i>
+        <i data-lucide="frame" class="h-4 w-4 shrink-0 text-[#9e004f]"></i>
       </div>
-      <p id="kpi-total" class="mt-2 font-display text-3xl font-extrabold text-zinc-900">0</p>
-      <p class="mt-1 text-xs text-zinc-500">cadastrados no catálogo</p>
+      <p id="kpi-total" class="mt-2 font-display text-2xl font-extrabold text-zinc-900 sm:text-3xl">0</p>
+      <p class="mt-1 text-[11px] text-zinc-500 sm:text-xs">cadastrados no catálogo</p>
     </div>
 
-    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+    <div class="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+      <div class="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 sm:text-xs">
         <span>Ativos na Vitrine</span>
-        <i data-lucide="eye" class="h-4 w-4 text-emerald-600"></i>
+        <i data-lucide="eye" class="h-4 w-4 shrink-0 text-emerald-600"></i>
       </div>
-      <p id="kpi-active" class="mt-2 font-display text-3xl font-extrabold text-emerald-600">0</p>
-      <p class="mt-1 text-xs text-zinc-500">visíveis para clientes</p>
+      <p id="kpi-active" class="mt-2 font-display text-2xl font-extrabold text-emerald-600 sm:text-3xl">0</p>
+      <p class="mt-1 text-[11px] text-zinc-500 sm:text-xs">visíveis para clientes</p>
     </div>
 
-    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+    <div class="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+      <div class="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 sm:text-xs">
         <span>Com Desconto</span>
-        <i data-lucide="percent" class="h-4 w-4 text-brand-magenta"></i>
+        <i data-lucide="percent" class="h-4 w-4 shrink-0 text-brand-magenta"></i>
       </div>
-      <p id="kpi-discount" class="mt-2 font-display text-3xl font-extrabold text-brand-magenta">0</p>
-      <p class="mt-1 text-xs text-zinc-500">em oferta De/Por</p>
+      <p id="kpi-discount" class="mt-2 font-display text-2xl font-extrabold text-brand-magenta sm:text-3xl">0</p>
+      <p class="mt-1 text-[11px] text-zinc-500 sm:text-xs">em oferta De/Por</p>
     </div>
 
-    <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-zinc-400">
+    <div class="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+      <div class="flex items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-wider text-zinc-400 sm:text-xs">
         <span>Ticket Médio</span>
-        <i data-lucide="tag" class="h-4 w-4 text-brand-azul"></i>
+        <i data-lucide="tag" class="h-4 w-4 shrink-0 text-brand-azul"></i>
       </div>
       <p id="kpi-avg" class="mt-2 font-display text-2xl font-extrabold text-zinc-900 sm:text-3xl">R$ 0</p>
-      <p class="mt-1 text-xs text-zinc-500">valor médio final</p>
+      <p class="mt-1 text-[11px] text-zinc-500 sm:text-xs">valor médio final</p>
     </div>
   </section>
 
   <!-- ============================ FORMULÁRIO + PREVIEW AO VIVO ============================ -->
-  <section id="form-section" class="mt-8 grid gap-8 lg:grid-cols-[1.45fr_0.85fr]">
+  <section id="form-section" class="mt-6 grid scroll-mt-28 gap-6 sm:mt-8 lg:grid-cols-[1.45fr_0.85fr] lg:gap-8">
 
     <!-- Coluna Esquerda: Formulário de Cadastro / Edição -->
-    <div class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
-      <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
-        <div>
-          <h1 id="form-title" class="font-display text-xl font-bold text-zinc-900">Adicionar Novo Quadro</h1>
+    <div class="min-w-0 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-8">
+      <div class="flex flex-col gap-3 border-b border-zinc-100 pb-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div class="min-w-0">
+          <h1 id="form-title" class="font-display text-lg font-bold text-zinc-900 sm:text-xl">Adicionar Novo Quadro</h1>
           <p class="mt-0.5 text-xs text-zinc-500">Preencha os dados, defina o preço ou desconto e veja o card ao lado em tempo real.</p>
         </div>
-        <button type="button" id="btn-reset-form" class="hidden items-center gap-1 rounded-lg border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-600 hover:bg-zinc-50">
+        <button type="button" id="btn-reset-form" class="hidden shrink-0 items-center justify-center gap-1 self-start rounded-lg border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 sm:py-1.5">
           <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i> Cancelar edição
         </button>
       </div>
@@ -164,7 +174,7 @@ tailwind.config = {
 
         <!-- Calculadora de Preço e Desconto -->
         <div class="rounded-2xl border border-pink-100 bg-[#fdf2f6]/60 p-4 sm:p-5">
-          <div class="flex items-center justify-between">
+          <div class="flex flex-wrap items-center justify-between gap-2">
             <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#9e004f]">
               <i data-lucide="calculator" class="h-3.5 w-3.5"></i> Preço &amp; Calculadora de Desconto
             </span>
@@ -255,7 +265,7 @@ tailwind.config = {
           <!-- Atalho para escolher imagens já existentes na pasta do projeto -->
           <div class="mt-3 flex flex-wrap items-center gap-2">
             <span class="text-[11px] font-medium text-zinc-500">Ou escolha do acervo local:</span>
-            <select id="field-preset-img" class="rounded-lg border border-zinc-300 bg-white px-2.5 py-1 text-xs text-zinc-700 outline-none focus:border-brand-magenta">
+            <select id="field-preset-img" class="w-full max-w-full rounded-lg border border-zinc-300 bg-white px-2.5 py-2 text-xs text-zinc-700 outline-none focus:border-brand-magenta sm:w-auto sm:py-1">
               <option value="">-- Selecionar foto do projeto --</option>
               <optgroup label="Coleção (28 Obras)">
                 <option value="imagens/colecao/obra-1.jpg">01 — Aurora Setentrional (obra-1.jpg)</option>
@@ -333,7 +343,7 @@ tailwind.config = {
         </div>
 
         <div class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-100 pt-5">
-          <button type="submit" id="btn-submit-quadro" class="inline-flex items-center gap-2 rounded-xl bg-[#9e004f] px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95">
+          <button type="submit" id="btn-submit-quadro" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#9e004f] px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95 sm:w-auto">
             <i data-lucide="save" class="h-4 w-4"></i>
             <span id="btn-submit-text">Salvar Quadro na Vitrine</span>
           </button>
@@ -342,13 +352,13 @@ tailwind.config = {
     </div>
 
     <!-- Coluna Direita: Preview em Tempo Real do Card -->
-    <div class="flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-[#f5f5f5] p-6">
+    <div class="flex min-w-0 flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-[#f5f5f5] p-4 sm:p-6 lg:sticky lg:top-24 lg:self-start">
       <span class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500 shadow-sm">
         <i data-lucide="eye" class="h-3.5 w-3.5 text-brand-magenta"></i> Pré-visualização ao Vivo
       </span>
 
       <!-- Card Preview (idêntico ao card do site) -->
-      <article class="flex w-[275px] flex-col">
+      <article class="flex w-full max-w-[275px] flex-col">
         <div class="group relative flex aspect-square items-center justify-center overflow-hidden bg-white p-6 shadow-sm">
           <span id="preview-badge" class="absolute left-3.5 top-3.5 z-10 rounded-[3px] bg-brand-magenta px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
             NOVO
@@ -388,22 +398,22 @@ tailwind.config = {
   </section>
 
   <!-- ============================ LISTA DE QUADROS CADASTRADOS ============================ -->
-  <section class="mt-10 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
-    <div class="flex flex-col gap-4 border-b border-zinc-100 pb-5 sm:flex-row sm:items-center sm:justify-between">
+  <section class="mt-8 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:mt-10 sm:p-8">
+    <div class="flex flex-col gap-4 border-b border-zinc-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <h2 class="font-display text-xl font-bold text-zinc-900">Catálogo de Quadros</h2>
+        <h2 class="font-display text-lg font-bold text-zinc-900 sm:text-xl">Catálogo de Quadros</h2>
         <p class="mt-0.5 text-xs text-zinc-500">Gerencie preços, descontos, visibilidade e ordem de exibição.</p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2">
+      <div class="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
         <!-- Busca -->
-        <div class="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-1.5">
-          <i data-lucide="search" class="h-4 w-4 text-zinc-400"></i>
-          <input id="admin-search" type="search" placeholder="Buscar quadro..." class="w-40 bg-transparent text-xs text-zinc-800 outline-none sm:w-52" />
+        <div class="flex w-full items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 sm:w-auto sm:py-1.5">
+          <i data-lucide="search" class="h-4 w-4 shrink-0 text-zinc-400"></i>
+          <input id="admin-search" type="search" placeholder="Buscar quadro..." class="w-full min-w-0 bg-transparent text-xs text-zinc-800 outline-none sm:w-52" />
         </div>
 
         <!-- Restaurar padrão -->
-        <button type="button" id="btn-restore-defaults" class="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 transition hover:border-zinc-300 hover:bg-zinc-50" title="Recarregar quadros padrão">
+        <button type="button" id="btn-restore-defaults" class="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-zinc-200 px-3 py-2.5 text-xs font-semibold text-zinc-600 transition hover:border-zinc-300 hover:bg-zinc-50 sm:w-auto sm:py-2" title="Recarregar quadros padrão">
           <i data-lucide="refresh-cw" class="h-3.5 w-3.5"></i>
           <span>Restaurar Padrão</span>
         </button>
@@ -418,8 +428,11 @@ tailwind.config = {
       <button type="button" data-tab="desconto" class="admin-tab rounded-full border border-zinc-200 bg-white px-4 py-1.5 text-xs font-semibold text-zinc-600 hover:border-brand-magenta">Com Desconto</button>
     </div>
 
-    <!-- Tabela / Lista Responsiva -->
-    <div class="mt-6 overflow-x-auto">
+    <!-- Lista em Cards (Mobile / Tablet) -->
+    <div id="admin-card-list" class="mt-5 space-y-3 lg:hidden"></div>
+
+    <!-- Tabela / Lista Responsiva (Desktop) -->
+    <div class="mt-6 hidden overflow-x-auto lg:block">
       <table class="w-full min-w-[740px] border-collapse text-left text-sm">
         <thead>
           <tr class="border-b border-zinc-200 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
@@ -440,8 +453,8 @@ tailwind.config = {
 
 
 <!-- ============================ MODAL: CONFIGURAÇÃO DO SUPABASE & LOGIN ============================ -->
-<div id="config-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-  <div class="w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-6 shadow-2xl sm:p-7">
+<div id="config-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-3 backdrop-blur-sm sm:p-4">
+  <div class="max-h-[85vh] w-full max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7">
     <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
       <div class="flex items-center gap-2">
         <i data-lucide="database" class="h-5 w-5 text-[#9e004f]"></i>
@@ -479,12 +492,12 @@ tailwind.config = {
       </div>
     </div>
 
-    <div class="mt-6 flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-4">
-      <button type="button" id="btn-clear-sb" class="text-xs font-semibold text-zinc-400 underline hover:text-zinc-700">
+    <div class="mt-6 flex flex-col-reverse gap-3 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
+      <button type="button" id="btn-clear-sb" class="text-center text-xs font-semibold text-zinc-400 underline hover:text-zinc-700">
         Usar apenas Modo Local
       </button>
-      <div class="flex gap-2">
-        <button type="button" id="btn-save-sb" class="rounded-xl bg-[#9e004f] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta">
+      <div class="flex">
+        <button type="button" id="btn-save-sb" class="w-full rounded-xl bg-[#9e004f] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta sm:w-auto sm:py-2.5">
           Conectar e Sincronizar
         </button>
       </div>
@@ -901,6 +914,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function renderTable() {
     const tbody = document.getElementById('admin-table-body');
+    const cardList = document.getElementById('admin-card-list');
     const searchQ = (document.getElementById('admin-search')?.value || '').trim().toLowerCase();
 
     const filtered = quadros
@@ -922,6 +936,13 @@ document.addEventListener('DOMContentLoaded', async () => {
           </td>
         </tr>
       `;
+      if (cardList) {
+        cardList.innerHTML = `
+          <div class="rounded-xl border border-dashed border-zinc-200 px-4 py-10 text-center text-xs text-zinc-400">
+            Nenhum quadro encontrado para este filtro.
+          </div>
+        `;
+      }
       return;
     }
 
@@ -978,6 +999,52 @@ document.addEventListener('DOMContentLoaded', async () => {
       })
       .join('');
 
+    if (cardList) {
+      cardList.innerHTML = filtered
+        .map((q) => {
+          const hasDiscount = q.desconto_pct > 0 || q.preco_final < q.preco_original;
+          return `
+            <article class="rounded-xl border border-zinc-200 bg-white p-3 transition ${q.ativo ? '' : 'opacity-60'}">
+              <div class="flex gap-3">
+                <img src="${q.imagem_url}" alt="${q.titulo}" class="h-16 w-16 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                      <p class="line-clamp-2 font-display text-sm font-bold leading-snug text-zinc-900">${q.titulo}</p>
+                      <p class="mt-0.5 truncate text-[11px] text-zinc-500">${q.subtitulo || 'Sem subtítulo'}</p>
+                    </div>
+                    <button type="button" data-action="toggle" data-id="${q.id}" class="inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
+                      <span class="h-5 w-5 rounded-full bg-white shadow"></span>
+                    </button>
+                  </div>
+                  <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
+                    <span class="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-700">${secaoLabels[q.secao] || q.secao}</span>
+                    <span class="text-[11px] capitalize text-zinc-400">${q.categoria}</span>
+                    ${q.selo ? `<span class="rounded bg-brand-magenta/10 px-1.5 py-0.5 text-[9px] font-bold uppercase text-brand-magenta">${q.selo}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+              <div class="mt-3 flex items-center justify-between gap-2 border-t border-zinc-100 pt-2.5">
+                <div class="min-w-0">
+                  ${hasDiscount ? `<span class="mr-1 text-[11px] text-zinc-400 line-through">${fmt.format(q.preco_original)}</span>` : ''}
+                  <strong class="font-display text-sm font-bold text-zinc-900">${fmt.format(q.preco_final)}</strong>
+                  ${hasDiscount ? `<span class="ml-1 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${q.desconto_pct}%</span>` : ''}
+                </div>
+                <div class="flex shrink-0 items-center gap-1">
+                  <button type="button" data-action="edit" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                    Editar
+                  </button>
+                  <button type="button" data-action="delete" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro" aria-label="Excluir quadro">
+                    <i data-lucide="trash-2" class="h-4 w-4"></i>
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
     if (window.lucide) lucide.createIcons();
   }
 
@@ -987,7 +1054,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // ---- Ações na Tabela (Editar, Alternar Visível, Excluir) ----
-  document.getElementById('admin-table-body').addEventListener('click', async (e) => {
+  async function handleCatalogAction(e) {
     const btn = e.target.closest('button[data-action]');
     if (!btn) return;
 
@@ -1046,7 +1113,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       renderAll();
       showToast('Quadro removido.');
     }
-  });
+  }
+
+  document.getElementById('admin-table-body').addEventListener('click', handleCatalogAction);
+  document.getElementById('admin-card-list')?.addEventListener('click', handleCatalogAction);
 
   // ---- Abas e Busca ----
   document.querySelectorAll('.admin-tab').forEach((tab) => {
