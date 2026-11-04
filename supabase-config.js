@@ -11,13 +11,21 @@
 window.QUADROS_SUPABASE_CONFIG = {
   // URL do seu projeto Supabase
   SUPABASE_URL:
+    localStorage.getItem('123quadros-sb-url') ||
     localStorage.getItem('123quadros_sb_url') ||
     'https://sokpqwwbuykixhvirmoa.supabase.co',
 
-  // Chave pública (Publishable key / anon public key)
+  // Chave pública (Publishable key / anon public key).
+  // NUNCA use a chave service_role no frontend.
   SUPABASE_ANON_KEY:
+    localStorage.getItem('123quadros-sb-key') ||
     localStorage.getItem('123quadros_sb_key') ||
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNva3Bxd3didXlraXhodmlybW9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMjUyOTksImV4cCI6MjEwODkwMTI5OX0.Wvdur3XyssHYMzwN3iXxRVOnZo72dgTQWMguXpSVyhE',
+
+  // Lista opcional de e-mails admin (verificação extra no painel).
+  // A proteção real deve ser feita no banco com supabase-security.sql.
+  // Exemplo: ['seuemail@exemplo.com']
+  ADMIN_EMAILS: [],
 
   // Nome do bucket de imagens criado pelo script supabase-setup.sql
   STORAGE_BUCKET: 'quadros-imagens',

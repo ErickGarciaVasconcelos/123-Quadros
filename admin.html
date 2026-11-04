@@ -2,9 +2,12 @@
 <html lang="pt-BR" class="scroll-smooth">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="referrer" content="no-referrer" />
+<meta http-equiv="Cache-Control" content="no-store, max-age=0" />
 <title>Painel Administrativo — 123quadro</title>
 <meta name="robots" content="noindex, nofollow" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; form-action 'self'; frame-src 'none'; upgrade-insecure-requests" />
 <link rel="icon" href="imagens/favicon/favicon.ico?v=2" sizes="any" />
 <link rel="icon" type="image/png" href="imagens/favicon/favicon-32x32.png?v=2" sizes="32x32" />
 <link rel="icon" type="image/png" href="imagens/favicon/favicon-16x16.png?v=2" sizes="16x16" />
@@ -46,6 +49,122 @@ tailwind.config = {
 
 <body class="min-h-screen bg-zinc-50 font-sans text-zinc-700 antialiased">
 
+<!-- ============================ LOGIN GATE (ACESSO RESTRITO) ============================ -->
+<div id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" class="fixed inset-0 z-[100] overflow-y-auto bg-zinc-950">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(234,2,115,0.32),transparent_45%),radial-gradient(circle_at_bottom_left,rgba(1,154,235,0.22),transparent_45%)]"></div>
+
+  <div class="relative flex min-h-full items-center justify-center px-4 py-8 sm:px-6">
+    <div class="w-full max-w-md rounded-3xl border border-white/10 bg-white p-6 shadow-2xl sm:p-8">
+      <div class="flex items-center justify-between gap-3">
+        <a href="index.html" class="inline-flex items-center">
+          <img src="imagens/logo/logo-web-crop.png" alt="123quadro" class="h-11 w-auto object-contain" />
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-1 text-[11px] font-semibold text-zinc-500 transition hover:text-[#9e004f]">
+          <i data-lucide="arrow-left" class="h-3.5 w-3.5"></i>
+          Voltar ao site
+        </a>
+      </div>
+
+      <div class="mt-7">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#fdf2f6] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#9e004f]">
+          <i data-lucide="shield-check" class="h-3.5 w-3.5"></i>
+          Acesso restrito
+        </span>
+        <h1 id="gate-title" class="mt-3 font-display text-2xl font-extrabold tracking-tight text-zinc-900">Painel administrativo</h1>
+        <p class="mt-2 text-xs leading-relaxed text-zinc-500">
+          Entre com sua conta administradora do Supabase ou use a senha local de emergência.
+        </p>
+      </div>
+
+      <div id="gate-alert" class="mt-5 hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-xs font-medium" role="alert" aria-live="polite"></div>
+
+      <!-- Login Supabase -->
+      <div id="gate-supabase-block" class="mt-6">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Conta administradora (recomendado)</p>
+
+        <form id="supabase-login-form" class="mt-3 space-y-3" autocomplete="on">
+          <div>
+            <label for="login-email" class="block text-[11px] font-semibold text-zinc-700">E-mail</label>
+            <input id="login-email" type="email" required autocomplete="username" inputmode="email" spellcheck="false" placeholder="admin@123quadro.com.br"
+              class="mt-1 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none transition focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+          </div>
+
+          <div>
+            <label for="login-password" class="block text-[11px] font-semibold text-zinc-700">Senha</label>
+            <div class="relative mt-1">
+              <input id="login-password" type="password" required autocomplete="current-password" spellcheck="false" placeholder="Sua senha do Supabase"
+                class="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 pr-11 text-sm text-zinc-900 outline-none transition focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              <button type="button" data-toggle-password="login-password" aria-label="Mostrar senha"
+                class="absolute inset-y-0 right-0 grid w-11 place-items-center rounded-r-xl text-zinc-400 transition hover:text-[#9e004f]">
+                <i data-lucide="eye" class="h-4 w-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-login-supabase"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#9e004f] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md transition hover:bg-brand-magenta active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60">
+            <i data-lucide="log-in" class="h-4 w-4"></i>
+            <span>Entrar com Supabase</span>
+          </button>
+        </form>
+
+        <p class="mt-2 text-[10px] leading-relaxed text-zinc-400">
+          A senha é verificada diretamente pelo Supabase e não é armazenada neste site.
+        </p>
+      </div>
+
+      <div id="gate-divider" class="my-5 flex items-center gap-3">
+        <span class="h-px flex-1 bg-zinc-200"></span>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">ou</span>
+        <span class="h-px flex-1 bg-zinc-200"></span>
+      </div>
+
+      <!-- Senha local -->
+      <div id="gate-local-block">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Senha local do painel</p>
+
+        <form id="local-login-form" class="mt-3 space-y-3">
+          <div>
+            <label for="login-local-password" class="block text-[11px] font-semibold text-zinc-700">Senha de acesso</label>
+            <div class="relative mt-1">
+              <input id="login-local-password" type="password" required autocomplete="current-password" spellcheck="false" placeholder="Senha local de emergência"
+                class="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 pr-11 text-sm text-zinc-900 outline-none transition focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+              <button type="button" data-toggle-password="login-local-password" aria-label="Mostrar senha"
+                class="absolute inset-y-0 right-0 grid w-11 place-items-center rounded-r-xl text-zinc-400 transition hover:text-[#9e004f]">
+                <i data-lucide="eye" class="h-4 w-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-login-local"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white px-5 py-3 text-xs font-bold uppercase tracking-wider text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60">
+            <i data-lucide="key-round" class="h-4 w-4"></i>
+            <span>Desbloquear painel</span>
+          </button>
+        </form>
+
+        <p class="mt-2 text-[10px] leading-relaxed text-zinc-400">
+          Use esta opção apenas se o Supabase não estiver disponível. Sem login Supabase, as alterações ficam somente neste navegador.
+        </p>
+      </div>
+
+      <div class="mt-6 flex flex-col gap-2 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+        <button type="button" id="btn-gate-config" class="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold text-zinc-400 underline decoration-zinc-300 underline-offset-2 transition hover:text-zinc-700">
+          <i data-lucide="settings" class="h-3.5 w-3.5"></i>
+          Configurar conexão
+        </button>
+        <span class="inline-flex items-center justify-center gap-1 text-[10px] font-medium text-zinc-300">
+          <i data-lucide="lock" class="h-3 w-3"></i>
+          Sessão protegida
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ ADMIN SHELL (OCULTO ATÉ AUTENTICAR) ============================ -->
+<div id="admin-shell" class="hidden" hidden inert>
+
 <!-- ============================ TOPBAR / HEADER ADMIN ============================ -->
 <header class="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur-md">
   <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-3 sm:h-20 sm:flex-nowrap sm:gap-3 sm:px-8 sm:py-0">
@@ -63,7 +182,7 @@ tailwind.config = {
         </div>
 
         <!-- Ver Loja (mobile) -->
-        <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 rounded-lg bg-[#9e004f] px-3 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:hidden">
+        <a href="index.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-lg bg-[#9e004f] px-3 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:hidden">
           <span>Ver Loja</span>
           <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
         </a>
@@ -74,18 +193,18 @@ tailwind.config = {
       <!-- Status da Conexão -->
       <button type="button" id="btn-open-config" class="inline-flex min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 shadow-sm transition hover:border-brand-magenta hover:text-brand-magenta sm:flex-none sm:justify-start sm:py-1.5">
         <span id="conn-dot" class="h-2 w-2 shrink-0 rounded-full bg-amber-400"></span>
-        <span id="conn-label" class="truncate">Modo Local (Configurar Supabase)</span>
+        <span id="conn-label" class="truncate">Verificando conexão...</span>
         <i data-lucide="settings" class="hidden h-3.5 w-3.5 shrink-0 text-zinc-400 sm:block"></i>
       </button>
 
-      <!-- Botão Login/Logout Admin quando Supabase está ativo -->
-      <button type="button" id="btn-auth-modal" class="hidden shrink-0 items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 transition hover:border-zinc-300 sm:py-1.5">
-        <i data-lucide="lock" class="h-3.5 w-3.5 text-[#9e004f]"></i>
-        <span id="auth-status-text">Entrar</span>
+      <!-- Segurança / sessão -->
+      <button type="button" id="btn-security" title="Segurança e sessão" aria-label="Segurança e sessão" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-2 text-xs font-semibold text-zinc-700 transition hover:border-[#9e004f] hover:text-[#9e004f] sm:py-1.5">
+        <i data-lucide="shield-check" class="h-3.5 w-3.5 text-[#9e004f]"></i>
+        <span class="hidden sm:inline">Segurança</span>
       </button>
 
       <!-- Ver Loja (desktop) -->
-      <a href="index.html" target="_blank" class="hidden shrink-0 items-center gap-1.5 rounded-lg bg-[#9e004f] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:inline-flex">
+      <a href="index.html" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center gap-1.5 rounded-lg bg-[#9e004f] px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-sm transition hover:bg-brand-magenta sm:inline-flex">
         <span>Ver Loja</span>
         <i data-lucide="external-link" class="h-3.5 w-3.5"></i>
       </a>
@@ -95,6 +214,17 @@ tailwind.config = {
 
 <!-- ============================ CONTEÚDO PRINCIPAL ============================ -->
 <main class="mx-auto max-w-7xl px-4 py-6 sm:px-8 sm:py-8">
+
+  <!-- Aviso de modo local / sessão sem permissão de escrita -->
+  <div id="local-mode-banner" class="mb-4 hidden flex-col gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-[11px] leading-relaxed text-amber-800 sm:flex-row sm:items-center sm:justify-between">
+    <span class="flex items-start gap-2">
+      <i data-lucide="cloud-off" class="mt-0.5 h-4 w-4 shrink-0"></i>
+      <span><strong>Modo local:</strong> as alterações não serão publicadas no Supabase até você entrar com uma conta administradora.</span>
+    </span>
+    <button type="button" id="btn-banner-login" class="shrink-0 rounded-lg border border-amber-300 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-amber-800 transition hover:border-amber-400 hover:bg-amber-100">
+      Entrar com Supabase
+    </button>
+  </div>
 
   <!-- Alerta Informativo / Feedback -->
   <div id="toast-alert" class="fixed inset-x-4 bottom-4 z-50 hidden items-center justify-center gap-2.5 rounded-xl bg-ink-950 px-5 py-3.5 text-xs font-semibold text-white shadow-xl sm:inset-x-auto sm:bottom-5 sm:right-5 sm:justify-start">
@@ -451,56 +581,128 @@ tailwind.config = {
 
 </main>
 
+</div><!-- /admin-shell -->
 
-<!-- ============================ MODAL: CONFIGURAÇÃO DO SUPABASE & LOGIN ============================ -->
-<div id="config-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-3 backdrop-blur-sm sm:p-4">
+
+<!-- ============================ MODAL: CONFIGURAÇÃO DO SUPABASE ============================ -->
+<div id="config-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/50 p-3 backdrop-blur-sm sm:p-4">
   <div class="max-h-[85vh] w-full max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7">
     <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
       <div class="flex items-center gap-2">
         <i data-lucide="database" class="h-5 w-5 text-[#9e004f]"></i>
         <h3 class="font-display text-lg font-bold text-zinc-900">Conexão com o Supabase</h3>
       </div>
-      <button type="button" id="btn-close-config" class="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700">
+      <button type="button" id="btn-close-config" aria-label="Fechar" class="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700">
         <i data-lucide="x" class="h-4 w-4"></i>
       </button>
     </div>
 
     <div class="mt-4 space-y-4 text-xs leading-relaxed text-zinc-600">
       <p>
-        1. No painel do <strong>Supabase</strong>, execute o arquivo <code>supabase-setup.sql</code> no <strong>SQL Editor</strong>.<br />
-        2. Em <strong>Project Settings → API</strong>, copie a <strong>Project URL</strong> e a <strong>anon / publishable key</strong> e cole abaixo:
+        1. No <strong>Supabase</strong>, execute <code>supabase-setup.sql</code> (instalação inicial) ou apenas <code>supabase-security.sql</code> (banco já existente) no <strong>SQL Editor</strong>.<br />
+        2. Crie seu usuário em <strong>Authentication → Users</strong> e adicione o UUID dele à tabela <code>admin_users</code> (instruções no fim do arquivo de segurança).<br />
+        3. Em <strong>Project Settings → API</strong>, copie a <strong>Project URL</strong> e a <strong>anon / publishable key</strong> e cole abaixo:
       </p>
 
       <div>
         <label for="sb-url-input" class="block font-bold uppercase tracking-wider text-zinc-700">Supabase Project URL</label>
-        <input id="sb-url-input" type="url" placeholder="https://seuprojeto.supabase.co" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+        <input id="sb-url-input" type="url" placeholder="https://seuprojeto.supabase.co" autocomplete="off" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
       </div>
 
       <div>
         <label for="sb-key-input" class="block font-bold uppercase tracking-wider text-zinc-700">Supabase Anon / Publishable Key</label>
-        <input id="sb-key-input" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+        <input id="sb-key-input" type="text" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." autocomplete="off" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
       </div>
 
-      <!-- Login Admin do Supabase (Opcional / Recomendado para RLS) -->
-      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
-        <p class="font-bold uppercase tracking-wider text-zinc-700">Login Administrador (Supabase Auth)</p>
-        <p class="mt-0.5 text-[11px] text-zinc-500">Para salvar no banco com segurança (RLS), entre com o usuário criado em Authentication → Users no Supabase:</p>
-        <div class="mt-2.5 grid gap-2.5 sm:grid-cols-2">
-          <input id="sb-email-input" type="email" placeholder="admin@123quadro.com.br" class="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
-          <input id="sb-pass-input" type="password" placeholder="Sua senha" class="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-xs text-zinc-900 outline-none focus:border-brand-magenta" />
-        </div>
+      <div class="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800">
+        <i data-lucide="shield-alert" class="mt-0.5 h-4 w-4 shrink-0"></i>
+        <span>A chave <strong>anon/publishable</strong> é pública e pode ficar no site. <strong>Nunca</strong> cole aqui a chave <code>service_role</code>.</span>
       </div>
+
+      <div id="config-alert" class="hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-[11px] font-medium" role="alert" aria-live="polite"></div>
     </div>
 
     <div class="mt-6 flex flex-col-reverse gap-3 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
       <button type="button" id="btn-clear-sb" class="text-center text-xs font-semibold text-zinc-400 underline hover:text-zinc-700">
-        Usar apenas Modo Local
+        Limpar configuração salva
       </button>
       <div class="flex">
         <button type="button" id="btn-save-sb" class="w-full rounded-xl bg-[#9e004f] px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta sm:w-auto sm:py-2.5">
-          Conectar e Sincronizar
+          Salvar configuração
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ MODAL: SEGURANÇA E SESSÃO ============================ -->
+<div id="security-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-black/50 p-3 backdrop-blur-sm sm:p-4">
+  <div class="max-h-[90vh] w-full max-w-lg overflow-y-auto overscroll-contain rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:p-7">
+    <div class="flex items-center justify-between border-b border-zinc-100 pb-4">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shield-check" class="h-5 w-5 text-[#9e004f]"></i>
+        <h3 class="font-display text-lg font-bold text-zinc-900">Segurança do painel</h3>
+      </div>
+      <button type="button" id="btn-close-security" aria-label="Fechar" class="grid h-8 w-8 place-items-center rounded-full text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700">
+        <i data-lucide="x" class="h-4 w-4"></i>
+      </button>
+    </div>
+
+    <div class="mt-4 space-y-4">
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Sessão atual</p>
+        <p id="security-session-label" class="mt-1 text-sm font-bold text-zinc-900">Modo local</p>
+        <p id="security-user-email" class="mt-0.5 hidden break-all text-[11px] text-zinc-500"></p>
+        <p class="mt-2 text-[11px] leading-relaxed text-zinc-500">
+          A sessão expira automaticamente após 30 minutos de inatividade e é encerrada ao fechar a aba.
+        </p>
+      </div>
+
+      <div id="default-password-warning" class="hidden items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800">
+        <i data-lucide="key-round" class="mt-0.5 h-4 w-4 shrink-0"></i>
+        <span>Você ainda usa a senha local padrão. Altere-a abaixo para proteger este navegador.</span>
+      </div>
+
+      <div id="security-rls-warning" class="hidden items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800">
+        <i data-lucide="shield-alert" class="mt-0.5 h-4 w-4 shrink-0"></i>
+        <span>O bloqueio por administrador no banco ainda não está ativo. Execute <code>supabase-security.sql</code> no Supabase para impedir que qualquer conta autenticada altere o catálogo.</span>
+      </div>
+
+      <div id="security-alert" class="hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-[11px] font-medium" role="alert" aria-live="polite"></div>
+
+      <div class="rounded-xl border border-zinc-200 p-4">
+        <h4 class="font-display text-sm font-bold text-zinc-900">Alterar senha local</h4>
+        <p class="mt-1 text-[11px] leading-relaxed text-zinc-500">A nova senha fica salva apenas neste navegador. Use no mínimo 10 caracteres.</p>
+
+        <form id="change-password-form" class="mt-3 space-y-3">
+          <div>
+            <label for="current-local-password" class="block text-[11px] font-semibold text-zinc-700">Senha atual</label>
+            <input id="current-local-password" type="password" required autocomplete="current-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+          </div>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label for="new-local-password" class="block text-[11px] font-semibold text-zinc-700">Nova senha</label>
+              <input id="new-local-password" type="password" required minlength="10" autocomplete="new-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+            </div>
+            <div>
+              <label for="confirm-local-password" class="block text-[11px] font-semibold text-zinc-700">Confirmar nova senha</label>
+              <input id="confirm-local-password" type="password" required minlength="10" autocomplete="new-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
+            </div>
+          </div>
+          <button type="submit" id="btn-change-password" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:py-2.5">
+            <i data-lucide="key-round" class="h-4 w-4"></i>
+            <span>Salvar nova senha</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-col gap-2 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+      <p class="text-[10px] leading-relaxed text-zinc-400">A senha local não substitui o login Supabase: o banco só aceita alterações de administradores autenticados.</p>
+      <button type="button" id="btn-logout" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-[#9e004f] px-4 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta sm:py-2.5">
+        <i data-lucide="log-out" class="h-4 w-4"></i>
+        Sair do painel
+      </button>
     </div>
   </div>
 </div>
@@ -515,15 +717,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const LOCAL_CATALOG_KEY = '123quadros-catalog-v2';
 
+  // ---- Segurança / sessão ----
+  const LOCAL_PASSWORD_KEY = '123quadros-admin-password-v1';
+  const UNLOCK_KEY = '123quadros-admin-unlocked-at';
+  const ACTIVITY_KEY = '123quadros-admin-last-activity';
+  const ATTEMPTS_KEY = '123quadros-admin-login-attempts';
+  const LAST_EMAIL_KEY = '123quadros-admin-last-email';
+  const IDLE_TIMEOUT_MS = 30 * 60 * 1000;
+  const MAX_LOGIN_ATTEMPTS = 5;
+  const LOCKOUT_MS = 5 * 60 * 1000;
+  const PBKDF2_ITERATIONS = 210000;
+
+  // Senha local padrão: troque em "Segurança" após o primeiro acesso.
+  const DEFAULT_LOCAL_PASSWORD = Object.freeze({
+    salt: 'AiH49zCX107IYeLlVhhjpg==',
+    hash: '2Ck/rKlniLiiIVVolaSkwadEzz8agmTvO5jEWg19dmE=',
+    iterations: PBKDF2_ITERATIONS,
+  });
+
+  const ADMIN_EMAILS = Array.isArray(window.QUADROS_SUPABASE_CONFIG?.ADMIN_EMAILS)
+    ? window.QUADROS_SUPABASE_CONFIG.ADMIN_EMAILS.map((e) => String(e).trim().toLowerCase()).filter(Boolean)
+    : [];
+
   // ---- Estado ----
   let supabaseClient = null;
   let isSupabaseConnected = false;
   let quadros = [];
   let activeTab = 'todos';
+  let currentUser = null;
+  let rlsAdminPolicyAvailable = null;
+  let appInitialized = false;
+  let idleTimer = null;
+  let lastActivityAt = 0;
+  let isLocking = false;
+  let idleWatcherStarted = false;
 
   // ---- Elementos DOM ----
   const connDot = document.getElementById('conn-dot');
   const connLabel = document.getElementById('conn-label');
+  const localModeBanner = document.getElementById('local-mode-banner');
   const toastEl = document.getElementById('toast-alert');
   const toastText = document.getElementById('toast-text');
 
@@ -562,6 +794,178 @@ document.addEventListener('DOMContentLoaded', async () => {
   const previewPrecoOld = document.getElementById('preview-preco-old');
   const previewPrecoFinal = document.getElementById('preview-preco-final');
 
+  // Segurança / gate
+  const authGate = document.getElementById('auth-gate');
+  const adminShell = document.getElementById('admin-shell');
+  const gateAlert = document.getElementById('gate-alert');
+  const gateSupabaseBlock = document.getElementById('gate-supabase-block');
+  const gateDivider = document.getElementById('gate-divider');
+  const supabaseLoginForm = document.getElementById('supabase-login-form');
+  const loginEmail = document.getElementById('login-email');
+  const loginPassword = document.getElementById('login-password');
+  const btnLoginSupabase = document.getElementById('btn-login-supabase');
+  const localLoginForm = document.getElementById('local-login-form');
+  const loginLocalPassword = document.getElementById('login-local-password');
+  const btnLoginLocal = document.getElementById('btn-login-local');
+  const btnGateConfig = document.getElementById('btn-gate-config');
+  const securityModal = document.getElementById('security-modal');
+  const securitySessionLabel = document.getElementById('security-session-label');
+  const securityUserEmail = document.getElementById('security-user-email');
+  const securityRlsWarning = document.getElementById('security-rls-warning');
+  const changePasswordForm = document.getElementById('change-password-form');
+
+  // ---- Helpers de segurança ----
+  function bytesToBase64(bytes) {
+    let binary = '';
+    bytes.forEach((b) => { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+
+  function base64ToBytes(b64) {
+    return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+  }
+
+  function constantTimeEqual(a, b) {
+    if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
+    let diff = 0;
+    for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    return diff === 0;
+  }
+
+  async function derivePasswordHash(password, saltB64, iterations) {
+    if (!window.crypto?.subtle) {
+      throw new Error('WebCrypto indisponível. Acesse o painel por HTTPS ou localhost.');
+    }
+    const salt = base64ToBytes(saltB64);
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      new TextEncoder().encode(password),
+      'PBKDF2',
+      false,
+      ['deriveBits']
+    );
+    const bits = await crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt, iterations: iterations || PBKDF2_ITERATIONS, hash: 'SHA-256' },
+      keyMaterial,
+      256
+    );
+    return bytesToBase64(new Uint8Array(bits));
+  }
+
+  function getLocalPasswordConfig() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(LOCAL_PASSWORD_KEY) || 'null');
+      if (saved?.salt && saved?.hash) return saved;
+    } catch {}
+    return DEFAULT_LOCAL_PASSWORD;
+  }
+
+  function isUsingDefaultLocalPassword() {
+    try {
+      return !localStorage.getItem(LOCAL_PASSWORD_KEY);
+    } catch {
+      return true;
+    }
+  }
+
+  async function verifyLocalPassword(password) {
+    const cfg = getLocalPasswordConfig();
+    const hash = await derivePasswordHash(password, cfg.salt, cfg.iterations);
+    return constantTimeEqual(hash, cfg.hash);
+  }
+
+  async function saveLocalPassword(newPassword) {
+    const salt = bytesToBase64(crypto.getRandomValues(new Uint8Array(16)));
+    const hash = await derivePasswordHash(newPassword, salt, PBKDF2_ITERATIONS);
+    localStorage.setItem(LOCAL_PASSWORD_KEY, JSON.stringify({
+      salt,
+      hash,
+      iterations: PBKDF2_ITERATIONS,
+      updated_at: new Date().toISOString(),
+    }));
+  }
+
+  function getAttemptState() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || '{}');
+      return {
+        count: Number(raw.count) || 0,
+        lockedUntil: Number(raw.lockedUntil) || 0,
+      };
+    } catch {
+      return { count: 0, lockedUntil: 0 };
+    }
+  }
+
+  function getLockoutRemainingMs() {
+    const { lockedUntil } = getAttemptState();
+    return Math.max(0, lockedUntil - Date.now());
+  }
+
+  function formatRemaining(ms) {
+    const totalSeconds = Math.max(1, Math.ceil(ms / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return minutes > 0 ? `${minutes}min ${String(seconds).padStart(2, '0')}s` : `${seconds}s`;
+  }
+
+  function recordLoginFailure() {
+    const state = getAttemptState();
+    const count = state.lockedUntil > Date.now() ? state.count : state.count + 1;
+    const lockedUntil = count >= MAX_LOGIN_ATTEMPTS ? Date.now() + LOCKOUT_MS : 0;
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify({
+      count: lockedUntil ? 0 : count,
+      lockedUntil,
+    }));
+    return lockedUntil;
+  }
+
+  function clearLoginFailures() {
+    localStorage.removeItem(ATTEMPTS_KEY);
+  }
+
+  function showGateAlert(message, type = 'error') {
+    if (!gateAlert) return;
+    const styles = {
+      error: 'border-red-200 bg-red-50 text-red-700',
+      info: 'border-blue-200 bg-blue-50 text-blue-700',
+      success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+    };
+    gateAlert.className = `mt-5 flex items-start gap-2 rounded-xl border px-3.5 py-3 text-xs font-medium ${styles[type] || styles.error}`;
+    gateAlert.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle-2' : type === 'info' ? 'info' : 'circle-alert'}" class="mt-0.5 h-4 w-4 shrink-0"></i><span></span>`;
+    gateAlert.querySelector('span').textContent = message;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function clearGateAlert() {
+    if (!gateAlert) return;
+    gateAlert.className = 'mt-5 hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-xs font-medium';
+    gateAlert.innerHTML = '';
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[ch]));
+  }
+
+  function safeImageUrl(value) {
+    const fallback = 'imagens/colecao/obra-3.jpg';
+    const raw = String(value || '').trim();
+    if (!raw) return fallback;
+    if (/^(javascript|vbscript|file):/i.test(raw)) return fallback;
+    if (/^data:/i.test(raw) && !/^data:image\/(png|jpe?g|webp|avif|gif);base64,/i.test(raw)) return fallback;
+    return raw;
+  }
+
+  function isServerId(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(value || ''));
+  }
+
   function showToast(msg) {
     if (!toastEl || !toastText) return;
     toastText.textContent = msg;
@@ -573,15 +977,105 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 3200);
   }
 
-  // ---- Inicialização do Supabase (se configurado) ----
-  async function initSupabase() {
+  // ---- Supabase: cliente, sessão, catálogo e bloqueio do painel ----
+  function getSupabaseConfig() {
     const cfg = window.QUADROS_SUPABASE_CONFIG || {};
-    const url = (cfg.SUPABASE_URL || '').trim();
-    const key = (cfg.SUPABASE_ANON_KEY || '').trim();
+    return {
+      url: (cfg.SUPABASE_URL || '').trim(),
+      key: (cfg.SUPABASE_ANON_KEY || '').trim(),
+    };
+  }
 
-    if (url && key && window.supabase) {
+  function buildSupabaseClient() {
+    const { url, key } = getSupabaseConfig();
+    supabaseClient = null;
+    if (!url || !key || !window.supabase) {
+      updateGateMode();
+      return;
+    }
+    try {
+      supabaseClient = window.supabase.createClient(url, key, {
+        auth: {
+          storage: window.sessionStorage,
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
+        },
+      });
+      supabaseClient.auth.onAuthStateChange((event, session) => {
+        if (session?.user) currentUser = session.user;
+        if (event === 'SIGNED_OUT') {
+          currentUser = null;
+          updateSecurityUI();
+          if (!adminShell.hidden && !isLocking) {
+            lockAdmin({ message: 'Sessão encerrada. Entre novamente.' });
+          }
+        }
+      });
+    } catch (err) {
+      console.warn('Não foi possível criar o cliente Supabase:', err);
+    }
+    updateGateMode();
+  }
+
+  function updateGateMode() {
+    const { url, key } = getSupabaseConfig();
+    const available = Boolean(url && key && window.supabase);
+    if (gateSupabaseBlock) gateSupabaseBlock.classList.toggle('hidden', !available);
+    if (gateDivider) gateDivider.classList.toggle('hidden', !available);
+  }
+
+  async function verifyAdminUser(user) {
+    if (!user) return false;
+    const email = String(user.email || '').toLowerCase();
+    if (ADMIN_EMAILS.length > 0 && !ADMIN_EMAILS.includes(email)) return false;
+    if (!supabaseClient) return false;
+
+    const { data, error } = await supabaseClient.rpc('is_admin');
+    if (error) {
+      const functionMissing = error.code === 'PGRST202'
+        || /could not find the function|function .* does not exist/i.test(error.message || '');
+      if (!functionMissing) {
+        throw new Error('Falha ao verificar permissão de administrador.');
+      }
+      rlsAdminPolicyAvailable = false;
+      console.warn('Função is_admin indisponível. Execute supabase-security.sql para reforçar o RLS.');
+      const setupError = new Error('A proteção de administradores do banco ainda não foi instalada. Execute supabase-security.sql.');
+      setupError.code = 'SECURITY_SETUP_REQUIRED';
+      throw setupError;
+    }
+    rlsAdminPolicyAvailable = true;
+    return data === true;
+  }
+
+  async function restoreSupabaseSession() {
+    if (!supabaseClient) return false;
+    try {
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error || !data?.session?.user) return false;
+      const authorized = await verifyAdminUser(data.session.user);
+      if (!authorized) {
+        await supabaseClient.auth.signOut({ scope: 'local' });
+        showGateAlert('Esta conta não tem permissão de administrador.', 'error');
+        return false;
+      }
+      currentUser = data.session.user;
+      return true;
+    } catch (err) {
+      console.warn('Falha ao restaurar sessão Supabase:', err);
       try {
-        supabaseClient = window.supabase.createClient(url, key);
+        await supabaseClient.auth.signOut({ scope: 'local' });
+      } catch {}
+      if (err?.code === 'SECURITY_SETUP_REQUIRED' && !authGate.hidden) {
+        showGateAlert('Segurança do banco ainda não configurada. Execute supabase-security.sql no Supabase e cadastre seu usuário em admin_users.', 'error');
+      }
+      return false;
+    }
+  }
+
+  async function loadCatalog() {
+    if (supabaseClient) {
+      try {
         const { data, error } = await supabaseClient
           .from('quadros')
           .select('*')
@@ -590,13 +1084,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!error && Array.isArray(data)) {
           isSupabaseConnected = true;
-          connDot.className = 'h-2 w-2 rounded-full bg-emerald-500';
-          connLabel.textContent = 'Supabase Conectado';
           const normalized = data.map(normalizeItem);
           const existingUrls = new Set(normalized.map((i) => i.imagem_url));
           const missing = (window.DEFAULT_QUADROS_DATA || []).filter((d) => !existingUrls.has(d.imagem_url)).map(normalizeItem);
           quadros = [...normalized, ...missing];
           localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
+          updateConnectionUI();
           renderAll();
           return;
         }
@@ -606,10 +1099,310 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     isSupabaseConnected = false;
-    connDot.className = 'h-2 w-2 rounded-full bg-amber-400';
-    connLabel.textContent = 'Modo Local (Configurar Supabase)';
+    updateConnectionUI();
     loadLocalCatalog();
     renderAll();
+  }
+
+  function updateConnectionUI() {
+    if (!connDot || !connLabel) return;
+    if (isSupabaseConnected) {
+      connDot.className = 'h-2 w-2 shrink-0 rounded-full bg-emerald-500';
+      connLabel.textContent = currentUser ? 'Supabase conectado' : 'Supabase (somente leitura)';
+    } else {
+      connDot.className = 'h-2 w-2 shrink-0 rounded-full bg-amber-400';
+      connLabel.textContent = currentUser ? 'Supabase autenticado (sem leitura)' : 'Modo local (sem conexão)';
+    }
+
+    if (localModeBanner) {
+      const showLocalWarning = !currentUser;
+      localModeBanner.classList.toggle('hidden', !showLocalWarning);
+      localModeBanner.classList.toggle('flex', showLocalWarning);
+      const loginButton = document.getElementById('btn-banner-login');
+      if (loginButton) {
+        const hasSupabaseConfig = Boolean(getSupabaseConfig().url && getSupabaseConfig().key);
+        loginButton.classList.toggle('hidden', !hasSupabaseConfig);
+      }
+    }
+  }
+
+  function updateSecurityUI() {
+    if (!securitySessionLabel) return;
+    if (currentUser) {
+      securitySessionLabel.textContent = 'Supabase autenticado';
+      securityUserEmail.textContent = currentUser.email || currentUser.id;
+      securityUserEmail.classList.remove('hidden');
+    } else {
+      securitySessionLabel.textContent = 'Senha local (sem login Supabase)';
+      securityUserEmail.textContent = '';
+      securityUserEmail.classList.add('hidden');
+    }
+    if (securityRlsWarning) {
+      const shouldShow = rlsAdminPolicyAvailable === false;
+      securityRlsWarning.classList.toggle('hidden', !shouldShow);
+      securityRlsWarning.classList.toggle('flex', shouldShow);
+    }
+    const defaultPasswordWarning = document.getElementById('default-password-warning');
+    if (defaultPasswordWarning) {
+      const showDefaultWarning = isUsingDefaultLocalPassword();
+      defaultPasswordWarning.classList.toggle('hidden', !showDefaultWarning);
+      defaultPasswordWarning.classList.toggle('flex', showDefaultWarning);
+    }
+    updateConnectionUI();
+  }
+
+  function scheduleIdleLock() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      lockAdmin({ signOut: true, message: 'Sessão expirada por inatividade. Entre novamente.' });
+    }, IDLE_TIMEOUT_MS);
+  }
+
+  function touchActivity() {
+    if (adminShell.hidden) return;
+    const now = Date.now();
+    if (now - lastActivityAt > 5000) {
+      lastActivityAt = now;
+      sessionStorage.setItem(ACTIVITY_KEY, String(now));
+      sessionStorage.setItem(UNLOCK_KEY, String(now));
+    }
+    scheduleIdleLock();
+  }
+
+  function startIdleWatcher() {
+    lastActivityAt = Date.now();
+    sessionStorage.setItem(ACTIVITY_KEY, String(lastActivityAt));
+    if (!idleWatcherStarted) {
+      idleWatcherStarted = true;
+      ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach((eventName) => {
+        window.addEventListener(eventName, touchActivity, { passive: true });
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible' || adminShell.hidden) return;
+        const last = Number(sessionStorage.getItem(ACTIVITY_KEY) || lastActivityAt);
+        if (Date.now() - last >= IDLE_TIMEOUT_MS) {
+          lockAdmin({ signOut: true, message: 'Sessão expirada por inatividade. Entre novamente.' });
+        } else {
+          scheduleIdleLock();
+        }
+      });
+    }
+    scheduleIdleLock();
+  }
+
+  async function bootstrapAdmin() {
+    if (appInitialized) {
+      updateSecurityUI();
+      return;
+    }
+    appInitialized = true;
+    await loadCatalog();
+    updatePreview();
+    updateSecurityUI();
+  }
+
+  async function unlockAdmin() {
+    clearGateAlert();
+    authGate.classList.add('hidden');
+    authGate.hidden = true;
+    adminShell.classList.remove('hidden');
+    adminShell.hidden = false;
+    adminShell.removeAttribute('inert');
+    sessionStorage.setItem(UNLOCK_KEY, String(Date.now()));
+    startIdleWatcher();
+    await bootstrapAdmin();
+    if (isUsingDefaultLocalPassword() && !currentUser) {
+      showToast('Você está usando a senha local padrão. Altere em Segurança.');
+    }
+  }
+
+  function clearRenderedCatalog() {
+    quadros = [];
+    const tbody = document.getElementById('admin-table-body');
+    const cardList = document.getElementById('admin-card-list');
+    if (tbody) tbody.innerHTML = '';
+    if (cardList) cardList.innerHTML = '';
+    ['kpi-total', 'kpi-active', 'kpi-discount'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '0';
+    });
+    const avg = document.getElementById('kpi-avg');
+    if (avg) avg.textContent = fmt.format(0);
+  }
+
+  function closePanelModals() {
+    [configModal, securityModal].forEach((modal) => {
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+  }
+
+  async function lockAdmin({ signOut = false, message = '' } = {}) {
+    if (isLocking) return;
+    isLocking = true;
+    sessionStorage.removeItem(UNLOCK_KEY);
+    sessionStorage.removeItem(ACTIVITY_KEY);
+    clearTimeout(idleTimer);
+    closePanelModals();
+    adminShell.classList.add('hidden');
+    adminShell.hidden = true;
+    adminShell.setAttribute('inert', '');
+    authGate.classList.remove('hidden');
+    authGate.hidden = false;
+    clearRenderedCatalog();
+    if (form) form.reset();
+    appInitialized = false;
+    if (signOut && supabaseClient) {
+      try {
+        await supabaseClient.auth.signOut({ scope: 'local' });
+      } catch (err) {
+        console.warn('Falha ao encerrar sessão Supabase:', err);
+      }
+    }
+    if (signOut) currentUser = null;
+    updateSecurityUI();
+    updateGateMode();
+    loginPassword.value = '';
+    loginLocalPassword.value = '';
+    if (message) showGateAlert(message, 'info');
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    setTimeout(() => {
+      const supabaseVisible = gateSupabaseBlock && !gateSupabaseBlock.classList.contains('hidden');
+      (supabaseVisible ? loginEmail : loginLocalPassword)?.focus();
+    }, 60);
+    isLocking = false;
+  }
+
+  async function handleSupabaseLogin(event) {
+    event.preventDefault();
+    clearGateAlert();
+    if (getLockoutRemainingMs() > 0) {
+      showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(getLockoutRemainingMs())}.`, 'error');
+      return;
+    }
+    if (!supabaseClient) {
+      showGateAlert('Supabase não configurado. Use a senha local ou configure a conexão.', 'error');
+      return;
+    }
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value;
+    if (!email || !password) return;
+
+    btnLoginSupabase.disabled = true;
+    btnLoginSupabase.querySelector('span').textContent = 'Entrando...';
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error || !data?.user) {
+        if (error?.code === 'email_not_confirmed') {
+          showGateAlert('Confirme seu e-mail no Supabase antes de entrar.', 'error');
+          return;
+        }
+        const invalidCredentials = error?.code === 'invalid_credentials' || error?.status === 400;
+        if (!invalidCredentials) {
+          showGateAlert('Não foi possível conectar ao Supabase. Verifique sua internet e tente novamente.', 'error');
+          return;
+        }
+        const lockedUntil = recordLoginFailure();
+        if (lockedUntil) {
+          showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(lockedUntil - Date.now())} e tente novamente.`, 'error');
+        } else {
+          showGateAlert('E-mail ou senha inválidos.', 'error');
+        }
+        return;
+      }
+
+      let authorized = false;
+      try {
+        authorized = await verifyAdminUser(data.user);
+      } catch (verifyError) {
+        console.warn('Erro ao verificar administrador:', verifyError);
+        await supabaseClient.auth.signOut({ scope: 'local' });
+        const setupRequired = verifyError?.code === 'SECURITY_SETUP_REQUIRED';
+        showGateAlert(
+          setupRequired
+            ? 'Segurança do banco ainda não configurada. Execute supabase-security.sql no Supabase e cadastre seu usuário em admin_users.'
+            : 'Não foi possível verificar sua permissão de administrador. Tente novamente.',
+          'error'
+        );
+        return;
+      }
+      if (!authorized) {
+        await supabaseClient.auth.signOut({ scope: 'local' });
+        recordLoginFailure();
+        showGateAlert('Esta conta não tem permissão de administrador. Verifique a tabela admin_users no Supabase.', 'error');
+        return;
+      }
+
+      clearLoginFailures();
+      currentUser = data.user;
+      localStorage.setItem(LAST_EMAIL_KEY, email);
+      loginEmail.value = email;
+      await unlockAdmin();
+    } catch (err) {
+      console.warn('Erro no login Supabase:', err);
+      showGateAlert('Não foi possível entrar agora. Tente novamente.', 'error');
+    } finally {
+      btnLoginSupabase.disabled = false;
+      btnLoginSupabase.querySelector('span').textContent = 'Entrar com Supabase';
+    }
+  }
+
+  async function handleLocalLogin(event) {
+    event.preventDefault();
+    clearGateAlert();
+    if (getLockoutRemainingMs() > 0) {
+      showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(getLockoutRemainingMs())}.`, 'error');
+      return;
+    }
+    const password = loginLocalPassword.value;
+    if (!password) return;
+
+    btnLoginLocal.disabled = true;
+    btnLoginLocal.querySelector('span').textContent = 'Verificando...';
+    try {
+      const valid = await verifyLocalPassword(password);
+      if (!valid) {
+        const lockedUntil = recordLoginFailure();
+        if (lockedUntil) {
+          showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(lockedUntil - Date.now())} e tente novamente.`, 'error');
+        } else {
+          showGateAlert('Senha local incorreta.', 'error');
+        }
+        return;
+      }
+      clearLoginFailures();
+      await unlockAdmin();
+    } catch (err) {
+      console.warn('Erro na verificação de senha local:', err);
+      showGateAlert(err.message || 'Não foi possível verificar a senha.', 'error');
+    } finally {
+      btnLoginLocal.disabled = false;
+      btnLoginLocal.querySelector('span').textContent = 'Desbloquear painel';
+    }
+  }
+
+  async function tryAutoUnlock() {
+    const restored = await restoreSupabaseSession();
+    const unlockedAt = Number(sessionStorage.getItem(UNLOCK_KEY) || 0);
+    const lastActivity = Number(sessionStorage.getItem(ACTIVITY_KEY) || unlockedAt);
+    const localSessionValid = unlockedAt > 0 && lastActivity > 0 && Date.now() - lastActivity < IDLE_TIMEOUT_MS;
+    if (restored || localSessionValid) {
+      await unlockAdmin();
+    } else {
+      authGate.classList.remove('hidden');
+      authGate.hidden = false;
+      adminShell.classList.add('hidden');
+      adminShell.hidden = true;
+      adminShell.setAttribute('inert', '');
+      const email = localStorage.getItem(LAST_EMAIL_KEY);
+      if (email) loginEmail.value = email;
+      updateGateMode();
+      updateSecurityUI();
+      if (getLockoutRemainingMs() > 0) {
+        showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(getLockoutRemainingMs())}.`, 'error');
+      }
+    }
   }
 
   const REPLACED_IMG_PATHS = {
@@ -708,7 +1501,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     previewPrecoFinal.textContent = fmt.format(fin);
     previewTitulo.textContent = fieldTitulo.value.trim() || 'Nome do Quadro';
     previewSubtitulo.textContent = fieldSubtitulo.value.trim() || 'Descrição curta ou artista';
-    previewImg.src = fieldImagemUrl.value.trim() || 'imagens/colecao/obra-3.jpg';
+    previewImg.src = safeImageUrl(fieldImagemUrl.value.trim() || 'imagens/colecao/obra-3.jpg');
 
     const badgeText = resolveBadgeText();
     if (badgeText) {
@@ -814,8 +1607,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       ordem: Number(fieldOrdem.value) || 10,
     };
 
-    if (isSupabaseConnected && supabaseClient) {
-      if (editingId && !editingId.startsWith('queridinho-') && !editingId.startsWith('col-') && !editingId.startsWith('story-') && !editingId.startsWith('quadro-')) {
+    // Só grava no Supabase quando há um administrador autenticado.
+    // Sem login, o painel permanece em modo local (pré-visualização).
+    const canWriteSupabase = Boolean(isSupabaseConnected && supabaseClient && currentUser);
+    const editingServerItem = isServerId(editingId);
+
+    if (canWriteSupabase) {
+      if (editingServerItem) {
         const { data, error } = await supabaseClient
           .from('quadros')
           .update(payload)
@@ -824,14 +1622,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           .single();
 
         if (error) {
-          quadros = quadros.map((q) => (q.id === editingId ? normalizeItem({ ...payload, id: editingId }) : q));
-          saveLocalCatalog();
-          renderAll();
-          sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
-          sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
-          configModal.classList.remove('hidden');
-          configModal.classList.add('flex');
-          showToast('Salvo localmente! Faça login Admin para gravar no Supabase.');
+          showToast(`Não foi possível salvar no Supabase: ${error.message}`);
           return;
         }
         quadros = quadros.map((q) => (q.id === editingId ? normalizeItem(data) : q));
@@ -843,16 +1634,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           .single();
 
         if (error) {
-          quadros.push(normalizeItem({ ...payload, id: 'quadro-' + Date.now() }));
-          saveLocalCatalog();
-          resetForm();
-          renderAll();
-          sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
-          sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
-          configModal.classList.remove('hidden');
-          configModal.classList.add('flex');
-          showToast('Salvo localmente! Faça login Admin para gravar no Supabase.');
+          showToast(`Não foi possível salvar no Supabase: ${error.message}`);
           return;
+        }
+        // Ao publicar um item que era apenas local, remove o provisório.
+        if (editingId) {
+          quadros = quadros.filter((q) => String(q.id) !== String(editingId));
         }
         quadros.push(normalizeItem(data));
       }
@@ -867,7 +1654,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     saveLocalCatalog();
     resetForm();
     renderAll();
-    showToast(editingId ? 'Quadro atualizado com sucesso!' : 'Novo quadro adicionado à vitrine!');
+    if (canWriteSupabase) {
+      showToast(editingId ? 'Quadro atualizado com sucesso!' : 'Novo quadro adicionado à vitrine!');
+    } else {
+      showToast('Salvo apenas localmente. Entre com uma conta admin para publicar.');
+    }
   });
 
   function resetForm() {
@@ -956,40 +1747,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     tbody.innerHTML = filtered
       .map((q) => {
         const hasDiscount = q.desconto_pct > 0 || q.preco_final < q.preco_original;
+        const id = escapeHtml(q.id);
+        const titulo = escapeHtml(q.titulo);
+        const subtitulo = escapeHtml(q.subtitulo || 'Sem subtítulo');
+        const imagem = escapeHtml(safeImageUrl(q.imagem_url));
+        const secao = escapeHtml(secaoLabels[q.secao] || q.secao || '');
+        const categoria = escapeHtml(q.categoria || '');
+        const selo = escapeHtml(q.selo || '');
         return `
           <tr class="group transition hover:bg-zinc-50/80 ${q.ativo ? '' : 'opacity-50'}">
             <td class="py-3.5 pl-2">
               <div class="flex items-center gap-3">
-                <img src="${q.imagem_url}" alt="${q.titulo}" class="h-12 w-12 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
+                <img src="${imagem}" alt="${titulo}" loading="lazy" class="h-12 w-12 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
                 <div>
-                  <p class="font-display text-sm font-bold text-zinc-900">${q.titulo}</p>
-                  <p class="max-w-xs truncate text-xs text-zinc-500">${q.subtitulo || 'Sem subtítulo'}</p>
+                  <p class="font-display text-sm font-bold text-zinc-900">${titulo}</p>
+                  <p class="max-w-xs truncate text-xs text-zinc-500">${subtitulo}</p>
                 </div>
               </div>
             </td>
             <td class="py-3.5">
-              <span class="inline-block rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700">${secaoLabels[q.secao] || q.secao}</span>
-              <span class="ml-1 text-xs capitalize text-zinc-400">· ${q.categoria}</span>
+              <span class="inline-block rounded-full bg-zinc-100 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-700">${secao}</span>
+              <span class="ml-1 text-xs capitalize text-zinc-400">· ${categoria}</span>
             </td>
             <td class="py-3.5">
               ${hasDiscount ? `<span class="mr-1.5 text-xs text-zinc-400 line-through">${fmt.format(q.preco_original)}</span>` : ''}
               <strong class="font-display text-sm font-bold text-zinc-900">${fmt.format(q.preco_final)}</strong>
-              ${hasDiscount ? `<span class="ml-1.5 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${q.desconto_pct}%</span>` : ''}
+              ${hasDiscount ? `<span class="ml-1.5 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${Number(q.desconto_pct) || 0}%</span>` : ''}
             </td>
             <td class="py-3.5">
-              ${q.selo ? `<span class="rounded bg-brand-magenta/10 px-2 py-0.5 text-[10px] font-bold uppercase text-brand-magenta">${q.selo}</span>` : '<span class="text-xs text-zinc-300">—</span>'}
+              ${selo ? `<span class="rounded bg-brand-magenta/10 px-2 py-0.5 text-[10px] font-bold uppercase text-brand-magenta">${selo}</span>` : '<span class="text-xs text-zinc-300">—</span>'}
             </td>
             <td class="py-3.5 text-center">
-              <button type="button" data-action="toggle" data-id="${q.id}" class="inline-flex h-7 w-12 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade">
+              <button type="button" data-action="toggle" data-id="${id}" class="inline-flex h-7 w-12 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
                 <span class="h-5 w-5 rounded-full bg-white shadow"></span>
               </button>
             </td>
             <td class="py-3.5 pr-2 text-right">
               <div class="inline-flex items-center gap-1">
-                <button type="button" data-action="edit" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                <button type="button" data-action="edit" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
                   Editar
                 </button>
-                <button type="button" data-action="delete" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro">
+                <button type="button" data-action="delete" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro" aria-label="Excluir quadro">
                   <i data-lucide="trash-2" class="h-4 w-4"></i>
                 </button>
               </div>
@@ -1003,24 +1801,31 @@ document.addEventListener('DOMContentLoaded', async () => {
       cardList.innerHTML = filtered
         .map((q) => {
           const hasDiscount = q.desconto_pct > 0 || q.preco_final < q.preco_original;
+          const id = escapeHtml(q.id);
+          const titulo = escapeHtml(q.titulo);
+          const subtitulo = escapeHtml(q.subtitulo || 'Sem subtítulo');
+          const imagem = escapeHtml(safeImageUrl(q.imagem_url));
+          const secao = escapeHtml(secaoLabels[q.secao] || q.secao || '');
+          const categoria = escapeHtml(q.categoria || '');
+          const selo = escapeHtml(q.selo || '');
           return `
             <article class="rounded-xl border border-zinc-200 bg-white p-3 transition ${q.ativo ? '' : 'opacity-60'}">
               <div class="flex gap-3">
-                <img src="${q.imagem_url}" alt="${q.titulo}" class="h-16 w-16 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
+                <img src="${imagem}" alt="${titulo}" loading="lazy" class="h-16 w-16 shrink-0 rounded-lg border border-zinc-200 bg-zinc-100 object-cover" />
                 <div class="min-w-0 flex-1">
                   <div class="flex items-start justify-between gap-2">
                     <div class="min-w-0">
-                      <p class="line-clamp-2 font-display text-sm font-bold leading-snug text-zinc-900">${q.titulo}</p>
-                      <p class="mt-0.5 truncate text-[11px] text-zinc-500">${q.subtitulo || 'Sem subtítulo'}</p>
+                      <p class="line-clamp-2 font-display text-sm font-bold leading-snug text-zinc-900">${titulo}</p>
+                      <p class="mt-0.5 truncate text-[11px] text-zinc-500">${subtitulo}</p>
                     </div>
-                    <button type="button" data-action="toggle" data-id="${q.id}" class="inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
+                    <button type="button" data-action="toggle" data-id="${id}" class="inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition ${q.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
                       <span class="h-5 w-5 rounded-full bg-white shadow"></span>
                     </button>
                   </div>
                   <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
-                    <span class="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-700">${secaoLabels[q.secao] || q.secao}</span>
-                    <span class="text-[11px] capitalize text-zinc-400">${q.categoria}</span>
-                    ${q.selo ? `<span class="rounded bg-brand-magenta/10 px-1.5 py-0.5 text-[9px] font-bold uppercase text-brand-magenta">${q.selo}</span>` : ''}
+                    <span class="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-semibold text-zinc-700">${secao}</span>
+                    <span class="text-[11px] capitalize text-zinc-400">${categoria}</span>
+                    ${selo ? `<span class="rounded bg-brand-magenta/10 px-1.5 py-0.5 text-[9px] font-bold uppercase text-brand-magenta">${selo}</span>` : ''}
                   </div>
                 </div>
               </div>
@@ -1028,13 +1833,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="min-w-0">
                   ${hasDiscount ? `<span class="mr-1 text-[11px] text-zinc-400 line-through">${fmt.format(q.preco_original)}</span>` : ''}
                   <strong class="font-display text-sm font-bold text-zinc-900">${fmt.format(q.preco_final)}</strong>
-                  ${hasDiscount ? `<span class="ml-1 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${q.desconto_pct}%</span>` : ''}
+                  ${hasDiscount ? `<span class="ml-1 rounded bg-pink-100 px-1.5 py-0.5 text-[10px] font-bold text-[#9e004f]">-${Number(q.desconto_pct) || 0}%</span>` : ''}
                 </div>
                 <div class="flex shrink-0 items-center gap-1">
-                  <button type="button" data-action="edit" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                  <button type="button" data-action="edit" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
                     Editar
                   </button>
-                  <button type="button" data-action="delete" data-id="${q.id}" class="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro" aria-label="Excluir quadro">
+                  <button type="button" data-action="delete" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir quadro" aria-label="Excluir quadro">
                     <i data-lucide="trash-2" class="h-4 w-4"></i>
                   </button>
                 </div>
@@ -1094,24 +1899,38 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (action === 'toggle') {
       const nextAtivo = !target.ativo;
-      if (isSupabaseConnected && supabaseClient) {
-        await supabaseClient.from('quadros').update({ ativo: nextAtivo }).eq('id', id);
+      const shouldWriteDb = Boolean(isSupabaseConnected && supabaseClient && currentUser && isServerId(id));
+      if (shouldWriteDb) {
+        const { error } = await supabaseClient.from('quadros').update({ ativo: nextAtivo }).eq('id', id);
+        if (error) {
+          showToast(`Não foi possível atualizar no Supabase: ${error.message}`);
+          return;
+        }
       }
       target.ativo = nextAtivo;
       saveLocalCatalog();
       renderAll();
-      showToast(nextAtivo ? 'Quadro ativado na vitrine!' : 'Quadro ocultado da vitrine.');
+      showToast(
+        shouldWriteDb
+          ? (nextAtivo ? 'Quadro ativado na vitrine!' : 'Quadro ocultado da vitrine.')
+          : 'Alterado apenas localmente. Use o formulário para publicar no Supabase.'
+      );
     }
 
     if (action === 'delete') {
       if (!confirm(`Tem certeza que deseja remover o quadro "${target.titulo}"?`)) return;
-      if (isSupabaseConnected && supabaseClient) {
-        await supabaseClient.from('quadros').delete().eq('id', id);
+      const shouldWriteDb = Boolean(isSupabaseConnected && supabaseClient && currentUser && isServerId(id));
+      if (shouldWriteDb) {
+        const { error } = await supabaseClient.from('quadros').delete().eq('id', id);
+        if (error) {
+          showToast(`Não foi possível excluir no Supabase: ${error.message}`);
+          return;
+        }
       }
       quadros = quadros.filter((q) => String(q.id) !== String(id));
       saveLocalCatalog();
       renderAll();
-      showToast('Quadro removido.');
+      showToast(shouldWriteDb ? 'Quadro removido.' : 'Removido apenas localmente (item não publicado).');
     }
   }
 
@@ -1142,69 +1961,192 @@ document.addEventListener('DOMContentLoaded', async () => {
     showToast('Catálogo padrão restaurado!');
   });
 
-  // ---- Modal de Configuração do Supabase ----
+  // ---- Modais: configuração do Supabase ----
   const configModal = document.getElementById('config-modal');
+  const configAlert = document.getElementById('config-alert');
+  const securityAlert = document.getElementById('security-alert');
   const sbUrlInput = document.getElementById('sb-url-input');
   const sbKeyInput = document.getElementById('sb-key-input');
-  const sbEmailInput = document.getElementById('sb-email-input');
-  const sbPassInput = document.getElementById('sb-pass-input');
 
-  document.getElementById('btn-open-config').addEventListener('click', () => {
+  function setInlineAlert(el, message, type = 'error') {
+    if (!el) return;
+    if (!message) {
+      el.className = 'hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-[11px] font-medium';
+      el.innerHTML = '';
+      return;
+    }
+    const styles = {
+      error: 'border-red-200 bg-red-50 text-red-700',
+      info: 'border-blue-200 bg-blue-50 text-blue-700',
+      success: 'border-emerald-200 bg-emerald-50 text-emerald-700',
+    };
+    el.className = `flex items-start gap-2 rounded-xl border px-3.5 py-3 text-[11px] font-medium ${styles[type] || styles.error}`;
+    el.innerHTML = `<i data-lucide="${type === 'success' ? 'check-circle-2' : type === 'info' ? 'info' : 'circle-alert'}" class="mt-0.5 h-4 w-4 shrink-0"></i><span></span>`;
+    el.querySelector('span').textContent = message;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function openModal(modal) {
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeModal(modal) {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  function openConfigModal() {
     sbUrlInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '';
     sbKeyInput.value = window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '';
-    configModal.classList.remove('hidden');
-    configModal.classList.add('flex');
-  });
+    setInlineAlert(configAlert, '');
+    openModal(configModal);
+  }
 
-  document.getElementById('btn-close-config').addEventListener('click', () => {
-    configModal.classList.add('hidden');
-    configModal.classList.remove('flex');
-  });
+  document.getElementById('btn-open-config').addEventListener('click', openConfigModal);
+  btnGateConfig.addEventListener('click', openConfigModal);
+  document.getElementById('btn-close-config').addEventListener('click', () => closeModal(configModal));
 
   document.getElementById('btn-save-sb').addEventListener('click', async () => {
-    const url = sbUrlInput.value.trim();
+    setInlineAlert(configAlert, '');
+    const url = sbUrlInput.value.trim().replace(/\/+$/, '');
     const key = sbKeyInput.value.trim();
-    const email = sbEmailInput.value.trim();
-    const password = sbPassInput.value;
 
-    if (url && key) {
-      localStorage.setItem('123quadros-sb-url', url);
-      localStorage.setItem('123quadros-sb-key', key);
-      window.QUADROS_SUPABASE_CONFIG.SUPABASE_URL = url;
-      window.QUADROS_SUPABASE_CONFIG.SUPABASE_ANON_KEY = key;
-
-      await initSupabase();
-
-      if (supabaseClient && email && password) {
-        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) {
-          alert('Aviso de login: ' + error.message);
-        } else {
-          showToast('Conectado e autenticado no Supabase!');
-        }
-      } else {
-        showToast('Configuração do Supabase salva!');
-      }
+    let parsed = null;
+    try {
+      parsed = new URL(url);
+    } catch {}
+    if (!parsed || !['https:', 'http:'].includes(parsed.protocol)) {
+      setInlineAlert(configAlert, 'Informe uma Project URL válida, começando com https://');
+      return;
+    }
+    if (key.length < 20) {
+      setInlineAlert(configAlert, 'Cole a chave anon/publishable completa.');
+      return;
     }
 
-    configModal.classList.add('hidden');
-    configModal.classList.remove('flex');
+    localStorage.setItem('123quadros-sb-url', url);
+    localStorage.setItem('123quadros-sb-key', key);
+    localStorage.removeItem('123quadros_sb_url');
+    localStorage.removeItem('123quadros_sb_key');
+    window.QUADROS_SUPABASE_CONFIG.SUPABASE_URL = url;
+    window.QUADROS_SUPABASE_CONFIG.SUPABASE_ANON_KEY = key;
+
+    buildSupabaseClient();
+    currentUser = null;
+    await restoreSupabaseSession();
+    updateSecurityUI();
+    closeModal(configModal);
+
+    if (!adminShell.hidden) {
+      appInitialized = false;
+      await bootstrapAdmin();
+      showToast('Configuração salva e catálogo recarregado.');
+    } else {
+      showGateAlert('Conexão salva. Entre com sua conta administradora ou use a senha local.', 'success');
+    }
   });
 
   document.getElementById('btn-clear-sb').addEventListener('click', () => {
-    localStorage.removeItem('123quadros-sb-url');
-    localStorage.removeItem('123quadros-sb-key');
-    window.QUADROS_SUPABASE_CONFIG.SUPABASE_URL = '';
-    window.QUADROS_SUPABASE_CONFIG.SUPABASE_ANON_KEY = '';
-    initSupabase();
-    configModal.classList.add('hidden');
-    configModal.classList.remove('flex');
-    showToast('Modo Local ativado.');
+    if (!confirm('Remover a configuração salva e voltar ao padrão do site?')) return;
+    ['123quadros-sb-url', '123quadros-sb-key', '123quadros_sb_url', '123quadros_sb_key'].forEach((key) => {
+      localStorage.removeItem(key);
+    });
+    window.location.reload();
   });
 
-  // Inicializar
-  await initSupabase();
-  updatePreview();
+  // ---- Modal de segurança / sessão ----
+  document.getElementById('btn-security').addEventListener('click', () => {
+    setInlineAlert(securityAlert, '');
+    updateSecurityUI();
+    openModal(securityModal);
+  });
+  document.getElementById('btn-close-security').addEventListener('click', () => closeModal(securityModal));
+
+  document.getElementById('btn-logout').addEventListener('click', async () => {
+    closeModal(securityModal);
+    await lockAdmin({ signOut: true, message: 'Sessão encerrada com segurança. Entre novamente.' });
+  });
+
+  changePasswordForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setInlineAlert(securityAlert, '');
+    const currentPassword = document.getElementById('current-local-password').value;
+    const newPassword = document.getElementById('new-local-password').value;
+    const confirmPassword = document.getElementById('confirm-local-password').value;
+
+    if (newPassword.length < 10) {
+      setInlineAlert(securityAlert, 'A nova senha deve ter no mínimo 10 caracteres.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setInlineAlert(securityAlert, 'A confirmação da nova senha não confere.');
+      return;
+    }
+    if (newPassword === currentPassword) {
+      setInlineAlert(securityAlert, 'A nova senha precisa ser diferente da atual.');
+      return;
+    }
+
+    const btn = document.getElementById('btn-change-password');
+    btn.disabled = true;
+    try {
+      const valid = await verifyLocalPassword(currentPassword);
+      if (!valid) {
+        setInlineAlert(securityAlert, 'A senha atual está incorreta.');
+        return;
+      }
+      await saveLocalPassword(newPassword);
+      changePasswordForm.reset();
+      updateSecurityUI();
+      setInlineAlert(securityAlert, 'Senha local alterada com sucesso.', 'success');
+      showToast('Senha local alterada com sucesso.');
+    } catch (err) {
+      console.warn('Erro ao alterar senha local:', err);
+      setInlineAlert(securityAlert, err.message || 'Não foi possível alterar a senha.');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // ---- Mostrar/ocultar senhas ----
+  document.querySelectorAll('[data-toggle-password]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const input = document.getElementById(button.dataset.togglePassword);
+      if (!input) return;
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      button.setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha');
+      button.innerHTML = `<i data-lucide="${show ? 'eye-off' : 'eye'}" class="h-4 w-4"></i>`;
+      if (window.lucide) lucide.createIcons();
+    });
+  });
+
+  // ---- Login ----
+  supabaseLoginForm.addEventListener('submit', handleSupabaseLogin);
+  localLoginForm.addEventListener('submit', handleLocalLogin);
+  document.getElementById('btn-banner-login').addEventListener('click', () => {
+    lockAdmin({ message: 'Entre com sua conta administradora do Supabase para publicar as alterações.' });
+  });
+
+  // ---- Fechar modais com fundo / ESC ----
+  [configModal, securityModal].forEach((modal) => {
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) closeModal(modal);
+    });
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeModal(configModal);
+      closeModal(securityModal);
+    }
+  });
+
+  // ---- Inicializar segurança e catálogo ----
+  buildSupabaseClient();
+  await tryAutoUnlock();
 });
 </script>
 </body>

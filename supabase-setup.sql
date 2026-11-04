@@ -59,10 +59,37 @@ before update on public.quadros
 for each row
 execute function public.set_quadros_updated_at();
 
--- 5. Permissões da Data API (PostgREST) + Row Level Security (RLS)
+-- 5. Administradores autorizados + Row Level Security (RLS)
 grant usage on schema public to anon, authenticated;
 grant select on public.quadros to anon, authenticated;
 grant insert, update, delete on public.quadros to authenticated;
+
+-- Lista de administradores. Adicione seu usuário ao final deste arquivo.
+create table if not exists public.admin_users (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  email text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.admin_users enable row level security;
+revoke all on table public.admin_users from anon, authenticated;
+
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.admin_users au
+    where au.user_id = auth.uid()
+  );
+$$;
+
+revoke all on function public.is_admin() from public;
+grant execute on function public.is_admin() to authenticated;
 
 alter table public.quadros enable row level security;
 
@@ -74,38 +101,38 @@ create policy "Visitantes visualizam quadros ativos"
   to anon
   using (ativo = true);
 
--- Política 2: Administradores autenticados podem ver todos os quadros (ativos e inativos)
+-- Política 2: Administradores autorizados podem ver todos os quadros
 drop policy if exists "Admin visualiza todos os quadros" on public.quadros;
 create policy "Admin visualiza todos os quadros"
   on public.quadros
   for select
   to authenticated
-  using ((select auth.uid()) is not null);
+  using (public.is_admin());
 
--- Política 3: Administradores autenticados podem cadastrar novos quadros
+-- Política 3: Administradores autorizados podem cadastrar novos quadros
 drop policy if exists "Admin cadastra quadros" on public.quadros;
 create policy "Admin cadastra quadros"
   on public.quadros
   for insert
   to authenticated
-  with check ((select auth.uid()) is not null);
+  with check (public.is_admin());
 
--- Política 4: Administradores autenticados podem editar quadros
+-- Política 4: Administradores autorizados podem editar quadros
 drop policy if exists "Admin atualiza quadros" on public.quadros;
 create policy "Admin atualiza quadros"
   on public.quadros
   for update
   to authenticated
-  using ((select auth.uid()) is not null)
-  with check ((select auth.uid()) is not null);
+  using (public.is_admin())
+  with check (public.is_admin());
 
--- Política 5: Administradores autenticados podem excluir quadros
+-- Política 5: Administradores autorizados podem excluir quadros
 drop policy if exists "Admin exclui quadros" on public.quadros;
 create policy "Admin exclui quadros"
   on public.quadros
   for delete
   to authenticated
-  using ((select auth.uid()) is not null);
+  using (public.is_admin());
 
 -- ============================================================================
 -- 6. CONFIGURAÇÃO DO SUPABASE STORAGE (BUCKET DE IMAGENS DOS QUADROS)
@@ -138,7 +165,7 @@ create policy "Admin envia imagens de quadros"
   to authenticated
   with check (
     bucket_id = 'quadros-imagens'
-    and (select auth.uid()) is not null
+    and public.is_admin()
   );
 
 drop policy if exists "Admin atualiza imagens de quadros" on storage.objects;
@@ -148,11 +175,11 @@ create policy "Admin atualiza imagens de quadros"
   to authenticated
   using (
     bucket_id = 'quadros-imagens'
-    and (select auth.uid()) is not null
+    and public.is_admin()
   )
   with check (
     bucket_id = 'quadros-imagens'
-    and (select auth.uid()) is not null
+    and public.is_admin()
   );
 
 drop policy if exists "Admin remove imagens de quadros" on storage.objects;
@@ -162,7 +189,7 @@ create policy "Admin remove imagens de quadros"
   to authenticated
   using (
     bucket_id = 'quadros-imagens'
-    and (select auth.uid()) is not null
+    and public.is_admin()
   );
 
 -- ============================================================================
@@ -197,4 +224,16 @@ select * from (values
   selo, selo_curadoria, tag_ambiente, secao, categoria, estrelas, imagem_url, ativo, ordem
 )
 where not exists (select 1 from public.quadros limit 1);
+
+-- ============================================================================
+-- 8. ADICIONE SEU ADMINISTRADOR (OBRIGATÓRIO PARA O PAINEL)
+-- ----------------------------------------------------------------------------
+-- Crie o usuário em Authentication > Users, copie o UUID e execute:
+--
+-- insert into public.admin_users (user_id, email)
+-- values ('00000000-0000-0000-0000-000000000000', 'seu-email@exemplo.com')
+-- on conflict (user_id) do nothing;
+--
+-- Sem esse registro, o login funciona mas o RLS bloqueia todas as escritas.
+-- ============================================================================
 
