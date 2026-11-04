@@ -72,7 +72,7 @@ tailwind.config = {
         </span>
         <h1 id="gate-title" class="mt-3 font-display text-2xl font-extrabold tracking-tight text-zinc-900">Painel administrativo</h1>
         <p class="mt-2 text-xs leading-relaxed text-zinc-500">
-          Entre com sua conta administradora do Supabase ou use a senha local de emergência.
+          Entre com sua conta administradora do Supabase.
         </p>
       </div>
 
@@ -110,41 +110,6 @@ tailwind.config = {
 
         <p class="mt-2 text-[10px] leading-relaxed text-zinc-400">
           A senha é verificada diretamente pelo Supabase e não é armazenada neste site.
-        </p>
-      </div>
-
-      <div id="gate-divider" class="my-5 flex items-center gap-3">
-        <span class="h-px flex-1 bg-zinc-200"></span>
-        <span class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">ou</span>
-        <span class="h-px flex-1 bg-zinc-200"></span>
-      </div>
-
-      <!-- Senha local -->
-      <div id="gate-local-block">
-        <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Senha local do painel</p>
-
-        <form id="local-login-form" class="mt-3 space-y-3">
-          <div>
-            <label for="login-local-password" class="block text-[11px] font-semibold text-zinc-700">Senha de acesso</label>
-            <div class="relative mt-1">
-              <input id="login-local-password" type="password" required autocomplete="current-password" spellcheck="false" placeholder="Senha local de emergência"
-                class="w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 pr-11 text-sm text-zinc-900 outline-none transition focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
-              <button type="button" data-toggle-password="login-local-password" aria-label="Mostrar senha"
-                class="absolute inset-y-0 right-0 grid w-11 place-items-center rounded-r-xl text-zinc-400 transition hover:text-[#9e004f]">
-                <i data-lucide="eye" class="h-4 w-4"></i>
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" id="btn-login-local"
-            class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white px-5 py-3 text-xs font-bold uppercase tracking-wider text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60">
-            <i data-lucide="key-round" class="h-4 w-4"></i>
-            <span>Desbloquear painel</span>
-          </button>
-        </form>
-
-        <p class="mt-2 text-[10px] leading-relaxed text-zinc-400">
-          Use esta opção apenas se o Supabase não estiver disponível. Sem login Supabase, as alterações ficam somente neste navegador.
         </p>
       </div>
 
@@ -651,54 +616,21 @@ tailwind.config = {
     <div class="mt-4 space-y-4">
       <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
         <p class="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Sessão atual</p>
-        <p id="security-session-label" class="mt-1 text-sm font-bold text-zinc-900">Modo local</p>
+        <p id="security-session-label" class="mt-1 text-sm font-bold text-zinc-900">Não autenticado</p>
         <p id="security-user-email" class="mt-0.5 hidden break-all text-[11px] text-zinc-500"></p>
         <p class="mt-2 text-[11px] leading-relaxed text-zinc-500">
           A sessão expira automaticamente após 30 minutos de inatividade e é encerrada ao fechar a aba.
         </p>
       </div>
 
-      <div id="default-password-warning" class="hidden items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800">
-        <i data-lucide="key-round" class="mt-0.5 h-4 w-4 shrink-0"></i>
-        <span>Você ainda usa a senha local padrão. Altere-a abaixo para proteger este navegador.</span>
-      </div>
-
       <div id="security-rls-warning" class="hidden items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11px] leading-relaxed text-amber-800">
         <i data-lucide="shield-alert" class="mt-0.5 h-4 w-4 shrink-0"></i>
         <span>O bloqueio por administrador no banco ainda não está ativo. Execute <code>supabase-security.sql</code> no Supabase para impedir que qualquer conta autenticada altere o catálogo.</span>
       </div>
-
-      <div id="security-alert" class="hidden items-start gap-2 rounded-xl border px-3.5 py-3 text-[11px] font-medium" role="alert" aria-live="polite"></div>
-
-      <div class="rounded-xl border border-zinc-200 p-4">
-        <h4 class="font-display text-sm font-bold text-zinc-900">Alterar senha local</h4>
-        <p class="mt-1 text-[11px] leading-relaxed text-zinc-500">A nova senha fica salva apenas neste navegador. Use no mínimo 10 caracteres.</p>
-
-        <form id="change-password-form" class="mt-3 space-y-3">
-          <div>
-            <label for="current-local-password" class="block text-[11px] font-semibold text-zinc-700">Senha atual</label>
-            <input id="current-local-password" type="password" required autocomplete="current-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
-          </div>
-          <div class="grid gap-3 sm:grid-cols-2">
-            <div>
-              <label for="new-local-password" class="block text-[11px] font-semibold text-zinc-700">Nova senha</label>
-              <input id="new-local-password" type="password" required minlength="10" autocomplete="new-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
-            </div>
-            <div>
-              <label for="confirm-local-password" class="block text-[11px] font-semibold text-zinc-700">Confirmar nova senha</label>
-              <input id="confirm-local-password" type="password" required minlength="10" autocomplete="new-password" spellcheck="false" class="mt-1 w-full rounded-xl border border-zinc-300 px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta" />
-            </div>
-          </div>
-          <button type="submit" id="btn-change-password" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-zinc-900 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:py-2.5">
-            <i data-lucide="key-round" class="h-4 w-4"></i>
-            <span>Salvar nova senha</span>
-          </button>
-        </form>
-      </div>
     </div>
 
     <div class="mt-6 flex flex-col gap-2 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-      <p class="text-[10px] leading-relaxed text-zinc-400">A senha local não substitui o login Supabase: o banco só aceita alterações de administradores autenticados.</p>
+      <p class="text-[10px] leading-relaxed text-zinc-400">A sessão é autenticada pelo Supabase e expira após 30 minutos de inatividade.</p>
       <button type="button" id="btn-logout" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-[#9e004f] px-4 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-magenta sm:py-2.5">
         <i data-lucide="log-out" class="h-4 w-4"></i>
         Sair do painel
@@ -718,22 +650,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const LOCAL_CATALOG_KEY = '123quadros-catalog-v2';
 
   // ---- Segurança / sessão ----
-  const LOCAL_PASSWORD_KEY = '123quadros-admin-password-v1';
-  const UNLOCK_KEY = '123quadros-admin-unlocked-at';
   const ACTIVITY_KEY = '123quadros-admin-last-activity';
   const ATTEMPTS_KEY = '123quadros-admin-login-attempts';
   const LAST_EMAIL_KEY = '123quadros-admin-last-email';
   const IDLE_TIMEOUT_MS = 30 * 60 * 1000;
   const MAX_LOGIN_ATTEMPTS = 5;
   const LOCKOUT_MS = 5 * 60 * 1000;
-  const PBKDF2_ITERATIONS = 210000;
-
-  // Senha local padrão: troque em "Segurança" após o primeiro acesso.
-  const DEFAULT_LOCAL_PASSWORD = Object.freeze({
-    salt: 'AiH49zCX107IYeLlVhhjpg==',
-    hash: '2Ck/rKlniLiiIVVolaSkwadEzz8agmTvO5jEWg19dmE=',
-    iterations: PBKDF2_ITERATIONS,
-  });
 
   const ADMIN_EMAILS = Array.isArray(window.QUADROS_SUPABASE_CONFIG?.ADMIN_EMAILS)
     ? window.QUADROS_SUPABASE_CONFIG.ADMIN_EMAILS.map((e) => String(e).trim().toLowerCase()).filter(Boolean)
@@ -798,92 +720,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const authGate = document.getElementById('auth-gate');
   const adminShell = document.getElementById('admin-shell');
   const gateAlert = document.getElementById('gate-alert');
-  const gateSupabaseBlock = document.getElementById('gate-supabase-block');
-  const gateDivider = document.getElementById('gate-divider');
   const supabaseLoginForm = document.getElementById('supabase-login-form');
   const loginEmail = document.getElementById('login-email');
   const loginPassword = document.getElementById('login-password');
   const btnLoginSupabase = document.getElementById('btn-login-supabase');
-  const localLoginForm = document.getElementById('local-login-form');
-  const loginLocalPassword = document.getElementById('login-local-password');
-  const btnLoginLocal = document.getElementById('btn-login-local');
   const btnGateConfig = document.getElementById('btn-gate-config');
   const securityModal = document.getElementById('security-modal');
   const securitySessionLabel = document.getElementById('security-session-label');
   const securityUserEmail = document.getElementById('security-user-email');
   const securityRlsWarning = document.getElementById('security-rls-warning');
-  const changePasswordForm = document.getElementById('change-password-form');
-
-  // ---- Helpers de segurança ----
-  function bytesToBase64(bytes) {
-    let binary = '';
-    bytes.forEach((b) => { binary += String.fromCharCode(b); });
-    return btoa(binary);
-  }
-
-  function base64ToBytes(b64) {
-    return Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-  }
-
-  function constantTimeEqual(a, b) {
-    if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
-    let diff = 0;
-    for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-    return diff === 0;
-  }
-
-  async function derivePasswordHash(password, saltB64, iterations) {
-    if (!window.crypto?.subtle) {
-      throw new Error('WebCrypto indisponível. Acesse o painel por HTTPS ou localhost.');
-    }
-    const salt = base64ToBytes(saltB64);
-    const keyMaterial = await crypto.subtle.importKey(
-      'raw',
-      new TextEncoder().encode(password),
-      'PBKDF2',
-      false,
-      ['deriveBits']
-    );
-    const bits = await crypto.subtle.deriveBits(
-      { name: 'PBKDF2', salt, iterations: iterations || PBKDF2_ITERATIONS, hash: 'SHA-256' },
-      keyMaterial,
-      256
-    );
-    return bytesToBase64(new Uint8Array(bits));
-  }
-
-  function getLocalPasswordConfig() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(LOCAL_PASSWORD_KEY) || 'null');
-      if (saved?.salt && saved?.hash) return saved;
-    } catch {}
-    return DEFAULT_LOCAL_PASSWORD;
-  }
-
-  function isUsingDefaultLocalPassword() {
-    try {
-      return !localStorage.getItem(LOCAL_PASSWORD_KEY);
-    } catch {
-      return true;
-    }
-  }
-
-  async function verifyLocalPassword(password) {
-    const cfg = getLocalPasswordConfig();
-    const hash = await derivePasswordHash(password, cfg.salt, cfg.iterations);
-    return constantTimeEqual(hash, cfg.hash);
-  }
-
-  async function saveLocalPassword(newPassword) {
-    const salt = bytesToBase64(crypto.getRandomValues(new Uint8Array(16)));
-    const hash = await derivePasswordHash(newPassword, salt, PBKDF2_ITERATIONS);
-    localStorage.setItem(LOCAL_PASSWORD_KEY, JSON.stringify({
-      salt,
-      hash,
-      iterations: PBKDF2_ITERATIONS,
-      updated_at: new Date().toISOString(),
-    }));
-  }
 
   function getAttemptState() {
     try {
@@ -990,7 +835,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const { url, key } = getSupabaseConfig();
     supabaseClient = null;
     if (!url || !key || !window.supabase) {
-      updateGateMode();
       return;
     }
     try {
@@ -1015,14 +859,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (err) {
       console.warn('Não foi possível criar o cliente Supabase:', err);
     }
-    updateGateMode();
-  }
-
-  function updateGateMode() {
-    const { url, key } = getSupabaseConfig();
-    const available = Boolean(url && key && window.supabase);
-    if (gateSupabaseBlock) gateSupabaseBlock.classList.toggle('hidden', !available);
-    if (gateDivider) gateDivider.classList.toggle('hidden', !available);
   }
 
   async function verifyAdminUser(user) {
@@ -1133,7 +969,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       securityUserEmail.textContent = currentUser.email || currentUser.id;
       securityUserEmail.classList.remove('hidden');
     } else {
-      securitySessionLabel.textContent = 'Senha local (sem login Supabase)';
+      securitySessionLabel.textContent = 'Não autenticado';
       securityUserEmail.textContent = '';
       securityUserEmail.classList.add('hidden');
     }
@@ -1141,12 +977,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const shouldShow = rlsAdminPolicyAvailable === false;
       securityRlsWarning.classList.toggle('hidden', !shouldShow);
       securityRlsWarning.classList.toggle('flex', shouldShow);
-    }
-    const defaultPasswordWarning = document.getElementById('default-password-warning');
-    if (defaultPasswordWarning) {
-      const showDefaultWarning = isUsingDefaultLocalPassword();
-      defaultPasswordWarning.classList.toggle('hidden', !showDefaultWarning);
-      defaultPasswordWarning.classList.toggle('flex', showDefaultWarning);
     }
     updateConnectionUI();
   }
@@ -1164,7 +994,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (now - lastActivityAt > 5000) {
       lastActivityAt = now;
       sessionStorage.setItem(ACTIVITY_KEY, String(now));
-      sessionStorage.setItem(UNLOCK_KEY, String(now));
     }
     scheduleIdleLock();
   }
@@ -1208,12 +1037,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     adminShell.classList.remove('hidden');
     adminShell.hidden = false;
     adminShell.removeAttribute('inert');
-    sessionStorage.setItem(UNLOCK_KEY, String(Date.now()));
     startIdleWatcher();
     await bootstrapAdmin();
-    if (isUsingDefaultLocalPassword() && !currentUser) {
-      showToast('Você está usando a senha local padrão. Altere em Segurança.');
-    }
   }
 
   function clearRenderedCatalog() {
@@ -1241,7 +1066,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   async function lockAdmin({ signOut = false, message = '' } = {}) {
     if (isLocking) return;
     isLocking = true;
-    sessionStorage.removeItem(UNLOCK_KEY);
     sessionStorage.removeItem(ACTIVITY_KEY);
     clearTimeout(idleTimer);
     closePanelModals();
@@ -1262,15 +1086,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if (signOut) currentUser = null;
     updateSecurityUI();
-    updateGateMode();
     loginPassword.value = '';
-    loginLocalPassword.value = '';
     if (message) showGateAlert(message, 'info');
     window.scrollTo({ top: 0, behavior: 'auto' });
-    setTimeout(() => {
-      const supabaseVisible = gateSupabaseBlock && !gateSupabaseBlock.classList.contains('hidden');
-      (supabaseVisible ? loginEmail : loginLocalPassword)?.focus();
-    }, 60);
+    setTimeout(() => loginEmail?.focus(), 60);
     isLocking = false;
   }
 
@@ -1282,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     if (!supabaseClient) {
-      showGateAlert('Supabase não configurado. Use a senha local ou configure a conexão.', 'error');
+      showGateAlert('Supabase não configurado. Clique em Configurar conexão.', 'error');
       return;
     }
     const email = loginEmail.value.trim();
@@ -1348,46 +1167,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  async function handleLocalLogin(event) {
-    event.preventDefault();
-    clearGateAlert();
-    if (getLockoutRemainingMs() > 0) {
-      showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(getLockoutRemainingMs())}.`, 'error');
-      return;
-    }
-    const password = loginLocalPassword.value;
-    if (!password) return;
-
-    btnLoginLocal.disabled = true;
-    btnLoginLocal.querySelector('span').textContent = 'Verificando...';
-    try {
-      const valid = await verifyLocalPassword(password);
-      if (!valid) {
-        const lockedUntil = recordLoginFailure();
-        if (lockedUntil) {
-          showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(lockedUntil - Date.now())} e tente novamente.`, 'error');
-        } else {
-          showGateAlert('Senha local incorreta.', 'error');
-        }
-        return;
-      }
-      clearLoginFailures();
-      await unlockAdmin();
-    } catch (err) {
-      console.warn('Erro na verificação de senha local:', err);
-      showGateAlert(err.message || 'Não foi possível verificar a senha.', 'error');
-    } finally {
-      btnLoginLocal.disabled = false;
-      btnLoginLocal.querySelector('span').textContent = 'Desbloquear painel';
-    }
-  }
-
   async function tryAutoUnlock() {
     const restored = await restoreSupabaseSession();
-    const unlockedAt = Number(sessionStorage.getItem(UNLOCK_KEY) || 0);
-    const lastActivity = Number(sessionStorage.getItem(ACTIVITY_KEY) || unlockedAt);
-    const localSessionValid = unlockedAt > 0 && lastActivity > 0 && Date.now() - lastActivity < IDLE_TIMEOUT_MS;
-    if (restored || localSessionValid) {
+    if (restored) {
       await unlockAdmin();
     } else {
       authGate.classList.remove('hidden');
@@ -1397,7 +1179,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       adminShell.setAttribute('inert', '');
       const email = localStorage.getItem(LAST_EMAIL_KEY);
       if (email) loginEmail.value = email;
-      updateGateMode();
       updateSecurityUI();
       if (getLockoutRemainingMs() > 0) {
         showGateAlert(`Muitas tentativas. Aguarde ${formatRemaining(getLockoutRemainingMs())}.`, 'error');
@@ -1964,7 +1745,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ---- Modais: configuração do Supabase ----
   const configModal = document.getElementById('config-modal');
   const configAlert = document.getElementById('config-alert');
-  const securityAlert = document.getElementById('security-alert');
   const sbUrlInput = document.getElementById('sb-url-input');
   const sbKeyInput = document.getElementById('sb-key-input');
 
@@ -2036,16 +1816,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     buildSupabaseClient();
     currentUser = null;
-    await restoreSupabaseSession();
+    const restored = await restoreSupabaseSession();
     updateSecurityUI();
     closeModal(configModal);
+
+    if (!adminShell.hidden && !restored) {
+      await lockAdmin({ message: 'Conexão atualizada. Entre novamente com sua conta administradora.' });
+      return;
+    }
 
     if (!adminShell.hidden) {
       appInitialized = false;
       await bootstrapAdmin();
       showToast('Configuração salva e catálogo recarregado.');
     } else {
-      showGateAlert('Conexão salva. Entre com sua conta administradora ou use a senha local.', 'success');
+      showGateAlert('Conexão salva. Entre com sua conta administradora.', 'success');
     }
   });
 
@@ -2059,7 +1844,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Modal de segurança / sessão ----
   document.getElementById('btn-security').addEventListener('click', () => {
-    setInlineAlert(securityAlert, '');
     updateSecurityUI();
     openModal(securityModal);
   });
@@ -2068,47 +1852,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-logout').addEventListener('click', async () => {
     closeModal(securityModal);
     await lockAdmin({ signOut: true, message: 'Sessão encerrada com segurança. Entre novamente.' });
-  });
-
-  changePasswordForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    setInlineAlert(securityAlert, '');
-    const currentPassword = document.getElementById('current-local-password').value;
-    const newPassword = document.getElementById('new-local-password').value;
-    const confirmPassword = document.getElementById('confirm-local-password').value;
-
-    if (newPassword.length < 10) {
-      setInlineAlert(securityAlert, 'A nova senha deve ter no mínimo 10 caracteres.');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setInlineAlert(securityAlert, 'A confirmação da nova senha não confere.');
-      return;
-    }
-    if (newPassword === currentPassword) {
-      setInlineAlert(securityAlert, 'A nova senha precisa ser diferente da atual.');
-      return;
-    }
-
-    const btn = document.getElementById('btn-change-password');
-    btn.disabled = true;
-    try {
-      const valid = await verifyLocalPassword(currentPassword);
-      if (!valid) {
-        setInlineAlert(securityAlert, 'A senha atual está incorreta.');
-        return;
-      }
-      await saveLocalPassword(newPassword);
-      changePasswordForm.reset();
-      updateSecurityUI();
-      setInlineAlert(securityAlert, 'Senha local alterada com sucesso.', 'success');
-      showToast('Senha local alterada com sucesso.');
-    } catch (err) {
-      console.warn('Erro ao alterar senha local:', err);
-      setInlineAlert(securityAlert, err.message || 'Não foi possível alterar a senha.');
-    } finally {
-      btn.disabled = false;
-    }
   });
 
   // ---- Mostrar/ocultar senhas ----
@@ -2126,7 +1869,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // ---- Login ----
   supabaseLoginForm.addEventListener('submit', handleSupabaseLogin);
-  localLoginForm.addEventListener('submit', handleLocalLogin);
   document.getElementById('btn-banner-login').addEventListener('click', () => {
     lockAdmin({ message: 'Entre com sua conta administradora do Supabase para publicar as alterações.' });
   });
