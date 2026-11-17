@@ -915,13 +915,176 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // H) INTEGRAÇÃO DINÂMICA COM PAINEL ADMIN (admin.html) E SUPABASE
   // =========================================================================
-  function buildStarsHtml(count = 5) {
+  function buildStarsHtml(count = 5, sizeClass = 'h-3.5 w-3.5') {
     const n = Math.min(5, Math.max(1, Number(count) || 5));
     let html = '';
     for (let i = 1; i <= 5; i++) {
-      html += `<i data-lucide="star" class="h-3.5 w-3.5 ${i <= n ? 'fill-[#EA0273]' : 'text-zinc-300'}"></i>`;
+      html += `<i data-lucide="star" class="${sizeClass} ${i <= n ? 'fill-[#EA0273]' : 'text-zinc-300'}"></i>`;
     }
     return html;
+  }
+
+  let publicSupabaseClient = null;
+  let publicSupabaseConfigKey = '';
+
+  function getPublicSupabaseClient(url, key) {
+    const configKey = `${url}::${key}`;
+    if (publicSupabaseClient && publicSupabaseConfigKey === configKey) {
+      return publicSupabaseClient;
+    }
+    publicSupabaseClient = window.supabase.createClient(url, key, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
+    });
+    publicSupabaseConfigKey = configKey;
+    return publicSupabaseClient;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+    }[ch]));
+  }
+
+  function getTestimonialInitials(nome, iniciais) {
+    const custom = String(iniciais || '').trim();
+    if (custom) return custom.slice(0, 3).toUpperCase();
+
+    const ignored = new Set(['da', 'de', 'do', 'das', 'dos', 'e']);
+    const honorific = /^(dr|dra|sr|sra|prof|profa)\.?$/i;
+    const parts = String(nome || '')
+      .trim()
+      .split(/\s+/)
+      .map((part) => part.replace(/\.$/, ''))
+      .filter((part) => part && !honorific.test(part) && !ignored.has(part.toLowerCase()));
+
+    if (parts.length === 0) return '?';
+    return parts
+      .slice(0, 2)
+      .map((part) => Array.from(part)[0])
+      .join('')
+      .toUpperCase();
+  }
+
+  function renderDynamicTestimonials(items) {
+    const grid = document.getElementById('testimonials-grid');
+    const section = document.getElementById('depoimentos');
+    if (!grid || !section) return;
+
+    const activeItems = (Array.isArray(items) ? items : [])
+      .filter((item) => item && item.ativo !== false && String(item.texto || '').trim())
+      .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0));
+
+    const navLinks = document.querySelectorAll('a[href="#depoimentos"]');
+
+    if (activeItems.length === 0) {
+      section.classList.add('hidden');
+      navLinks.forEach((link) => {
+        link.style.display = 'none';
+      });
+      return;
+    }
+
+    section.classList.remove('hidden');
+    navLinks.forEach((link) => {
+      link.style.removeProperty('display');
+    });
+
+    const layoutClass =
+      activeItems.length === 1
+        ? 'mx-auto max-w-md md:grid-cols-1'
+        : activeItems.length === 2
+          ? 'mx-auto max-w-4xl md:grid-cols-2'
+          : 'md:grid-cols-3';
+    grid.className = `mt-14 grid gap-6 ${layoutClass}`;
+
+    const avatarStyles = [
+      { gradient: 'from-brand-amarelo to-brand-magenta', text: 'text-ink-950' },
+      { gradient: 'from-brand-azul to-brand-magenta', text: 'text-white' },
+      { gradient: 'from-brand-magenta to-brand-azul', text: 'text-white' },
+    ];
+
+    grid.innerHTML = activeItems
+      .map((item, index) => {
+        const style = avatarStyles[index % avatarStyles.length];
+        const nome = escapeHtml(item.nome || 'Cliente');
+        const cidade = escapeHtml(item.cidade || '');
+        const texto = escapeHtml(item.texto || '');
+        const initials = escapeHtml(getTestimonialInitials(item.nome, item.iniciais));
+        const localLine = cidade ? `${cidade} · Cliente Verificado` : 'Cliente Verificado';
+
+        return `
+          <figure data-reveal class="is-in flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
+            <div class="flex items-center gap-1 text-[#EA0273]">
+              ${buildStarsHtml(item.estrelas, 'h-4 w-4')}
+            </div>
+            <blockquote class="mt-5 flex-1 text-sm leading-relaxed text-zinc-600">
+              “${texto}”
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-3 border-t border-zinc-200/70 pt-5">
+              <span class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br ${style.gradient} text-xs font-bold ${style.text}">${initials}</span>
+              <div>
+                <p class="text-sm font-semibold text-zinc-900">${nome}</p>
+                <p class="text-xs text-zinc-500">${localLine}</p>
+              </div>
+            </figcaption>
+          </figure>
+        `;
+      })
+      .join('');
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  async function initDynamicTestimonials() {
+    let savedConn = {};
+    try {
+      savedConn = JSON.parse(localStorage.getItem('123quadros-supabase-conn') || '{}');
+    } catch {}
+
+    const sbUrl = (savedConn.url || window.QUADROS_SUPABASE_CONFIG?.SUPABASE_URL || '').trim();
+    const sbKey = (savedConn.key || window.QUADROS_SUPABASE_CONFIG?.SUPABASE_ANON_KEY || '').trim();
+
+    if (sbUrl && sbKey && window.supabase) {
+      try {
+        const client = getPublicSupabaseClient(sbUrl, sbKey);
+        const { data, error } = await client
+          .from('depoimentos')
+          .select('*')
+          .order('ordem', { ascending: true });
+
+        if (!error && Array.isArray(data)) {
+          renderDynamicTestimonials(data);
+          return;
+        }
+
+        if (error) {
+          console.warn('Não foi possível buscar depoimentos no Supabase, usando fallback local:', error.message);
+        }
+      } catch (err) {
+        console.warn('Falha ao buscar depoimentos do Supabase, usando fallback local:', err);
+      }
+    }
+
+    try {
+      const localRaw = localStorage.getItem('123quadros-depoimentos-v1');
+      if (localRaw) {
+        const parsed = JSON.parse(localRaw);
+        if (Array.isArray(parsed)) {
+          renderDynamicTestimonials(parsed);
+          return;
+        }
+      }
+    } catch {}
+
+    renderDynamicTestimonials(window.DEFAULT_DEPOIMENTOS_DATA || []);
   }
 
   function renderDynamicCatalog(items) {
@@ -1041,7 +1204,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (sbUrl && sbKey && window.supabase) {
       try {
-        const client = window.supabase.createClient(sbUrl, sbKey);
+        const client = getPublicSupabaseClient(sbUrl, sbKey);
         const { data, error } = await client
           .from('quadros')
           .select('*')
@@ -1070,4 +1233,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initDynamicCatalog();
+  initDynamicTestimonials();
 });

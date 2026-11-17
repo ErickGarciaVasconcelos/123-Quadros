@@ -44,7 +44,7 @@ tailwind.config = {
 
 <!-- Supabase JS Client v2 + Configuração -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+<script src="supabase-config.js?v=8"></script>
 </head>
 
 <body class="min-h-screen bg-zinc-50 font-sans text-zinc-700 antialiased">
@@ -544,6 +544,140 @@ tailwind.config = {
     </div>
   </section>
 
+  <!-- ============================ ELOGIOS / DEPOIMENTOS ============================ -->
+  <section id="testimonials-admin-section" class="mt-8 scroll-mt-28 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:mt-10 sm:p-8">
+    <div class="flex flex-col gap-3 border-b border-zinc-100 pb-5 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="message-square-quote" class="h-5 w-5 text-[#9e004f]"></i>
+          <h2 class="font-display text-lg font-bold text-zinc-900 sm:text-xl">Elogios / Depoimentos</h2>
+        </div>
+        <p class="mt-0.5 text-xs text-zinc-500">Cadastre, edite, ative ou exclua os depoimentos exibidos na seção de elogios da home.</p>
+      </div>
+      <span id="testimonials-count" class="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full bg-[#fdf2f6] px-3 py-1.5 text-xs font-bold text-[#9e004f] lg:self-auto">
+        <i data-lucide="messages-square" class="h-3.5 w-3.5"></i>
+        <span id="testimonials-count-text">0 cadastrados · 0 ativos</span>
+      </span>
+    </div>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-[1.45fr_0.85fr] lg:gap-8">
+      <!-- Formulário -->
+      <div class="min-w-0">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 id="testimonial-form-title" class="font-display text-base font-bold text-zinc-900">Adicionar Depoimento</h3>
+            <p class="mt-0.5 text-xs text-zinc-500">A quantidade exibida no site é o total de depoimentos ativos.</p>
+          </div>
+          <button type="button" id="btn-reset-testimonial" class="hidden shrink-0 items-center justify-center gap-1 rounded-lg border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 hover:bg-zinc-50">
+            <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i> Cancelar edição
+          </button>
+        </div>
+
+        <form id="testimonial-form" class="mt-4 space-y-4">
+          <input type="hidden" id="testimonial-field-id" value="" />
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label for="testimonial-field-nome" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Nome do cliente *</label>
+              <input id="testimonial-field-nome" type="text" required maxlength="80" placeholder="Ex: Mariana C." class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+            </div>
+
+            <div>
+              <label for="testimonial-field-cidade" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Cidade / Local *</label>
+              <input id="testimonial-field-cidade" type="text" required maxlength="80" placeholder="Ex: São Paulo" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+            </div>
+          </div>
+
+          <div>
+            <label for="testimonial-field-texto" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Frase do elogio *</label>
+            <textarea id="testimonial-field-texto" required maxlength="500" rows="4" placeholder="Escreva o depoimento do cliente..." class="mt-1.5 w-full resize-y rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm leading-relaxed text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15"></textarea>
+            <p class="mt-1 text-[10px] text-zinc-400">Máximo de 500 caracteres.</p>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div>
+              <label for="testimonial-field-estrelas" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Avaliação</label>
+              <select id="testimonial-field-estrelas" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta">
+                <option value="5">★★★★★ (5 estrelas)</option>
+                <option value="4">★★★★☆ (4 estrelas)</option>
+                <option value="3">★★★☆☆ (3 estrelas)</option>
+                <option value="2">★★☆☆☆ (2 estrelas)</option>
+                <option value="1">★☆☆☆☆ (1 estrela)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="testimonial-field-iniciais" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Iniciais (opcional)</label>
+              <input id="testimonial-field-iniciais" type="text" maxlength="3" placeholder="Automático" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm uppercase text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+            </div>
+
+            <div>
+              <label for="testimonial-field-ordem" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">Ordem</label>
+              <input id="testimonial-field-ordem" type="number" step="1" min="1" value="1" class="mt-1.5 w-full rounded-xl border border-zinc-300 bg-white px-3.5 py-2.5 text-sm text-zinc-900 outline-none focus:border-brand-magenta focus:ring-2 focus:ring-brand-magenta/15" />
+            </div>
+          </div>
+
+          <label class="inline-flex cursor-pointer items-center gap-2 text-xs font-semibold text-zinc-800">
+            <input id="testimonial-field-ativo" type="checkbox" checked class="h-4 w-4 rounded border-zinc-300 text-brand-magenta focus:ring-brand-magenta" />
+            <span>Depoimento visível no site</span>
+          </label>
+
+          <div class="flex flex-wrap items-center justify-end gap-3 border-t border-zinc-100 pt-5">
+            <button type="submit" id="btn-submit-testimonial" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#9e004f] px-7 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition hover:bg-brand-magenta active:scale-95 sm:w-auto">
+              <i data-lucide="save" class="h-4 w-4"></i>
+              <span id="btn-submit-testimonial-text">Salvar Depoimento</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Prévia do depoimento -->
+      <div class="flex min-w-0 flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-[#f5f5f5] p-4 sm:p-6 lg:sticky lg:top-24 lg:self-start">
+        <span class="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-zinc-500 shadow-sm">
+          <i data-lucide="eye" class="h-3.5 w-3.5 text-brand-magenta"></i> Pré-visualização ao Vivo
+        </span>
+
+        <figure class="flex w-full max-w-[320px] flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-6">
+          <div id="testimonial-preview-stars" class="flex items-center gap-1 text-[#EA0273]"></div>
+          <blockquote id="testimonial-preview-texto" class="mt-4 flex-1 text-sm leading-relaxed text-zinc-600">
+            “A frase do elogio aparecerá aqui.”
+          </blockquote>
+          <figcaption class="mt-5 flex items-center gap-3 border-t border-zinc-200/70 pt-4">
+            <span id="testimonial-preview-avatar" class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-amarelo to-brand-magenta text-xs font-bold text-ink-950">MC</span>
+            <div class="min-w-0">
+              <p id="testimonial-preview-nome" class="truncate text-sm font-semibold text-zinc-900">Nome do cliente</p>
+              <p id="testimonial-preview-cidade" class="truncate text-xs text-zinc-500">Cidade · Cliente Verificado</p>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- Lista de depoimentos -->
+    <div class="mt-8 border-t border-zinc-100 pt-6">
+      <h3 class="font-display text-base font-bold text-zinc-900">Depoimentos cadastrados</h3>
+      <p class="mt-0.5 text-xs text-zinc-500">Use os controles para editar, ocultar ou remover um depoimento da home.</p>
+
+      <div id="testimonials-card-list" class="mt-4 space-y-3 lg:hidden"></div>
+
+      <div class="mt-4 hidden overflow-x-auto lg:block">
+        <table class="w-full min-w-[760px] border-collapse text-left text-sm">
+          <thead>
+            <tr class="border-b border-zinc-200 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+              <th class="pb-3 pl-2">Cliente</th>
+              <th class="pb-3">Depoimento</th>
+              <th class="pb-3">Avaliação</th>
+              <th class="pb-3 text-center">Ordem</th>
+              <th class="pb-3 text-center">Visível</th>
+              <th class="pb-3 pr-2 text-right">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="testimonials-table-body" class="divide-y divide-zinc-100"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 </div><!-- /admin-shell -->
@@ -564,7 +698,8 @@ tailwind.config = {
 
     <div class="mt-4 space-y-4 text-xs leading-relaxed text-zinc-600">
       <p>
-        1. No <strong>Supabase</strong>, execute <code>supabase-setup.sql</code> (instalação inicial) ou apenas <code>supabase-security.sql</code> (banco já existente) no <strong>SQL Editor</strong>.<br />
+        1. No <strong>Supabase</strong>, execute <code>supabase-setup.sql</code> (instalação inicial) ou <code>supabase-security.sql</code> (banco já existente) no <strong>SQL Editor</strong>.<br />
+        Para habilitar os depoimentos editáveis, execute também <code>supabase-depoimentos.sql</code>.<br />
         2. Crie seu usuário em <strong>Authentication → Users</strong> e adicione o UUID dele à tabela <code>admin_users</code> (instruções no fim do arquivo de segurança).<br />
         3. Em <strong>Project Settings → API</strong>, copie a <strong>Project URL</strong> e a <strong>anon / publishable key</strong> e cole abaixo:
       </p>
@@ -648,6 +783,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   const LOCAL_CATALOG_KEY = '123quadros-catalog-v2';
+  const LOCAL_DEPOIMENTOS_KEY = '123quadros-depoimentos-v1';
 
   // ---- Segurança / sessão ----
   const ACTIVITY_KEY = '123quadros-admin-last-activity';
@@ -665,6 +801,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let supabaseClient = null;
   let isSupabaseConnected = false;
   let quadros = [];
+  let depoimentos = [];
   let activeTab = 'todos';
   let currentUser = null;
   let rlsAdminPolicyAvailable = null;
@@ -705,6 +842,26 @@ document.addEventListener('DOMContentLoaded', async () => {
   const fieldOrdem = document.getElementById('field-ordem');
   const fieldCuradoria = document.getElementById('field-curadoria');
   const fieldAtivo = document.getElementById('field-ativo');
+
+  // Depoimentos / elogios
+  const testimonialForm = document.getElementById('testimonial-form');
+  const testimonialFormTitle = document.getElementById('testimonial-form-title');
+  const btnResetTestimonial = document.getElementById('btn-reset-testimonial');
+  const btnSubmitTestimonialText = document.getElementById('btn-submit-testimonial-text');
+  const testimonialFieldId = document.getElementById('testimonial-field-id');
+  const testimonialFieldNome = document.getElementById('testimonial-field-nome');
+  const testimonialFieldCidade = document.getElementById('testimonial-field-cidade');
+  const testimonialFieldTexto = document.getElementById('testimonial-field-texto');
+  const testimonialFieldEstrelas = document.getElementById('testimonial-field-estrelas');
+  const testimonialFieldIniciais = document.getElementById('testimonial-field-iniciais');
+  const testimonialFieldOrdem = document.getElementById('testimonial-field-ordem');
+  const testimonialFieldAtivo = document.getElementById('testimonial-field-ativo');
+  const testimonialsCountText = document.getElementById('testimonials-count-text');
+  const testimonialPreviewStars = document.getElementById('testimonial-preview-stars');
+  const testimonialPreviewTexto = document.getElementById('testimonial-preview-texto');
+  const testimonialPreviewAvatar = document.getElementById('testimonial-preview-avatar');
+  const testimonialPreviewNome = document.getElementById('testimonial-preview-nome');
+  const testimonialPreviewCidade = document.getElementById('testimonial-preview-cidade');
 
   // Preview DOM
   const previewBadge = document.getElementById('preview-badge');
@@ -1025,7 +1182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     appInitialized = true;
-    await loadCatalog();
+    await Promise.all([loadCatalog(), loadDepoimentos()]);
     updatePreview();
     updateSecurityUI();
   }
@@ -1043,10 +1200,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function clearRenderedCatalog() {
     quadros = [];
+    depoimentos = [];
     const tbody = document.getElementById('admin-table-body');
     const cardList = document.getElementById('admin-card-list');
     if (tbody) tbody.innerHTML = '';
     if (cardList) cardList.innerHTML = '';
+    const depTbody = document.getElementById('testimonials-table-body');
+    const depCardList = document.getElementById('testimonials-card-list');
+    if (depTbody) depTbody.innerHTML = '';
+    if (depCardList) depCardList.innerHTML = '';
+    if (testimonialsCountText) testimonialsCountText.textContent = '0 cadastrados · 0 ativos';
+    resetTestimonialForm();
     ['kpi-total', 'kpi-active', 'kpi-discount'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.textContent = '0';
@@ -1233,6 +1397,437 @@ document.addEventListener('DOMContentLoaded', async () => {
   function saveLocalCatalog() {
     localStorage.setItem(LOCAL_CATALOG_KEY, JSON.stringify(quadros));
   }
+
+  // ---- Depoimentos / Elogios ----
+  const DEP_AVATAR_STYLES = [
+    { gradient: 'from-brand-amarelo to-brand-magenta', text: 'text-ink-950' },
+    { gradient: 'from-brand-azul to-brand-magenta', text: 'text-white' },
+    { gradient: 'from-brand-magenta to-brand-azul', text: 'text-white' },
+  ];
+
+  function getDepAvatarStyle(index) {
+    return DEP_AVATAR_STYLES[Math.abs(Number(index) || 0) % DEP_AVATAR_STYLES.length];
+  }
+
+  function getTestimonialInitials(nome, iniciais) {
+    const custom = String(iniciais || '').trim();
+    if (custom) return custom.slice(0, 3).toUpperCase();
+
+    const ignored = new Set(['da', 'de', 'do', 'das', 'dos', 'e']);
+    const honorific = /^(dr|dra|sr|sra|prof|profa)\.?$/i;
+    const parts = String(nome || '')
+      .trim()
+      .split(/\s+/)
+      .map((part) => part.replace(/\.$/, ''))
+      .filter((part) => part && !honorific.test(part) && !ignored.has(part.toLowerCase()));
+
+    if (parts.length === 0) return '?';
+    return parts
+      .slice(0, 2)
+      .map((part) => Array.from(part)[0])
+      .join('')
+      .toUpperCase();
+  }
+
+  function buildAdminStars(count = 5, sizeClass = 'h-3.5 w-3.5') {
+    const n = Math.min(5, Math.max(1, Number(count) || 5));
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+      html += `<i data-lucide="star" class="${sizeClass} ${i <= n ? 'fill-[#EA0273]' : 'text-zinc-300'}"></i>`;
+    }
+    return html;
+  }
+
+  function normalizeDepoimento(d) {
+    return {
+      id: d.id || 'dep-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+      nome: String(d.nome || '').trim() || 'Cliente',
+      cidade: String(d.cidade || '').trim(),
+      texto: String(d.texto || '').trim(),
+      iniciais: String(d.iniciais || '').trim().slice(0, 3).toUpperCase(),
+      estrelas: Math.min(5, Math.max(1, Number(d.estrelas) || 5)),
+      ativo: d.ativo !== false,
+      ordem: Number(d.ordem) || 100,
+    };
+  }
+
+  function loadLocalDepoimentos() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(LOCAL_DEPOIMENTOS_KEY) || 'null');
+      if (Array.isArray(saved)) {
+        depoimentos = saved.map(normalizeDepoimento);
+        return;
+      }
+    } catch {}
+    depoimentos = (window.DEFAULT_DEPOIMENTOS_DATA || []).map(normalizeDepoimento);
+    localStorage.setItem(LOCAL_DEPOIMENTOS_KEY, JSON.stringify(depoimentos));
+  }
+
+  function saveLocalDepoimentos() {
+    localStorage.setItem(LOCAL_DEPOIMENTOS_KEY, JSON.stringify(depoimentos));
+  }
+
+  async function loadDepoimentos() {
+    if (supabaseClient) {
+      try {
+        const { data, error } = await supabaseClient
+          .from('depoimentos')
+          .select('*')
+          .order('ordem', { ascending: true })
+          .order('created_at', { ascending: true });
+
+        if (!error && Array.isArray(data)) {
+          depoimentos = data.map(normalizeDepoimento);
+          localStorage.setItem(LOCAL_DEPOIMENTOS_KEY, JSON.stringify(depoimentos));
+          renderDepoimentos();
+          resetTestimonialForm();
+          return;
+        }
+
+        if (error) {
+          console.warn('Falha ao carregar depoimentos do Supabase:', error);
+          const missingTable = /relation .*does not exist|could not find the table|42P01/i.test(error.message || '');
+          showToast(
+            missingTable
+              ? 'Tabela de depoimentos não encontrada. Execute supabase-depoimentos.sql no Supabase.'
+              : `Não foi possível carregar os depoimentos: ${error.message}`
+          );
+        }
+      } catch (err) {
+        console.warn('Falha ao conectar na tabela de depoimentos, usando dados locais:', err);
+      }
+    }
+
+    loadLocalDepoimentos();
+    renderDepoimentos();
+    resetTestimonialForm();
+  }
+
+  function updateTestimonialPreview() {
+    if (!testimonialPreviewStars) return;
+
+    const nome = testimonialFieldNome?.value.trim() || '';
+    const cidade = testimonialFieldCidade?.value.trim() || '';
+    const texto = testimonialFieldTexto?.value.trim() || '';
+    const estrelas = Number(testimonialFieldEstrelas?.value) || 5;
+    const iniciais = getTestimonialInitials(nome, testimonialFieldIniciais?.value);
+
+    const editingId = testimonialFieldId?.value.trim();
+    const editingIndex = editingId
+      ? depoimentos.findIndex((d) => String(d.id) === String(editingId))
+      : depoimentos.length;
+    const style = getDepAvatarStyle(editingIndex < 0 ? depoimentos.length : editingIndex);
+
+    testimonialPreviewStars.innerHTML = buildAdminStars(estrelas, 'h-4 w-4');
+    testimonialPreviewTexto.textContent = texto
+      ? `“${texto}”`
+      : '“A frase do elogio aparecerá aqui.”';
+    testimonialPreviewAvatar.className = `grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br ${style.gradient} text-xs font-bold ${style.text}`;
+    testimonialPreviewAvatar.textContent = iniciais;
+    testimonialPreviewNome.textContent = nome || 'Nome do cliente';
+    testimonialPreviewCidade.textContent = cidade ? `${cidade} · Cliente Verificado` : 'Cidade · Cliente Verificado';
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function resetTestimonialForm() {
+    if (!testimonialForm) return;
+
+    testimonialFieldId.value = '';
+    testimonialFieldNome.value = '';
+    testimonialFieldCidade.value = '';
+    testimonialFieldTexto.value = '';
+    testimonialFieldIniciais.value = '';
+    testimonialFieldEstrelas.value = '5';
+    testimonialFieldAtivo.checked = true;
+
+    const maxOrdem = depoimentos.reduce((max, d) => Math.max(max, Number(d.ordem) || 0), 0);
+    testimonialFieldOrdem.value = String(maxOrdem + 1);
+
+    testimonialFormTitle.textContent = 'Adicionar Depoimento';
+    btnSubmitTestimonialText.textContent = 'Salvar Depoimento';
+    btnResetTestimonial.classList.add('hidden');
+    btnResetTestimonial.classList.remove('inline-flex');
+    updateTestimonialPreview();
+  }
+
+  function renderDepoimentos() {
+    const tbody = document.getElementById('testimonials-table-body');
+    const cardList = document.getElementById('testimonials-card-list');
+    if (!tbody || !cardList) return;
+
+    const sorted = depoimentos
+      .slice()
+      .sort((a, b) => (Number(a.ordem) || 0) - (Number(b.ordem) || 0));
+
+    const activeCount = sorted.filter((d) => d.ativo).length;
+    if (testimonialsCountText) {
+      testimonialsCountText.textContent = `${sorted.length} cadastrado${sorted.length === 1 ? '' : 's'} · ${activeCount} ativo${activeCount === 1 ? '' : 's'}`;
+    }
+
+    if (sorted.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="py-10 text-center text-xs text-zinc-400">
+            Nenhum depoimento cadastrado. Use o formulário acima para adicionar o primeiro.
+          </td>
+        </tr>
+      `;
+      cardList.innerHTML = `
+        <div class="rounded-xl border border-dashed border-zinc-200 px-4 py-10 text-center text-xs text-zinc-400">
+          Nenhum depoimento cadastrado. Use o formulário acima para adicionar o primeiro.
+        </div>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = sorted
+      .map((d, index) => {
+        const id = escapeHtml(d.id);
+        const nome = escapeHtml(d.nome);
+        const cidade = escapeHtml(d.cidade || '—');
+        const texto = escapeHtml(d.texto);
+        const iniciais = escapeHtml(getTestimonialInitials(d.nome, d.iniciais));
+        const style = getDepAvatarStyle(index);
+
+        return `
+          <tr class="group transition hover:bg-zinc-50/80 ${d.ativo ? '' : 'opacity-50'}">
+            <td class="py-3.5 pl-2">
+              <div class="flex items-center gap-3">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br ${style.gradient} text-xs font-bold ${style.text}">${iniciais}</span>
+                <div class="min-w-0">
+                  <p class="font-display text-sm font-bold text-zinc-900">${nome}</p>
+                  <p class="truncate text-xs text-zinc-500">${cidade}</p>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5">
+              <p class="max-w-md line-clamp-2 text-xs leading-relaxed text-zinc-600">${texto}</p>
+            </td>
+            <td class="py-3.5">
+              <div class="flex items-center gap-0.5 text-[#EA0273]">${buildAdminStars(d.estrelas)}</div>
+            </td>
+            <td class="py-3.5 text-center text-xs font-semibold text-zinc-600">${Number(d.ordem) || 0}</td>
+            <td class="py-3.5 text-center">
+              <button type="button" data-dep-action="toggle" data-id="${id}" class="inline-flex h-7 w-12 items-center rounded-full p-1 transition ${d.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
+                <span class="h-5 w-5 rounded-full bg-white shadow"></span>
+              </button>
+            </td>
+            <td class="py-3.5 pr-2 text-right">
+              <div class="inline-flex items-center gap-1">
+                <button type="button" data-dep-action="edit" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                  Editar
+                </button>
+                <button type="button" data-dep-action="delete" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white p-1.5 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir depoimento" aria-label="Excluir depoimento">
+                  <i data-lucide="trash-2" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join('');
+
+    cardList.innerHTML = sorted
+      .map((d, index) => {
+        const id = escapeHtml(d.id);
+        const nome = escapeHtml(d.nome);
+        const cidade = escapeHtml(d.cidade || '—');
+        const texto = escapeHtml(d.texto);
+        const iniciais = escapeHtml(getTestimonialInitials(d.nome, d.iniciais));
+        const style = getDepAvatarStyle(index);
+
+        return `
+          <article class="rounded-xl border border-zinc-200 bg-white p-3 transition ${d.ativo ? '' : 'opacity-60'}">
+            <div class="flex items-start gap-3">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br ${style.gradient} text-xs font-bold ${style.text}">${iniciais}</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <p class="truncate font-display text-sm font-bold text-zinc-900">${nome}</p>
+                    <p class="truncate text-[11px] text-zinc-500">${cidade}</p>
+                  </div>
+                  <button type="button" data-dep-action="toggle" data-id="${id}" class="inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition ${d.ativo ? 'bg-emerald-500 justify-end' : 'bg-zinc-300 justify-start'}" title="Alternar visibilidade" aria-label="Alternar visibilidade">
+                    <span class="h-5 w-5 rounded-full bg-white shadow"></span>
+                  </button>
+                </div>
+                <p class="mt-2 line-clamp-3 text-xs leading-relaxed text-zinc-600">${texto}</p>
+                <div class="mt-2 flex items-center gap-0.5 text-[#EA0273]">${buildAdminStars(d.estrelas)}</div>
+              </div>
+            </div>
+            <div class="mt-3 flex items-center justify-between gap-2 border-t border-zinc-100 pt-2.5">
+              <span class="text-[11px] font-semibold text-zinc-400">Ordem ${Number(d.ordem) || 0}</span>
+              <div class="flex shrink-0 items-center gap-1">
+                <button type="button" data-dep-action="edit" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand-magenta hover:text-brand-magenta">
+                  Editar
+                </button>
+                <button type="button" data-dep-action="delete" data-id="${id}" class="rounded-lg border border-zinc-200 bg-white p-2 text-zinc-400 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600" title="Excluir depoimento" aria-label="Excluir depoimento">
+                  <i data-lucide="trash-2" class="h-4 w-4"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      })
+      .join('');
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  async function handleTestimonialAction(e) {
+    const btn = e.target.closest('button[data-dep-action]');
+    if (!btn) return;
+
+    const id = btn.dataset.id;
+    const action = btn.dataset.depAction;
+    const target = depoimentos.find((d) => String(d.id) === String(id));
+    if (!target) return;
+
+    if (action === 'edit') {
+      testimonialFieldId.value = target.id;
+      testimonialFieldNome.value = target.nome;
+      testimonialFieldCidade.value = target.cidade;
+      testimonialFieldTexto.value = target.texto;
+      testimonialFieldIniciais.value = target.iniciais || '';
+      testimonialFieldEstrelas.value = String(target.estrelas || 5);
+      testimonialFieldOrdem.value = String(target.ordem || 1);
+      testimonialFieldAtivo.checked = Boolean(target.ativo);
+
+      testimonialFormTitle.textContent = `Editando: ${target.nome}`;
+      btnSubmitTestimonialText.textContent = 'Salvar Alterações';
+      btnResetTestimonial.classList.remove('hidden');
+      btnResetTestimonial.classList.add('inline-flex');
+      updateTestimonialPreview();
+      document.getElementById('testimonials-admin-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (action === 'toggle') {
+      const nextAtivo = !target.ativo;
+      const shouldWriteDb = Boolean(isSupabaseConnected && supabaseClient && currentUser && isServerId(id));
+
+      if (shouldWriteDb) {
+        const { error } = await supabaseClient.from('depoimentos').update({ ativo: nextAtivo }).eq('id', id);
+        if (error) {
+          showToast(`Não foi possível atualizar no Supabase: ${error.message}`);
+          return;
+        }
+      }
+
+      target.ativo = nextAtivo;
+      saveLocalDepoimentos();
+      renderDepoimentos();
+      showToast(
+        shouldWriteDb
+          ? (nextAtivo ? 'Depoimento ativado na home!' : 'Depoimento ocultado da home.')
+          : 'Alterado apenas localmente. Entre com uma conta admin para publicar.'
+      );
+    }
+
+    if (action === 'delete') {
+      if (!confirm(`Tem certeza que deseja remover o depoimento de "${target.nome}"?`)) return;
+
+      const shouldWriteDb = Boolean(isSupabaseConnected && supabaseClient && currentUser && isServerId(id));
+      if (shouldWriteDb) {
+        const { error } = await supabaseClient.from('depoimentos').delete().eq('id', id);
+        if (error) {
+          showToast(`Não foi possível excluir no Supabase: ${error.message}`);
+          return;
+        }
+      }
+
+      depoimentos = depoimentos.filter((d) => String(d.id) !== String(id));
+      if (String(testimonialFieldId.value) === String(id)) resetTestimonialForm();
+      saveLocalDepoimentos();
+      renderDepoimentos();
+      showToast(shouldWriteDb ? 'Depoimento removido.' : 'Removido apenas localmente (item não publicado).');
+    }
+  }
+
+  if (testimonialForm) {
+    testimonialForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const editingId = testimonialFieldId.value.trim();
+      const payload = {
+        nome: testimonialFieldNome.value.trim(),
+        cidade: testimonialFieldCidade.value.trim(),
+        texto: testimonialFieldTexto.value.trim(),
+        iniciais: testimonialFieldIniciais.value.trim().slice(0, 3).toUpperCase(),
+        estrelas: Number(testimonialFieldEstrelas.value) || 5,
+        ativo: testimonialFieldAtivo.checked,
+        ordem: Number(testimonialFieldOrdem.value) || 1,
+      };
+
+      if (!payload.nome || !payload.cidade || !payload.texto) {
+        showToast('Preencha nome, cidade e frase do elogio.');
+        return;
+      }
+
+      const canWriteSupabase = Boolean(isSupabaseConnected && supabaseClient && currentUser);
+      const editingServerItem = isServerId(editingId);
+
+      if (canWriteSupabase) {
+        if (editingServerItem) {
+          const { data, error } = await supabaseClient
+            .from('depoimentos')
+            .update(payload)
+            .eq('id', editingId)
+            .select()
+            .single();
+
+          if (error) {
+            showToast(`Não foi possível salvar no Supabase: ${error.message}`);
+            return;
+          }
+          depoimentos = depoimentos.map((d) => (String(d.id) === String(editingId) ? normalizeDepoimento(data) : d));
+        } else {
+          const { data, error } = await supabaseClient
+            .from('depoimentos')
+            .insert([payload])
+            .select()
+            .single();
+
+          if (error) {
+            showToast(`Não foi possível salvar no Supabase: ${error.message}`);
+            return;
+          }
+          if (editingId) {
+            depoimentos = depoimentos.filter((d) => String(d.id) !== String(editingId));
+          }
+          depoimentos.push(normalizeDepoimento(data));
+        }
+      } else if (editingId) {
+        const exists = depoimentos.some((d) => String(d.id) === String(editingId));
+        if (exists) {
+          depoimentos = depoimentos.map((d) =>
+            String(d.id) === String(editingId) ? normalizeDepoimento({ ...payload, id: editingId }) : d
+          );
+        } else {
+          depoimentos.push(normalizeDepoimento({ ...payload, id: 'dep-' + Date.now() }));
+        }
+      } else {
+        depoimentos.push(normalizeDepoimento({ ...payload, id: 'dep-' + Date.now() }));
+      }
+
+      saveLocalDepoimentos();
+      resetTestimonialForm();
+      renderDepoimentos();
+      showToast(
+        canWriteSupabase
+          ? (editingServerItem ? 'Depoimento atualizado com sucesso!' : 'Novo depoimento publicado na home!')
+          : 'Salvo apenas localmente. Entre com uma conta admin para publicar.'
+      );
+    });
+
+    ['input', 'change'].forEach((eventName) => {
+      testimonialForm.addEventListener(eventName, updateTestimonialPreview);
+    });
+
+    btnResetTestimonial.addEventListener('click', resetTestimonialForm);
+  }
+
+  document.getElementById('testimonials-table-body')?.addEventListener('click', handleTestimonialAction);
+  document.getElementById('testimonials-card-list')?.addEventListener('click', handleTestimonialAction);
 
   // ---- Calculadora de Preço e Desconto + Preview em Tempo Real ----
   function resolveBadgeText() {

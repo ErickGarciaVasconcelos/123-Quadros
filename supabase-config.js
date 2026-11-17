@@ -595,3 +595,41 @@ window.DEFAULT_QUADROS_DATA = [
     ordem: 5,
   },
 ];
+
+// Depoimentos (elogios) padrão exibidos na home.
+// O painel administrativo pode sobrescrever estes dados no Supabase.
+window.DEFAULT_DEPOIMENTOS_DATA = [
+  {
+    id: 'dep-01',
+    nome: 'Mariana C.',
+    cidade: 'São Paulo',
+    texto:
+      'Comprei três obras para a sala e parece outra casa. A qualidade da moldura e o cuidado na embalagem me surpreenderam de verdade.',
+    iniciais: 'MC',
+    estrelas: 5,
+    ativo: true,
+    ordem: 1,
+  },
+  {
+    id: 'dep-02',
+    nome: 'João Pedro L.',
+    cidade: 'Curitiba',
+    texto:
+      'A escolha dos quadros acertou em cheio. Eu queria renovar a sala e consegui montar uma parede incrível dentro do meu orçamento.',
+    iniciais: 'JP',
+    estrelas: 5,
+    ativo: true,
+    ordem: 2,
+  },
+  {
+    id: 'dep-03',
+    nome: 'Dra. Ana L.',
+    cidade: 'Belo Horizonte',
+    texto:
+      'Comprei para o consultório e a recepção virou ponto de elogio. As cores pessoalmente são ainda mais vivas do que nas fotos.',
+    iniciais: 'AL',
+    estrelas: 5,
+    ativo: true,
+    ordem: 3,
+  },
+];

@@ -27,9 +27,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Supabase JS + Configuração compartilhada do catálogo -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js?v=7" charset="UTF-8"></script>
+  <script src="supabase-config.js?v=8" charset="UTF-8"></script>
   <!-- Configuração do Tailwind + comportamentos (ver script.js) -->
-  <script src="script.js?v=8" charset="UTF-8"></script>
+  <script src="script.js?v=9" charset="UTF-8"></script>
 
   <link rel="stylesheet" href="style.css?v=6" />
 </head>
@@ -1329,7 +1329,7 @@
           começaram numa parede vazia.</h2>
       </div>
 
-      <div class="mt-14 grid gap-6 md:grid-cols-3">
+      <div id="testimonials-grid" class="mt-14 grid gap-6 md:grid-cols-3">
         <!-- Depoimento 1 -->
         <figure data-reveal
           class="flex flex-col rounded-2xl border border-zinc-200 bg-zinc-50 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-magenta/40">
@@ -1348,7 +1348,7 @@
               class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-amarelo to-brand-magenta text-xs font-bold text-ink-950">MC</span>
             <div>
               <p class="text-sm font-semibold text-zinc-900">Mariana C.</p>
-              <p class="text-xs text-zinc-500">São Paulo · Cliente Verificada</p>
+              <p class="text-xs text-zinc-500">São Paulo · Cliente Verificado</p>
             </div>
           </figcaption>
         </figure>
@@ -1394,7 +1394,7 @@
               class="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-brand-magenta to-brand-azul text-xs font-bold text-white">AL</span>
             <div>
               <p class="text-sm font-semibold text-zinc-900">Dra. Ana L.</p>
-              <p class="text-xs text-zinc-500">Belo Horizonte · Cliente Verificada</p>
+              <p class="text-xs text-zinc-500">Belo Horizonte · Cliente Verificado</p>
             </div>
           </figcaption>
         </figure>
